@@ -8,12 +8,13 @@ const SignupForm = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [confirm, setConfirm] = useState<string>('')
+
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>('')
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('')
     const [confirmErrorMessage, setConfirmErrorMessage] = useState<string>('')
     const [emailError, setEmailError] = useState<boolean>(false)
-    const [passwordError, setPasswordError] = useState(false)
-    const [confirmError, setConfirmError] = useState(false)
+    const [passwordError, setPasswordError] = useState<boolean>(false)
+    const [confirmError, setConfirmError] = useState<boolean>(false)
 
     const validateEmail = () => {
         let valid = false
@@ -100,6 +101,7 @@ const SignupForm = () => {
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
                                 />
+                                <small>{emailErrorMessage}</small>
                             </div>
                             <div>
                                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
@@ -115,13 +117,14 @@ const SignupForm = () => {
                                     value={password}
                                     onChange={e => setPassword(e.target.value)}
                                 />
+                                <small>{passwordErrorMessage}</small>
                             </div>
                             <div>
                                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                                     Confirm password
                                 </label>
                                 <input
-                                    type='confirm-password'
+                                    type='password'
                                     name='confirm-password'
                                     id='confirm-password'
                                     placeholder='••••••••'
