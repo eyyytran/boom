@@ -5,6 +5,7 @@ import Component from './components/Component'
 import Boom from './pages/Boom'
 import NotFound from './pages/NotFound'
 import Signup from './pages/Signup'
+import Login from './pages/Login'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -17,6 +18,7 @@ function App() {
                 <Route path='/' element={<Boom />} />
                 <Route path='*' element={<NotFound />} />
                 <Route path='signup' element={<Signup />} />
+                <Route path='login' element={<Login />} />
             </Routes>
             <div className=''></div>
         </Component>

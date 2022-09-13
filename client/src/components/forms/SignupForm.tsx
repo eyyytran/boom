@@ -8,7 +8,6 @@ const SignupForm = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [confirm, setConfirm] = useState<string>('')
-
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>('')
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('')
     const [confirmErrorMessage, setConfirmErrorMessage] = useState<string>('')
@@ -133,6 +132,7 @@ const SignupForm = () => {
                                     value={confirm}
                                     onChange={e => setConfirm(e.target.value)}
                                 />
+                                <small>{confirmErrorMessage}</small>
                             </div>
                             <div className='flex items-start'>
                                 <div className='flex items-center h-5'>
