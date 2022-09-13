@@ -2,6 +2,8 @@ import React, { ReactElement, useEffect, useRef } from "react";
 
 import subscriberSlice from "../store/subscriberSlice";
 
+import { pc } from "../firebase/pc";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
@@ -39,7 +41,18 @@ export default function Video({ className = null }: Props) {
     actions: subscriberSlice.actions,
   };
 
+  const mediaStream = new MediaStream();
+
   const ref = useRef() as any;
+
+  // mediaStream.getTracks().forEach(track => pc.addTrack(track, mediaStream));
+  pc.ontrack = e => {
+    e.streams[0].getTracks().forEach(track => mediaStream.addTrack(track));
+  };
+
+  if (ref.current) ref.current.srcObject = mediaStream;
+
+  console.log(mediaStream);
 
   const dispatch = useDispatch();
 
