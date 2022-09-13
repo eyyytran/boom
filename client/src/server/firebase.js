@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { child, getDatabase, ref, get, set } from 'firebase/database'
+import firebase from 'firebase/compat/app'
 
 const firebaseConfig = {
     apiKey: 'AIzaSyAXZOpO_nf5jKExRW-zMk8JWSXZalVK49A',
@@ -14,32 +15,24 @@ const firebaseConfig = {
     databaseURL: 'https://boom-test-fe706-default-rtdb.firebaseio.com/',
 }
 
+firebase.initializeApp(firebaseConfig)
 const app = initializeApp(firebaseConfig)
 export const firestore = getFirestore(app)
 export const auth = getAuth(app)
 export const db = getDatabase(app)
 
-var firepadRef = ref(db)
-
+let firepadRef = ref(db)
 export const userName = prompt("What's your name?")
 const urlparams = new URLSearchParams(window.location.search)
 const roomId = urlparams.get('id')
 
-if (roomId) {
-    get(child(firepadRef, `${roomId}`))
-        .then(snapshot => {
-            if (snapshot.exists) {
-                firepadRef = snapshot.val
-            } else {
-                console.log('no data available')
-            }
-        })
-        .catch(error => {
-            console.log(error)
-        })
-} else {
-    console.log(db)
-    window.history.replaceState(null, 'Meet', '?id=' + firepadRef.key)
-}
+console.log(firepadRef)
+
+// if (roomId) {
+//     firepadRef = firepadRef.child(roomId)
+// } else {
+//     firepadRef = firepadRef.push()
+//     window.history.replaceState(null, 'Meet', '?id=' + firepadRef.key)
+// }
 
 export default firepadRef
