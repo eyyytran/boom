@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux'
 
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Peer from 'simple-peer'
-import io from 'socket.io-client'
+
 import Component from './Component'
 import Video from './Video'
 import Container from '../layout/Container'
@@ -39,8 +39,6 @@ export default function Gallery({ className = '' }: Props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const socket = io('http://127.0.0.1:5000')
-
         const getUserMedia = async () => {
             return await navigator.mediaDevices.getUserMedia({
                 video: true,
@@ -55,15 +53,6 @@ export default function Gallery({ className = '' }: Props) {
         }
 
         setUserMedia()
-
-        socket.on('setUserId', id => {
-            dispatch(video.actions.setUserId(id))
-            socket.emit('join', id)
-        })
-
-        return () => {
-            socket.close()
-        }
     }, [])
 
     styles.dynamic = className

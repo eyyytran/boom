@@ -15,7 +15,7 @@ const roomId = urlparams.get('id')
 let firepadRef = collection(db, 'rooms')
 const createRoom = async () => {
     try {
-        const docRef = await addDoc(firepadRef, { name: 'test-room' })
+        const docRef = await addDoc(firepadRef, { primaryUser: userName })
         firepadRef = doc(db, 'rooms', docRef.id)
         window.history.replaceState(null, 'Meet', '?id=' + docRef.id)
     } catch (error) {
