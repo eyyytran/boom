@@ -21,7 +21,7 @@ console.log(firepadRef)
 if (roomId) {
     firepadRef = child(db, roomId)
 } else {
-    firepadRef = push()
+    firepadRef = push(db)
     window.history.replaceState(null, 'Meet', '?id=' + firepadRef.key)
 }
 
