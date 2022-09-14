@@ -37,23 +37,24 @@ const Canvas = ({ className }: Props) => {
 
     useEffect(() => {
         if (!canvas.current) return
+        canvas.current.style.width = '100%'
+        canvas.current.style.height = '100%'
         canvas.current.width = canvas.current.offsetWidth
         canvas.current.height = canvas.current.offsetHeight
     }, [])
 
-    useEffect(() => {
-        const handleResize = () => {
-            console.log('resized')
-            setDimensions({
-                height: window.innerHeight,
-                width: window.innerWidth,
-            })
-        }
-        window.addEventListener('resize', handleResize)
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    })
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setDimensions({
+    //             height: window.innerHeight,
+    //             width: window.innerWidth,
+    //         })
+    //     }
+    //     window.addEventListener('resize', handleResize)
+    //     return () => {
+    //         window.removeEventListener('resize', handleResize)
+    //     }
+    // })
 
     const beginPath = () => {
         if (!ctx) return
