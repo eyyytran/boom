@@ -5,7 +5,7 @@ import subscriberSlice from "../store/subscriberSlice";
 // import { collection, getDocs } from "firebase/firestore";
 // import { app, db } from "../firebase/db";
 
-import { getCalls, getUsers } from "../firebase/pc";
+import { addCall, getCalls, getUsers } from "../firebase/pc";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -57,7 +57,6 @@ export default function Gallery({ className = "" }: Props) {
 
   useEffect(() => {
     setUsers();
-    console.log(getCalls());
   }, []);
 
   useEffect(() => {
