@@ -1,6 +1,13 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { getFirestore, collection, doc, addDoc } from 'firebase/firestore'
+import {
+    getFirestore,
+    collection,
+    doc,
+    addDoc,
+    updateDoc,
+    arrayUnion,
+} from 'firebase/firestore'
 import { firebaseConfig } from './config'
 
 const app = initializeApp(firebaseConfig)
@@ -13,6 +20,7 @@ const urlparams = new URLSearchParams(window.location.search)
 const roomId = urlparams.get('id')
 
 let firepadRef = collection(db, 'rooms')
+
 const createRoom = async () => {
     try {
         const docRef = await addDoc(firepadRef, { primaryUser: userName })
@@ -23,9 +31,21 @@ const createRoom = async () => {
     }
 }
 
+const updateRoom = async () => {
+    try {
+        firepadRef = doc(db, 'rooms', roomId)
+        await updateDoc(firepadRef, {
+            participants: arrayUnion(userName),
+        })
+        window.history.replaceState(null, 'Meet', '?id=' + roomId)
+    } catch (error) {
+        console.error('error adding a participant', error)
+    }
+}
+
 if (!roomId) {
     createRoom()
 } else {
-    firepadRef = doc(db, 'rooms', roomId)
+    updateRoom()
 }
 export default firepadRef

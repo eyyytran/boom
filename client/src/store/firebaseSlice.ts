@@ -54,3 +54,5 @@ const firebaseSlice = createSlice({
         },
     },
 })
+
+export default firebaseSlice
