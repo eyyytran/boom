@@ -1,46 +1,50 @@
-// import { initializeApp } from "firebase/app";
-// import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import {
+    getFirestore,
+    collection,
+    doc,
+    addDoc,
+    updateDoc,
+    arrayUnion,
+} from 'firebase/firestore'
+import { firebaseConfig } from './config'
 
-// const firebaseConfig = {
-//   apiKey: process.env.apiKey,
-//   authDomain: process.env.authDomain,
-//   projectId: process.env.projectId,
-//   storageBucket: process.env.storageBucket,
-//   messagingSenderId: process.env.messagingSenderId,
-//   appId: process.env.appId,
-// };
+const app = initializeApp(firebaseConfig)
 
-// const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app)
+export const auth = getAuth(app)
+export const userName = prompt("What's your name?")
 
-// const firestore = getFirestore();
+const urlparams = new URLSearchParams(window.location.search)
+const roomId = urlparams.get('id')
 
-// const db = getFirestore(app);
+var firepadRef = collection(db, 'rooms')
 
-// console.log(firestore);
-// console.log(db);
-
-import firebase from "firebase";
-
-var firebaseConfig = {
-  apiKey: "",
-  databaseURL: "",
-};
-
-firebase.initializeApp(firebaseConfig);
-
-export const db = firebase;
-
-var firepadRef = firebase.database().ref();
-
-export const userName = prompt("What's your name?");
-const urlparams = new URLSearchParams(window.location.search);
-const roomId = urlparams.get("id");
-
-if (roomId) {
-  firepadRef = firepadRef.child(roomId);
-} else {
-  firepadRef = firepadRef.push();
-  window.history.replaceState(null, "Meet", "?id=" + firepadRef.key);
+const createRoom = async () => {
+    try {
+        const docRef = await addDoc(firepadRef, { primaryUser: userName })
+        window.history.replaceState(null, 'Meet', '?id=' + docRef.id)
+    } catch (error) {
+        console.error('error adding document', error)
+    }
 }
 
-export default firepadRef;
+const updateRoom = async () => {
+    try {
+        const docRef = doc(db, 'rooms', roomId)
+        await updateDoc(docRef, {
+            participants: arrayUnion(userName),
+        })
+        window.history.replaceState(null, 'Meet', '?id=' + roomId)
+    } catch (error) {
+        console.error('error adding a participant', error)
+    }
+}
+
+if (!roomId) {
+    createRoom()
+} else {
+    updateRoom()
+}
+export default firepadRef
