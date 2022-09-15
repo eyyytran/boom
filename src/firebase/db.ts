@@ -10,9 +10,6 @@ const firebaseConfig = {
   appId: "1:649424857876:web:7f71c7fb489862539a3001",
 };
 
-// const urlparams = new URLSearchParams(window.location.search);
-// const roomId = urlparams.get("id");
-
 export const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
