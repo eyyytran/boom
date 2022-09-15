@@ -31,8 +31,11 @@ export default function Chat({ className = null }: Props) {
               <Message username={"Username"} message={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?"} origin={"user"} />
               <Message username={"Username"} message={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?"} origin={"participant"} />
             </div>
-            <form className="contents">
-              <textarea className="h-8 focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded no-scrollbar"></textarea>
+            <form className="flex flex-col justify-end items-center gap-2 h-max focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded">
+              <input type="text" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded" />
+              <button type="submit" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-200 hover:bg-violet-500 border border-violet-500 rounded text-violet-500 hover:text-white">
+                Send
+              </button>
             </form>
           </div>
         </Container>
