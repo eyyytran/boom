@@ -1,23 +1,23 @@
-import { initializeApp } from 'firebase/app'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
-    getFirestore,
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    arrayUnion,
-} from 'firebase/firestore'
-import { firebaseConfig } from './config'
+  getFirestore,
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import { firebaseConfig } from "./config";
 
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app)
-export const auth = getAuth(app)
-export const userName = prompt("What's your name?")
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+export const userName = "Blake";
 
-const urlparams = new URLSearchParams(window.location.search)
-const roomId = urlparams.get('id')
+const urlparams = new URLSearchParams(window.location.search);
+export const roomId = urlparams.get("id");
 
 var firepadRef = collection(db, 'rooms')
 
@@ -42,9 +42,10 @@ const updateRoom = async () => {
     }
 }
 
-if (!roomId) {
-    createRoom()
-} else {
-    updateRoom()
-}
-export default firepadRef
+
+// if (!roomId) {
+//   createRoom();
+// } else {
+//   updateRoom();
+// }
+export default firepadRef;
