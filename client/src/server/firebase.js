@@ -19,12 +19,11 @@ export const userName = prompt("What's your name?")
 const urlparams = new URLSearchParams(window.location.search)
 const roomId = urlparams.get('id')
 
-let firepadRef = collection(db, 'rooms')
+var firepadRef = collection(db, 'rooms')
 
 const createRoom = async () => {
     try {
         const docRef = await addDoc(firepadRef, { primaryUser: userName })
-        firepadRef = doc(db, 'rooms', docRef.id)
         window.history.replaceState(null, 'Meet', '?id=' + docRef.id)
     } catch (error) {
         console.error('error adding document', error)
@@ -33,8 +32,8 @@ const createRoom = async () => {
 
 const updateRoom = async () => {
     try {
-        firepadRef = doc(db, 'rooms', roomId)
-        await updateDoc(firepadRef, {
+        const docRef = doc(db, 'rooms', roomId)
+        await updateDoc(docRef, {
             participants: arrayUnion(userName),
         })
         window.history.replaceState(null, 'Meet', '?id=' + roomId)
