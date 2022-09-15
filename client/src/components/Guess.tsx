@@ -15,21 +15,19 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "w-full h-full p-2 md:p-3 lg:p-4";
+styles.static = "w-full h-full";
 
 export default function Guess({ className = null }: Props) {
   styles.dynamic = className;
   return (
     <Component id="Guess">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <div className="flex flex-col h-full gap-2">
-          <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
-            <Message username={"Guess"} message={"Lorem ipsum"} origin={"user"} />
-          </div>
-          <form className="contents">
-            <textarea className="h-8 focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded no-scrollbar"></textarea>
-          </form>
-        </div>
+        <form className="flex flex-col justify-end items-center gap-2 h-max focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded">
+          <input type="text" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded" />
+          <button type="submit" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-200 hover:bg-violet-500 border border-violet-500 rounded text-violet-500 hover:text-white">
+            Guess
+          </button>
+        </form>
       </div>
     </Component>
   );
