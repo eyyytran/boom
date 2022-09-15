@@ -17,7 +17,7 @@ function App() {
         {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
         {/* <Route path={URL} element={<Boom />} /> */}
         <Route path="/" element={<Dashboard />} />
-        <Route path="/:id" element={<Boom />} />
+        <Route path="/boom" element={<Boom />} />
         <Route path="*" element={<NotFound />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
