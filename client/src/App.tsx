@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard'
 import { v4 as uuidv4 } from 'uuid'
 
 function App() {
+
     return (
         <Component id='App'>
             <Routes>
@@ -25,6 +26,7 @@ function App() {
             <div className=''></div>
         </Component>
     )
+
 }
 
 export default App
