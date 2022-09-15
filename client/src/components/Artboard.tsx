@@ -44,8 +44,8 @@ export default function Artboard({ className = null }: Props) {
             <div className="portrait:w-full landscape:h-max aspect-square bg-white border-x border-neutral-400">
               <Canvas />
             </div>
+            <div className="p-2 bg-violet-500 text-xs font-bold text-white text-center">Guess</div>
             <Taskbar />
-            <Guess />
           </div>
         </Container>
       </div>
