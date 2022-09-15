@@ -98,41 +98,6 @@ export default function Chat({ className = null }: Props) {
                                     />
                                 )
                             })}
-                            {/* <Message
-                                username={'Username'}
-                                message={
-                                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?'
-                                }
-                                origin={'user'}
-                            />
-                            <Message
-                                username={'Username'}
-                                message={
-                                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?'
-                                }
-                                origin={'participant'}
-                            />
-                            <Message
-                                username={'Username'}
-                                message={
-                                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?'
-                                }
-                                origin={'participant'}
-                            />
-                            <Message
-                                username={'Username'}
-                                message={
-                                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?'
-                                }
-                                origin={'user'}
-                            />
-                            <Message
-                                username={'Username'}
-                                message={
-                                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus ratione laborum neque officia?'
-                                }
-                                origin={'participant'}
-                            /> */}
                         </div>
                         <form className='contents' data-lpignore='true'>
                             <textarea
