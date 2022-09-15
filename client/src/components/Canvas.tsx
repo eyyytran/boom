@@ -81,6 +81,7 @@ const Canvas = ({ className }: Props) => {
             const result = doc.data()
             setLine(result?.drawings)
         })
+        //return unsubscribe()
     }, [])
 
     const beginPath = () => {
