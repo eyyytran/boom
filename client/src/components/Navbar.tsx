@@ -1,7 +1,15 @@
 import React, { ReactElement } from "react";
 import Component from "./Component";
 import Container from "../layout/Container";
-import { faRightToBracket, faMessage, faPenToSquare, faTableCellsLarge, faVideo, faCog, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faRightToBracket,
+  faMessage,
+  faPenToSquare,
+  faTableCellsLarge,
+  faVideo,
+  faCog,
+  faBars,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
