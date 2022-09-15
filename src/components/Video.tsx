@@ -2,11 +2,11 @@ import React, { ReactElement, useEffect, useRef } from "react";
 
 import subscriberSlice from "../store/subscriberSlice";
 
-import { addOffer, createOffer, pc } from "../firebase/pc";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
+
+import { v4 as uuid } from "uuid";
 
 import Component from "../components/Component";
 
@@ -14,6 +14,7 @@ import { faMicrophone, faVideoCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
+  srcObject: any;
   className?: string | null;
 };
 
@@ -35,31 +36,17 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ className = null }: Props) {
+export default function Video({ srcObject, className = null }: Props) {
   const subscriber = {
     state: useSelector((state: RootState) => state.subscriber),
     actions: subscriberSlice.actions,
   };
 
-  const mediaStream = new MediaStream();
+  const dispatch = useDispatch();
 
   const ref = useRef() as any;
 
-  // mediaStream.getTracks().forEach(track => pc.addTrack(track, mediaStream));
-
-  pc.ontrack = e => {
-    e.streams[0].getTracks().forEach(track => mediaStream.addTrack(track));
-  };
-
-  if (ref.current) ref.current.srcObject = mediaStream;
-
-  createOffer();
-
-  pc.onicecandidate = e => {
-    if (e.candidate) addOffer(e.candidate.toJSON());
-  };
-
-  const dispatch = useDispatch();
+  if (ref.current) ref.current.srcObject = srcObject;
 
   styles.dynamic = className;
 
