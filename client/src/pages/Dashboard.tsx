@@ -12,11 +12,11 @@ export default function Dashboard({}: Props) {
           if (!roomId) {
             await createRoom();
             //@ts-ignore
-            // window.location.href = room;
+            window.location.reload();
           } else {
             await updateRoom();
             //@ts-ignore
-            // window.location.href = room;
+            window.location.reload();
           }
         }}
       >
