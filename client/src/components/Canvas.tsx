@@ -5,6 +5,8 @@ import artboardSlice from '../store/artboardSlice'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { useDispatch } from 'react-redux'
+import { doc, updateDoc, onSnapshot, getDoc } from 'firebase/firestore'
+import { db } from '../server/firebase'
 
 type Props = {
     className?: string | null
@@ -20,6 +22,9 @@ const styles = {} as Styles
 styles.static = 'w-full h-full cursor-crosshair'
 
 const Canvas = ({ className }: Props) => {
+    const urlparams = new URLSearchParams(window.location.search)
+    const roomId: any = urlparams.get('id')
+
     const artboard = {
         state: useSelector((state: RootState) => state.artboard),
         actions: artboardSlice.actions,
@@ -32,18 +37,33 @@ const Canvas = ({ className }: Props) => {
         height: window.innerHeight,
         width: window.innerWidth,
     })
+    const [line, setLine] = useState<string>('')
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (!canvas.current) return
+        canvas.current.style.width = '100%'
+        canvas.current.style.height = '100%'
         canvas.current.width = canvas.current.offsetWidth
         canvas.current.height = canvas.current.offsetHeight
-    }, [])
+        let image = new Image()
+        image.onload = () => {
+            ctx?.drawImage(image, 0, 0)
+        }
+        image.src = line
+    }, [dimensions])
+
+    useEffect(() => {
+        let image = new Image()
+        image.onload = () => {
+            ctx?.drawImage(image, 0, 0)
+        }
+        image.src = line
+    }, [line])
 
     useEffect(() => {
         const handleResize = () => {
-            console.log('resized')
             setDimensions({
                 height: window.innerHeight,
                 width: window.innerWidth,
@@ -54,6 +74,14 @@ const Canvas = ({ className }: Props) => {
             window.removeEventListener('resize', handleResize)
         }
     })
+
+    useEffect(() => {
+        if (!roomId) return
+        const unsubscribe = onSnapshot(doc(db, 'rooms', roomId), doc => {
+            const result = doc.data()
+            setLine(result?.drawings)
+        })
+    }, [])
 
     const beginPath = () => {
         if (!ctx) return
@@ -97,10 +125,14 @@ const Canvas = ({ className }: Props) => {
         beginPath()
     }
 
-    const stop = () => {
+    const stop = async () => {
         if (!ctx) return
         ctx.closePath()
         dispatch(artboard.actions.setIsDrawing(false))
+        let base64ImageData = canvas.current?.toDataURL('image/png')
+        await updateDoc(doc(db, 'rooms', roomId), {
+            drawings: base64ImageData,
+        })
     }
 
     const draw = ({ nativeEvent }: MouseEvent | any) => {

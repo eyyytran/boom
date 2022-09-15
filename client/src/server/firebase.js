@@ -19,29 +19,29 @@ export const userName = "Blake";
 const urlparams = new URLSearchParams(window.location.search);
 export const roomId = urlparams.get("id");
 
-let firepadRef = collection(db, "rooms");
+var firepadRef = collection(db, 'rooms')
 
-export const createRoom = async () => {
-  try {
-    const docRef = await addDoc(firepadRef, { primaryUser: userName });
-    firepadRef = doc(db, "rooms", docRef.id);
-    window.history.replaceState(null, "Meet", "?id=" + docRef.id);
-  } catch (error) {
-    console.error("error adding document", error);
-  }
-};
+const createRoom = async () => {
+    try {
+        const docRef = await addDoc(firepadRef, { primaryUser: userName })
+        window.history.replaceState(null, 'Meet', '?id=' + docRef.id)
+    } catch (error) {
+        console.error('error adding document', error)
+    }
+}
 
-export const updateRoom = async () => {
-  try {
-    firepadRef = doc(db, "rooms", roomId);
-    await updateDoc(firepadRef, {
-      participants: arrayUnion(userName),
-    });
-    window.history.replaceState(null, "Meet", "?id=" + roomId);
-  } catch (error) {
-    console.error("error adding a participant", error);
-  }
-};
+const updateRoom = async () => {
+    try {
+        const docRef = doc(db, 'rooms', roomId)
+        await updateDoc(docRef, {
+            participants: arrayUnion(userName),
+        })
+        window.history.replaceState(null, 'Meet', '?id=' + roomId)
+    } catch (error) {
+        console.error('error adding a participant', error)
+    }
+}
+
 
 // if (!roomId) {
 //   createRoom();
