@@ -4,6 +4,7 @@ import Titlebar from "../components/Titlebar";
 import Timer from "../components/Timer";
 import Gallery from "../components/Gallery";
 import Artboard from "../components/Artboard";
+import Display from "../components/Display";
 import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
 
@@ -24,7 +25,8 @@ export default function Boom() {
           <Timer className="shrink-0" />
           <div className="flex h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar">
             <Gallery className="snap-center" />
-            <Artboard className="snap-center" />
+            {/* <Artboard className="snap-center" /> */}
+            <Display className="snap-center" />
             <Chat className="snap-center" />
           </div>
           <Navbar className="shrink-0" />
