@@ -28,7 +28,7 @@ const styles = {} as Styles;
 
 styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
 
-export default function Gallery forwardRef(({ className = "" }: Props, ref) => {
+export default function Gallery({ className = "" }: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -54,4 +54,4 @@ export default function Gallery forwardRef(({ className = "" }: Props, ref) => {
       </div>
     </Component>
   );
-});
+}
