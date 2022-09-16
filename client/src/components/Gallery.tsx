@@ -1,4 +1,4 @@
-import React, { MutableRefObject, ReactElement, useEffect, useRef } from "react";
+import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef } from "react";
 
 import firepadRef, { db, userName } from "../server/firebase";
 
@@ -28,41 +28,24 @@ const styles = {} as Styles;
 
 styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
 
-export default function Gallery({ className = "" }: Props) {
+export default function Gallery forwardRef(({ className = "" }: Props, ref) => {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
   };
 
-  const userVideo = useRef() as any;
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const getUserMedia = async () => {
-      return await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-    };
-
-    const setUserMedia = async () => {
-      const userMedia = await getUserMedia();
-      userVideo.current.srcObject = userMedia;
-      dispatch(video.actions.setUserMedia(userMedia));
-    };
-
-    // setUserMedia()
-  }, []);
+  useEffect(() => {}, []);
 
   styles.dynamic = className;
 
   return (
     <Component id="Gallery">
-      <div className={`${styles.static} ${styles.dynamic}`}>
+      <div ref={ref} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex portrait:flex-col justify-center items-center h-full gap-2 md:gap-3 lg:gap-4">
-            <Video userVideo={userVideo} active={true} />
+            <Video active={true} />
             <Video active={false} />
             <Video active={false} />
             <Video active={false} />
@@ -71,4 +54,4 @@ export default function Gallery({ className = "" }: Props) {
       </div>
     </Component>
   );
-}
+});
