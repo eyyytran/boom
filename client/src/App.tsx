@@ -12,8 +12,6 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 
-import { v4 as uuidv4 } from 'uuid'
-
 function App() {
     const app = {
         state: useSelector((state: RootState) => state.app),
