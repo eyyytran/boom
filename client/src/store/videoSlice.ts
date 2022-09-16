@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const videoSlice = createSlice({
   name: "video",
   initialState: {
-    userMedia: null,
-    userId: null,
+    users: new Array(),
+    start: false,
   },
   reducers: {
-    setUserMedia: (state, action) => {
-      state.userMedia = action.payload;
+    setUsers: (state, action) => {
+      state.users = action.payload;
     },
-    setUserId: (state, action) => {
-      state.userId = action.payload;
+    setStart: (state, action) => {
+      state.start = action.payload;
     },
     reset: state => {
       state = videoSlice.getInitialState();
