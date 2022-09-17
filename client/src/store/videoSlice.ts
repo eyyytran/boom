@@ -8,7 +8,7 @@ const videoSlice = createSlice({
   },
   reducers: {
     setUsers: (state, action) => {
-      state.users = action.payload;
+      state.users = [...state.users, action.payload];
     },
     setStart: (state, action) => {
       state.start = action.payload;
