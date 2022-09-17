@@ -8,12 +8,13 @@ import { useDispatch } from "react-redux";
 
 import Component from "../components/Component";
 
+import { AgoraVideoPlayer } from "agora-rtc-react";
+
 import { faMicrophone, faVideoCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
-  tracks: any;
-  users: any;
+  videoTrack: any;
   active: boolean;
   className?: string | null;
 };
@@ -36,7 +37,7 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ active, className = null }: Props) {
+export default function Video({ active, className = null, videoTrack }: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -46,7 +47,10 @@ export default function Video({ active, className = null }: Props) {
   return (
     <Component id="Video">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <video playsInline muted autoPlay className="h-full w-full object-cover object-center rounded -scale-x-100"></video>
+        <div className="h-full w-full object-cover object-center rounded overflow-clip">
+          <AgoraVideoPlayer videoTrack={videoTrack} className="w-full h-full rounded scale-105" />
+        </div>
+
         <div className="absolute inset-0 flex justify-start items-end">
           <div className={`w-full p-2 flex justify-between items-center rounded-b ${active ? styles.conditional.active : styles.conditional.inactive}`}>
             <FontAwesomeIcon icon={faMicrophone} className="text-xs text-inherit" />
