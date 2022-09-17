@@ -12,8 +12,6 @@ import Component from "./Component";
 import Video from "./Video";
 import Container from "../layout/Container";
 
-import { AgoraVideoPlayer } from "agora-rtc-react";
-
 import { channelName, config, useClient, useMicrophoneAndCameraTracks } from "../server/agora";
 
 type Props = {
@@ -46,7 +44,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
-          dispatch(video.actions.setUsers([...video.state.users, user]));
+          dispatch(video.actions.setUsers(user));
         }
         if (mediaType === "audio") {
           if (user.audioTrack) user.audioTrack.play();
@@ -92,14 +90,13 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex portrait:flex-col justify-center items-center h-full gap-2 md:gap-3 lg:gap-4">
-            {/* {video.state.start && tracks && <Video tracks={tracks} users={video.state.users} active={false} />} */}
             {video.state.start && tracks && (
               <div className="contents">
-                <AgoraVideoPlayer videoTrack={tracks[1]} style={{ height: "100%", width: "100%" }} />
+                <Video videoTrack={tracks[1]} active={true} />
                 {video.state.users.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
-                      return <AgoraVideoPlayer videoTrack={user.videoTrack} key={user.uid} style={{ height: "100%", width: "100%" }} />;
+                      return <Video videoTrack={user.videoTrack} key={user.uid} active={false} />;
                     } else return null;
                   })}
               </div>
