@@ -12,7 +12,6 @@ import Instructions from "../components/Instructions";
 import Toolbar from "../components/Toolbar";
 import Taskbar from "../components/Taskbar";
 import Canvas from "../components/Canvas";
-import Guess from "./Guess";
 
 type Props = {
   className?: string | null;
@@ -38,13 +37,12 @@ export default function Artboard({ className = null }: Props) {
     <Component id="Artboard">
       <div className={`${styles.static} ${styles.dynamic}`}>
         <Container className="overflow-y-auto no-scrollbar">
-          <div className="flex portrait:flex-col justify-start h-full">
+          <div className="flex portrait:flex-col justify-center h-full">
             <Instructions />
             <Toolbar />
-            <div className="portrait:w-full landscape:h-max aspect-square bg-white border-x border-neutral-400">
+            <div className="portrait:w-full landscape:h-full aspect-square bg-white border-x border-neutral-400">
               <Canvas />
             </div>
-            <div className="p-2 bg-violet-500 text-xs font-bold text-white text-center">Guess</div>
             <Taskbar />
           </div>
         </Container>
