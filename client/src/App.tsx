@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,7 +17,8 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
         {/* <Route path={URL} element={<Boom />} /> */}
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="/:id" element={<Boom />} />
         <Route path="*" element={<NotFound />} />
         <Route path="signup" element={<Signup />} />
