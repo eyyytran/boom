@@ -37,6 +37,10 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
   const dispatch = useDispatch();
 
+  const startGame = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     let init = async (name: string) => {
       client.on("user-published", async (user, mediaType) => {
