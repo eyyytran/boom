@@ -5,11 +5,13 @@ import storage from 'redux-persist/lib/storage'
 import videoSlice from './videoSlice'
 import artboardSlice from './artboardSlice'
 import userSlice from './userSlice'
+import gameSlice from './gameSlice'
 
 const rootReducer = combineReducers({
     video: videoSlice.reducer,
     artboard: artboardSlice.reducer,
     user: userSlice.reducer,
+    game: gameSlice.reducer,
 })
 
 const persistConfig = {
