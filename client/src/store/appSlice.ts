@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const userSlice = createSlice({
-    name: 'user',
+const appSlice = createSlice({
+    name: 'app',
     initialState: {
         user: null,
     },
@@ -12,4 +12,4 @@ const userSlice = createSlice({
     },
 })
 
-export default userSlice
+export default appSlice
