@@ -8,9 +8,10 @@ import {
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store'
 import userSlice from '../store/userSlice'
+import gameSlice from '../store/gameSlice'
 
 type Props = {}
 
@@ -19,8 +20,14 @@ const NewGame = (props: Props) => {
         state: useSelector((state: RootState) => state.user),
         action: userSlice.actions,
     }
+
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        action: gameSlice.actions,
+    }
     var firepadRef = collection(db, 'rooms')
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const userName = user.state.userName
 
@@ -35,6 +42,8 @@ const NewGame = (props: Props) => {
                     }),
                 },
             })
+            dispatch(game.action.setRoomId(docRef.id))
+            dispatch(game.action.setIsOwner(true))
             navigate(`/boom/?id=${docRef.id}`)
         } catch (error) {
             console.error('error adding document', error)
