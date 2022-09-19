@@ -1,4 +1,10 @@
-import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef } from "react";
+import React, {
+  forwardRef,
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+} from "react";
 
 import firepadRef, { db, userName } from "../server/firebase";
 
@@ -12,7 +18,12 @@ import Component from "./Component";
 import Video from "./Video";
 import Container from "../layout/Container";
 
-import { channelName, config, useClient, useMicrophoneAndCameraTracks } from "../server/agora";
+import {
+  channelName,
+  config,
+  useClient,
+  useMicrophoneAndCameraTracks,
+} from "../server/agora";
 
 type Props = {
   galleryRef: any;
@@ -56,12 +67,20 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           if (user.audioTrack) user.audioTrack.stop();
         }
         if (mediaType === "video") {
-          dispatch(video.actions.setUsers(video.state.users.filter(User => User.uid !== user.uid)));
+          dispatch(
+            video.actions.setUsers(
+              video.state.users.filter((User) => User.uid !== user.uid)
+            )
+          );
         }
       });
 
-      client.on("user-left", user => {
-        dispatch(video.actions.setUsers(video.state.users.filter(User => User.uid !== user.uid)));
+      client.on("user-left", (user) => {
+        dispatch(
+          video.actions.setUsers(
+            video.state.users.filter((User) => User.uid !== user.uid)
+          )
+        );
       });
 
       try {
@@ -93,10 +112,16 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             {video.state.start && tracks && (
               <div className="contents">
                 <Video videoTrack={tracks[1]} active={true} />
-                {video.state.users.length > 0 &&
-                  video.state.users.map(user => {
+                {video.state.users?.length > 0 &&
+                  video.state.users.map((user) => {
                     if (user.videoTrack) {
-                      return <Video videoTrack={user.videoTrack} key={user.uid} active={false} />;
+                      return (
+                        <Video
+                          videoTrack={user.videoTrack}
+                          key={user.uid}
+                          active={false}
+                        />
+                      );
                     } else return null;
                   })}
               </div>

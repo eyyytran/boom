@@ -13,7 +13,7 @@ const videoSlice = createSlice({
     setStart: (state, action) => {
       state.start = action.payload;
     },
-    reset: state => {
+    reset: (state) => {
       state = videoSlice.getInitialState();
     },
   },
