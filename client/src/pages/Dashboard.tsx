@@ -76,11 +76,11 @@ const Dashboard = (props: Props) => {
               Boom
             </h1>
             <div id="profile" className="space-y-3">
-              <img
+              {/* <img
                 src=""
                 alt="Profile Picture"
                 className="hidden md:block w-10 md:w-16 rounded-full mx-auto"
-              />
+              /> */}
               <div>
                 <h2 className="hidden md:block font-medium text-lg md:text-lg text-center text-violet-500">
                   Hello {userName}!
@@ -88,16 +88,13 @@ const Dashboard = (props: Props) => {
               </div>
             </div>
             <div id="menu" className="flex flex-col space-y-2">
-              <Link
-                to="dash"
-                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
-              >
+              <div className="text-sm font-medium text-white py-2 px-2 bg-violet-500 hover:text-white rounded-md transition duration-150 ease-in-out">
                 <FontAwesomeIcon
                   icon={faBars}
                   className="h-5 w-5 fill-current text-gray-600"
                 />
                 <span className="hidden md:inline ml-5">Dashboard</span>
-              </Link>
+              </div>
               <Link
                 to="new"
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
