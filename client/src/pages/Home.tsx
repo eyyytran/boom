@@ -2,6 +2,7 @@ import React from "react";
 import Component from "../components/Component";
 import Titlebar from "../components/Titlebar";
 import { Link } from "react-router-dom";
+
 // import {
 //   faRightToBracket,
 //   faMessage,
@@ -28,9 +29,10 @@ export default function Home({}: Props) {
             Welcome to Boom!
           </h1>
           <h3 className="text-center leading-tight tracking-tight text-gray-900 md:text-xl mt-10">
-            You can look at a problem and you can either go, "Oh, this is a
-            problem." Or you can Boom! Blow it up and turn it into something
-            great. You literally Boom the problem.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. At sunt
+            consequatur nisi consequuntur, necessitatibus a, et ratione
+            laudantium fugiat sequi dicta sapiente! Recusandae, saepe? Qui quod
+            labore quia nihil maxime?
           </h3>
           <div
             className="flex items-center justify-flex-start px-6 py-8 mx-auto md:h-auto lg:py-0

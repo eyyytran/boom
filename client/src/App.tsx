@@ -12,13 +12,18 @@ import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import PrivateRoutes from './components/PrivateRoutes'
+import Dash from "./components/Dash";
+import Home from "./pages/Home";
+import Settings from "./components/Settings";
+import Join from "./components/Join";
+import Collection from "./components/Collection";
+import NewGame from "./components/NewGame";
 
 function App() {
     const userState = {
         state: useSelector((state: RootState) => state.user),
         actions: userSlice.actions,
     }
-
     const useAuth = () => {
         const dispatch = useDispatch()
         useEffect(() => {
@@ -32,7 +37,6 @@ function App() {
             return unsubscribe
         }, [])
     }
-
     useAuth()
 
     return (
@@ -42,13 +46,19 @@ function App() {
                 {/* <Route path={URL} element={<Boom />} /> */}
                 <Route element={<PrivateRoutes />}>
                     <Route path='/boom' element={<Boom />} />
-                    <Route path='/' element={<Dashboard />} />
+                    <Route path="dashboard" element={<Dashboard />}>
+                      <Route path="dash" element={<Dash />} />
+                      <Route path="settings" element={<Settings />} />
+                      <Route path="join" element={<Join />} />
+                      <Route path="new" element={<NewGame />} />
+                      <Route path="collection" element={<Collection />} />
+                    </Route>
                 </Route>
+                <Route path="/" element={<Home />} />
                 <Route path='*' element={<NotFound />} />
                 <Route path='signup' element={<Signup />} />
                 <Route path='login' element={<Login />} />
             </Routes>
-            <div className=''></div>
         </Component>
     )
 }
