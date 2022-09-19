@@ -6,6 +6,7 @@ import Container from '../layout/Container'
 type Props = {
     username: string
     message: string
+    sender: string
     origin: 'user' | 'participant'
     className?: string | null
 }
@@ -31,6 +32,7 @@ export default function Message({
     username,
     message,
     origin,
+    sender,
     className = null,
 }: Props) {
     styles.dynamic = className
@@ -43,7 +45,9 @@ export default function Message({
                         : styles.conditional.participant
                 }`}
             >
-                <span className='text-xs font-bold'>{username}</span>
+                <span className='text-xs font-bold'>
+                    {origin === 'user' ? username : sender}
+                </span>
                 <span className='text-xs'>{message}</span>
             </div>
         </Component>

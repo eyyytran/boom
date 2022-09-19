@@ -102,8 +102,9 @@ export default function Chat({ className = null }: Props) {
                                 return (
                                     <Message
                                         key={message.timeStamp}
-                                        username={message.sentBy}
+                                        username={app.state.userName}
                                         message={message.content}
+                                        sender={message.sentBy}
                                         origin={
                                             app.state.userName ===
                                             message.sentBy

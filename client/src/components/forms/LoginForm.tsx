@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
     browserSessionPersistence,
     setPersistence,
@@ -88,6 +88,15 @@ const LoginForm = () => {
                             >
                                 Login
                             </button>
+                            <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
+                                Don't have an account?
+                                <Link
+                                    to='/signup'
+                                    className='font-medium text-primary-600 hover:underline dark:text-primary-500'
+                                >
+                                    Sign up and get started!
+                                </Link>
+                            </p>
                         </form>
                     </div>
                 </div>
