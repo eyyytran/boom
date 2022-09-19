@@ -1,19 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Component from "./Component";
+import React from "react";
 
 type Props = {};
 
 const Join = (props: Props) => {
-  const [gameCode, setGameCode] = useState<string>("");
-  const navigate = useNavigate();
-  const joinGame = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    console.log(gameCode);
-    navigate(`/boom/?id=${gameCode}`);
-  };
-
   return (
+
     <Component id="NewGame">
       <div className="flex flex-col items-center h-full w-full">
         <div className="flex flex-col items-center m-16">
@@ -43,6 +34,7 @@ const Join = (props: Props) => {
         </div>
       </div>
     </Component>
+
   );
 };
 

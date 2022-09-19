@@ -1,62 +1,69 @@
-import { faUserPen } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-import Component from "../components/Component";
-import Titlebar from "../components/Titlebar";
-import { Link, Outlet } from "react-router-dom";
+import { faUserPen } from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
+import Component from '../components/Component'
+import Titlebar from '../components/Titlebar'
+import { Link, Outlet } from 'react-router-dom'
 import {
-  faGear,
-  faUserGroup,
-  faTableCellsLarge,
-  faFolder,
-  faBars,
-  faRightToBracket,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+    faGear,
+    faUserGroup,
+    faTableCellsLarge,
+    faFolder,
+    faBars,
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  collection,
-  doc,
-  addDoc,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
-import { db } from "../server/firebase";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import userSlice from "../store/userSlice";
+    collection,
+    doc,
+    addDoc,
+    updateDoc,
+    arrayUnion,
+} from 'firebase/firestore'
+import { db } from '../server/firebase'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import userSlice from '../store/userSlice'
 
-type Props = {};
+type Props = {}
 
 const Dashboard = (props: Props) => {
-  const user = {
-    state: useSelector((state: RootState) => state.user),
-    action: userSlice.actions,
-  };
-  var firepadRef = collection(db, "rooms");
-  const navigate = useNavigate();
-
-  const userName = user.state.userName;
-
-  const createRoom = async () => {
-    try {
-      const docRef = await addDoc(firepadRef, { primaryUser: userName });
-      navigate(`/boom/?id=${docRef.id}`);
-    } catch (error) {
-      console.error("error adding document", error);
+    const user = {
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
     }
-  };
+    var firepadRef = collection(db, 'rooms')
+    const navigate = useNavigate()
 
-  const updateRoom = async () => {
-    try {
-      const roomId: any = prompt("Enter the Meeting Key");
-      const docRef = doc(db, "rooms", roomId);
-      await updateDoc(docRef, {
-        participants: arrayUnion(userName),
-      });
-      navigate(`/boom/?id=${roomId}`);
-    } catch (error) {
-      console.error("error adding a participant", error);
+    const userName = user.state.userName
+
+    const createRoom = async () => {
+        try {
+            const docRef = await addDoc(firepadRef, { primaryUser: userName })
+            navigate(`/boom/?id=${docRef.id}`)
+        } catch (error) {
+            console.error('error adding document', error)
+        }
     }
+
+    const updateRoom = async () => {
+        try {
+            const roomId: any = prompt('Enter the Meeting Key')
+            const docRef = doc(db, 'rooms', roomId)
+            await updateDoc(docRef, {
+                participants: arrayUnion(userName),
+                gameState: {
+                    players: arrayUnion({
+                        player: userName,
+                        points: 0,
+                    }),
+                },
+            })
+            navigate(`/boom/?id=${roomId}`)
+        } catch (error) {
+            console.error('error adding a participant', error)
+        }
+    }
+
   };
   return (
     <Component id="Dashboard">
@@ -144,14 +151,8 @@ const Dashboard = (props: Props) => {
                 <span className="hidden md:inline ml-5">Log Out</span>
               </button>
             </div>
-          </div>
-        </div>
-        <div className="w-4/5 min-h-screen">
-          <Outlet />
-        </div>
-      </div>
-    </Component>
-  );
-};
+        </Component>
+    )
+}
 
-export default Dashboard;
+export default Dashboard

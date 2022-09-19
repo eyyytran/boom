@@ -75,7 +75,6 @@ export default function Boom() {
           <div className="flex h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
             <Gallery galleryRef={galleryRef} className="snap-center" />
             <Artboard artboardRef={artboardRef} className="snap-center" />
-            {/* <Display className="snap-center" /> */}
             <Chat chatRef={chatRef} className="snap-center" />
           </div>
           <Navbar
