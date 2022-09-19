@@ -1,3 +1,4 @@
+
 import { faUserPen } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Component from "../components/Component";
@@ -11,10 +12,53 @@ import {
   faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    collection,
+    doc,
+    addDoc,
+    updateDoc,
+    arrayUnion,
+} from 'firebase/firestore'
+import { db } from '../server/firebase'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import userSlice from '../store/userSlice'
 
-type Props = {};
+type Props = {}
+
 
 const Dashboard = (props: Props) => {
+ const app = {
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
+    }
+    var firepadRef = collection(db, 'rooms')
+    const navigate = useNavigate()
+
+    const userName = app.state.userName
+
+    const createRoom = async () => {
+        try {
+            const docRef = await addDoc(firepadRef, { primaryUser: userName })
+            navigate(`/boom/?id=${docRef.id}`)
+        } catch (error) {
+            console.error('error adding document', error)
+        }
+    }
+
+    const updateRoom = async () => {
+        try {
+            const roomId: any = prompt('Enter the Meeting Key')
+            const docRef = doc(db, 'rooms', roomId)
+            await updateDoc(docRef, {
+                participants: arrayUnion(userName),
+            })
+            navigate(`/boom/?id=${roomId}`)
+        } catch (error) {
+            console.error('error adding a participant', error)
+        }
+    }
   return (
     <Component id="Dashboard">
       <Titlebar />
@@ -108,3 +152,4 @@ const Dashboard = (props: Props) => {
 };
 
 export default Dashboard;
+
