@@ -22,7 +22,7 @@ const LoginForm = () => {
                 return signInWithEmailAndPassword(auth, email, password)
                     .then(() => {
                         alert('success')
-                        navigate('/')
+                        navigate('/dashboard')
                     })
                     .catch(error => console.log(error))
             })

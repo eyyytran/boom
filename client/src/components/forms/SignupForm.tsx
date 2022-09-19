@@ -76,7 +76,7 @@ const SignupForm = () => {
                 displayName: username,
             })
                 .then(() => {
-                    navigate('/')
+                    navigate('/dashboard')
                 })
                 .catch(err => console.error(err))
         }
