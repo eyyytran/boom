@@ -37,23 +37,6 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
   const dispatch = useDispatch();
 
-  const microphoneButtonRef = useRef<HTMLDivElement>(null);
-  const cameraButtonRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!microphoneButtonRef.current) return;
-    microphoneButtonRef.current.onclick = () => {
-      alert("microphoneButtonRef");
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!cameraButtonRef.current) return;
-    cameraButtonRef.current.onclick = () => {
-      alert("cameraButtonRef");
-    };
-  }, []);
-
   useEffect(() => {
     let init = async (name: string) => {
       client.on("user-published", async (user, mediaType) => {
@@ -107,11 +90,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           <div className="flex portrait:flex-col justify-center items-center h-full gap-2 md:gap-3 lg:gap-4">
             {video.state.start && tracks && (
               <div className="contents">
-                <Video videoTrack={tracks[1]} active={true} microphoneButtonRef={microphoneButtonRef} cameraButtonRef={cameraButtonRef} />
+                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
-                      return <Video videoTrack={user.videoTrack} key={user.uid} active={false} microphoneButtonRef={microphoneButtonRef} cameraButtonRef={cameraButtonRef} />;
+                      return <Video tracks={tracks} videoTrack={user.videoTrack} key={user.uid} active={false} />;
                     } else return null;
                   })}
               </div>
