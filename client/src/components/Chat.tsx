@@ -11,6 +11,9 @@ import {
     getDoc,
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import appSlice from '../store/appSlice'
 
 type Props = {
     className?: string | null
@@ -33,8 +36,14 @@ styles.static = 'shrink-0 w-full h-full p-2 md:p-3 lg:p-4'
 
 export default function Chat({ className = null }: Props) {
     styles.dynamic = className
+
     const [message, setMessage] = useState<string>('')
     const [chat, setChat] = useState<Array<FirebaseMessage>>([])
+
+    const app = {
+        state: useSelector((state: RootState) => state.app),
+        action: appSlice.actions,
+    }
 
     const handleMessage = (e: any) => {
         const value = e.target.value
@@ -67,7 +76,7 @@ export default function Chat({ className = null }: Props) {
 
     const handleSubmit = () => {
         const dataToSend = {
-            sentBy: 'Blake',
+            sentBy: app.state.userName,
             timeStamp: new Date().getTime(),
             content: message,
         }
@@ -92,9 +101,15 @@ export default function Chat({ className = null }: Props) {
                             {chat?.map(message => {
                                 return (
                                     <Message
+                                        key={message.timeStamp}
                                         username={message.sentBy}
                                         message={message.content}
-                                        origin={'user'}
+                                        origin={
+                                            app.state.userName ===
+                                            message.sentBy
+                                                ? 'user'
+                                                : 'participant'
+                                        }
                                     />
                                 )
                             })}
