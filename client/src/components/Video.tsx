@@ -31,7 +31,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "relative aspect-video lg:aspect-auto h-full";
+styles.static = "relative h-full";
 
 styles.conditional = {
   active: "bg-violet-500 text-neutral-50",
