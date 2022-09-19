@@ -29,7 +29,7 @@ const styles = {} as Styles;
 
 styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
 
-export default function Chat({ className = null }: Props) {
+export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
 
   const [message, setMessage] = useState<string>("");
@@ -89,7 +89,7 @@ export default function Chat({ className = null }: Props) {
 
   return (
     <Component id="Chat">
-      <div className={`${styles.static} ${styles.dynamic}`}>
+      <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex flex-col h-full gap-2">
             <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
@@ -105,13 +105,14 @@ export default function Chat({ className = null }: Props) {
                 );
               })}
             </div>
-            <form className="contents" data-lpignore="true">
-              <textarea
-                className="h-8 focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded no-scrollbar"
-                value={message}
-                onKeyDown={handleKeyDown}
-                onChange={handleMessage}
-              ></textarea>
+            <form
+              className="flex flex-col justify-end items-center gap-2 h-max focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded"
+              data-lpignore="true"
+            >
+              <textarea className="w-full p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded resize-none" value={message} onKeyDown={handleKeyDown} onChange={handleMessage}></textarea>
+              {/* <button type="submit" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-200 hover:bg-violet-500 border border-violet-500 rounded text-violet-500 hover:text-white">
+                Send
+              </button> */}
             </form>
           </div>
         </Container>

@@ -5,6 +5,8 @@ const videoSlice = createSlice({
   initialState: {
     users: new Array(),
     start: false,
+    microphone: false,
+    camera: false,
   },
   reducers: {
     setUsers: (state, action) => {
@@ -13,7 +15,13 @@ const videoSlice = createSlice({
     setStart: (state, action) => {
       state.start = action.payload;
     },
-    reset: (state) => {
+    toggleMicrophone: state => {
+      state.microphone = !state.microphone;
+    },
+    toggleCamera: state => {
+      state.camera = !state.camera;
+    },
+    reset: state => {
       state = videoSlice.getInitialState();
     },
   },

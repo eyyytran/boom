@@ -145,33 +145,24 @@ export default function Gallery({ galleryRef, className = '' }: Props) {
                 ref={galleryRef}
                 className={`${styles.static} ${styles.dynamic}`}
             >
-                <button className={game.state.isOwner ? 'block' : 'hidden'}>
-                    Start Game
-                </button>
                 <Container>
                     <div className='flex portrait:flex-col justify-center items-center h-full gap-2 md:gap-3 lg:gap-4'>
                         {video.state.start && tracks && (
                             <div className='contents'>
                                 <Video
+                                    tracks={tracks}
                                     videoTrack={tracks[1]}
                                     active={true}
-                                    microphoneButtonRef={microphoneButtonRef}
-                                    cameraButtonRef={cameraButtonRef}
                                 />
                                 {video.state.users?.length > 0 &&
                                     video.state.users.map(user => {
                                         if (user.videoTrack) {
                                             return (
                                                 <Video
+                                                    tracks={tracks}
                                                     videoTrack={user.videoTrack}
                                                     key={user.uid}
                                                     active={false}
-                                                    microphoneButtonRef={
-                                                        microphoneButtonRef
-                                                    }
-                                                    cameraButtonRef={
-                                                        cameraButtonRef
-                                                    }
                                                 />
                                             )
                                         } else return null
