@@ -20,7 +20,7 @@ export default function Dashboard({}: Props) {
       <div className="flex flex-col justify-start h-full">
         <Titlebar className="shrink-0" />
         <img
-          src={require("../images/Boom.png")}
+          // src={require("../images/Boom.png")}
           style={{ height: "250px", width: "250px" }}
         />
         <button
