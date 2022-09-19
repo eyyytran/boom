@@ -4,12 +4,12 @@ import persistReducer from 'redux-persist/es/persistReducer'
 import storage from 'redux-persist/lib/storage'
 import videoSlice from './videoSlice'
 import artboardSlice from './artboardSlice'
-import appSlice from './appSlice'
+import userSlice from './userSlice'
 
 const rootReducer = combineReducers({
     video: videoSlice.reducer,
     artboard: artboardSlice.reducer,
-    app: appSlice.reducer,
+    user: userSlice.reducer,
 })
 
 const persistConfig = {
@@ -23,7 +23,5 @@ export const store = configureStore({
     reducer: persistedReducer,
     middleware: [logger],
 })
-
-export const { dispatch } = store
 
 export type RootState = ReturnType<typeof store.getState>

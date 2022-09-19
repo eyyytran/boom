@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { User } from 'firebase/auth'
 
 interface ICurrentUser {
@@ -8,18 +8,18 @@ interface ICurrentUser {
 
 type State = ICurrentUser
 
-const appSlice = createSlice({
-    name: 'app',
+const userSlice = createSlice({
+    name: 'user',
     initialState: {
         user: null,
         userName: '',
     },
     reducers: {
-        setUser: (state: State, action) => {
+        setUser: (state: State, action: PayloadAction<any>) => {
             state.user = action.payload
             state.userName = action.payload.displayName
         },
     },
 })
 
-export default appSlice
+export default userSlice

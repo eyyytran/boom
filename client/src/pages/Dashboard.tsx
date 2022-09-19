@@ -10,15 +10,15 @@ import { db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
-import appSlice from '../store/appSlice'
+import userSlice from '../store/userSlice'
 import { Link } from 'react-router-dom'
 
 type Props = {}
 
 export default function Dashboard({}: Props) {
     const app = {
-        state: useSelector((state: RootState) => state.app),
-        action: appSlice.actions,
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
     }
     var firepadRef = collection(db, 'rooms')
     const navigate = useNavigate()
@@ -37,7 +37,6 @@ export default function Dashboard({}: Props) {
     const updateRoom = async () => {
         try {
             const roomId: any = prompt('Enter the Meeting Key')
-
             const docRef = doc(db, 'rooms', roomId)
             await updateDoc(docRef, {
                 participants: arrayUnion(userName),
@@ -50,6 +49,7 @@ export default function Dashboard({}: Props) {
     return (
         <div>
             <button
+                className='w-full text-white bg-indigo-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
                 onClick={async () => {
                     await createRoom()
                 }}
@@ -57,6 +57,7 @@ export default function Dashboard({}: Props) {
                 Start a Game
             </button>
             <button
+                className='w-full text-white bg-indigo-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
                 onClick={async () => {
                     updateRoom()
                 }}

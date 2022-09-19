@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './server/firebase'
-import appSlice from './store/appSlice'
+import userSlice from './store/userSlice'
 import { RootState } from './store'
 import Component from './components/Component'
 import Boom from './pages/Boom'
@@ -14,9 +14,9 @@ import Dashboard from './pages/Dashboard'
 import PrivateRoutes from './components/PrivateRoutes'
 
 function App() {
-    const app = {
-        state: useSelector((state: RootState) => state.app),
-        actions: appSlice.actions,
+    const userState = {
+        state: useSelector((state: RootState) => state.user),
+        actions: userSlice.actions,
     }
 
     const useAuth = () => {
@@ -24,9 +24,9 @@ function App() {
         useEffect(() => {
             const unsubscribe = onAuthStateChanged(auth, user => {
                 if (!user) {
-                    dispatch(app.actions.setUser(null))
+                    dispatch(userState.actions.setUser(null))
                 } else {
-                    dispatch(app.actions.setUser(user))
+                    dispatch(userState.actions.setUser(user))
                 }
             })
             return unsubscribe

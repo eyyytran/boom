@@ -1,14 +1,11 @@
-import React, { ReactElement } from 'react'
-
 import Component from '../components/Component'
-import Container from '../layout/Container'
 
 type Props = {
     username: string
     message: string
-    sender: string
     origin: 'user' | 'participant'
     className?: string | null
+    sender: string
 }
 
 type Styles = {
