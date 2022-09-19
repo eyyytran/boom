@@ -32,32 +32,9 @@ const Dashboard = (props: Props) => {
         state: useSelector((state: RootState) => state.user),
         action: userSlice.actions,
     }
-    var firepadRef = collection(db, 'rooms')
-    const navigate = useNavigate()
 
     const userName = user.state.userName
 
-    const createRoom = async () => {
-        try {
-            const docRef = await addDoc(firepadRef, { primaryUser: userName })
-            navigate(`/boom/?id=${docRef.id}`)
-        } catch (error) {
-            console.error('error adding document', error)
-        }
-    }
-
-    const updateRoom = async () => {
-        try {
-            const roomId: any = prompt('Enter the Meeting Key')
-            const docRef = doc(db, 'rooms', roomId)
-            await updateDoc(docRef, {
-                participants: arrayUnion(userName),
-            })
-            navigate(`/boom/?id=${roomId}`)
-        } catch (error) {
-            console.error('error adding a participant', error)
-        }
-    }
     return (
         <Component id='Dashboard'>
             <Titlebar />

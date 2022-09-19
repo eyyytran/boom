@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
+import { db } from '../server/firebase'
+import { RootState } from '../store'
+import userSlice from '../store/userSlice'
 import Component from './Component'
 
 type Props = {}
@@ -7,9 +12,26 @@ type Props = {}
 const Join = (props: Props) => {
     const [gameCode, setGameCode] = useState<string>('')
     const navigate = useNavigate()
+
+    const user = {
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
+    }
+
+    const updateRoom = async () => {
+        try {
+            const docRef = doc(db, 'rooms', gameCode)
+            await updateDoc(docRef, {
+                participants: arrayUnion(user.state.userName),
+            })
+        } catch (error) {
+            console.error('error adding a participant', error)
+        }
+    }
+
     const joinGame = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        console.log(gameCode)
+        updateRoom()
         navigate(`/boom/?id=${gameCode}`)
     }
 

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    arrayUnion,
-} from 'firebase/firestore'
+import { collection, addDoc, arrayUnion } from 'firebase/firestore'
 import { db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
