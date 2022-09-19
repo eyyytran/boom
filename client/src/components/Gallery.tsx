@@ -1,7 +1,5 @@
 import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef } from "react";
 
-import firepadRef, { db, userName } from "../server/firebase";
-
 import videoSlice from "../store/videoSlice";
 
 import { useSelector } from "react-redux";
