@@ -1,4 +1,4 @@
-import { CaseReducer, CaseReducerActions, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import { User } from 'firebase/auth'
 import { auth } from '../server/firebase'
 
