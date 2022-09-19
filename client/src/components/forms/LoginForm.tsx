@@ -1,4 +1,8 @@
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import {
+    browserSessionPersistence,
+    setPersistence,
+    signInWithEmailAndPassword,
+} from 'firebase/auth'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { auth } from '../../server/firebase'
@@ -13,32 +17,32 @@ const LoginForm = () => {
 
     const login = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        console.log('clicked')
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                alert('success')
-                navigate('/')
+        setPersistence(auth, browserSessionPersistence)
+            .then(async () => {
+                return signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        alert('success')
+                        navigate('/')
+                    })
+                    .catch(error => console.log(error))
             })
             .catch(error => console.log(error))
     }
 
     return (
         <Component id='Column'>
-            <div
-                className='flex flex-col items-center justify-flex-start px-6 py-8 mx-auto md:h-screen lg:py-0'
-                // style={{ height: "100%", width: "100%" }}
-            >
+            <div className='flex flex-col items-center justify-flex-start px-6 py-8 mx-auto md:h-screen lg:py-0"'>
                 <div
-                    className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0'
+                    className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 '
                     style={{
                         height: 'auto',
                         width: '100%',
-                        marginTop: '100px',
+                        marginTop: '75px',
                     }}
                 >
                     <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
                         <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl '>
-                            Welcome Back
+                            Welcome Back!
                         </h1>
                         <form
                             className='space-y-4 md:space-y-6'
@@ -81,6 +85,16 @@ const LoginForm = () => {
                             >
                                 Login
                             </button>
+                            <p className='text-center text-sm font-light text-gray-500 dark:text-gray-400'>
+                                Don't have an account?
+                                <br />
+                                <a
+                                    href='/signup'
+                                    className='text-center font-medium text-primary-600 hover:underline dark:text-primary-500'
+                                >
+                                    Sign up and get started!
+                                </a>
+                            </p>
                         </form>
                     </div>
                 </div>
