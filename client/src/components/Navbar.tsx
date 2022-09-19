@@ -45,6 +45,7 @@ export default function Navbar({
     const navigate = useNavigate()
 
     const handleSignout = (e: React.SyntheticEvent) => {
+        e.preventDefault()
         auth.signOut()
         navigate('/')
     }
