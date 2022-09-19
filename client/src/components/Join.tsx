@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Component from "./Component";
 
 type Props = {};
 
 const Join = (props: Props) => {
-  return (
+  const [gameCode, setGameCode] = useState<string>("");
+  const navigate = useNavigate();
+  const joinGame = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    console.log(gameCode);
+    navigate(`/boom/?id=${gameCode}`);
+  };
 
+  return (
     <Component id="NewGame">
       <div className="flex flex-col items-center h-full w-full">
         <div className="flex flex-col items-center m-16">
@@ -25,7 +34,7 @@ const Join = (props: Props) => {
               }}
             />
             <button
-              className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5 hover:scale-105"
+              className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5"
               type="submit"
             >
               Join
@@ -34,7 +43,6 @@ const Join = (props: Props) => {
         </div>
       </div>
     </Component>
-
   );
 };
 

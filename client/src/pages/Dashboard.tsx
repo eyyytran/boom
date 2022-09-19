@@ -1,69 +1,62 @@
-import { faUserPen } from '@fortawesome/free-solid-svg-icons'
-import React from 'react'
-import Component from '../components/Component'
-import Titlebar from '../components/Titlebar'
-import { Link, Outlet } from 'react-router-dom'
+import { faUserPen } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import Component from "../components/Component";
+import Titlebar from "../components/Titlebar";
+import { Link, Outlet } from "react-router-dom";
 import {
-    faGear,
-    faUserGroup,
-    faTableCellsLarge,
-    faFolder,
-    faBars,
-} from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  faGear,
+  faUserGroup,
+  faTableCellsLarge,
+  faFolder,
+  faBars,
+  faRightToBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    arrayUnion,
-} from 'firebase/firestore'
-import { db } from '../server/firebase'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { RootState } from '../store'
-import userSlice from '../store/userSlice'
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
+import { db } from "../server/firebase";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import userSlice from "../store/userSlice";
 
-type Props = {}
+type Props = {};
 
 const Dashboard = (props: Props) => {
-    const user = {
-        state: useSelector((state: RootState) => state.user),
-        action: userSlice.actions,
+  const user = {
+    state: useSelector((state: RootState) => state.user),
+    action: userSlice.actions,
+  };
+  var firepadRef = collection(db, "rooms");
+  const navigate = useNavigate();
+
+  const userName = user.state.userName;
+
+  const createRoom = async () => {
+    try {
+      const docRef = await addDoc(firepadRef, { primaryUser: userName });
+      navigate(`/boom/?id=${docRef.id}`);
+    } catch (error) {
+      console.error("error adding document", error);
     }
-    var firepadRef = collection(db, 'rooms')
-    const navigate = useNavigate()
+  };
 
-    const userName = user.state.userName
-
-    const createRoom = async () => {
-        try {
-            const docRef = await addDoc(firepadRef, { primaryUser: userName })
-            navigate(`/boom/?id=${docRef.id}`)
-        } catch (error) {
-            console.error('error adding document', error)
-        }
+  const updateRoom = async () => {
+    try {
+      const roomId: any = prompt("Enter the Meeting Key");
+      const docRef = doc(db, "rooms", roomId);
+      await updateDoc(docRef, {
+        participants: arrayUnion(userName),
+      });
+      navigate(`/boom/?id=${roomId}`);
+    } catch (error) {
+      console.error("error adding a participant", error);
     }
-
-    const updateRoom = async () => {
-        try {
-            const roomId: any = prompt('Enter the Meeting Key')
-            const docRef = doc(db, 'rooms', roomId)
-            await updateDoc(docRef, {
-                participants: arrayUnion(userName),
-                gameState: {
-                    players: arrayUnion({
-                        player: userName,
-                        points: 0,
-                    }),
-                },
-            })
-            navigate(`/boom/?id=${roomId}`)
-        } catch (error) {
-            console.error('error adding a participant', error)
-        }
-    }
-
   };
   return (
     <Component id="Dashboard">
@@ -83,11 +76,11 @@ const Dashboard = (props: Props) => {
               Boom
             </h1>
             <div id="profile" className="space-y-3">
-              {/* <img
+              <img
                 src=""
                 alt="Profile Picture"
                 className="hidden md:block w-10 md:w-16 rounded-full mx-auto"
-              /> */}
+              />
               <div>
                 <h2 className="hidden md:block font-medium text-lg md:text-lg text-center text-violet-500">
                   Hello {userName}!
@@ -95,13 +88,16 @@ const Dashboard = (props: Props) => {
               </div>
             </div>
             <div id="menu" className="flex flex-col space-y-2">
-              <div className="text-sm font-medium text-white py-2 px-2 bg-violet-500 hover:text-white rounded-md transition duration-150 ease-in-out">
+              <Link
+                to="dash"
+                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
+              >
                 <FontAwesomeIcon
                   icon={faBars}
                   className="h-5 w-5 fill-current text-gray-600"
                 />
                 <span className="hidden md:inline ml-5">Dashboard</span>
-              </div>
+              </Link>
               <Link
                 to="new"
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -151,8 +147,14 @@ const Dashboard = (props: Props) => {
                 <span className="hidden md:inline ml-5">Log Out</span>
               </button>
             </div>
-        </Component>
-    )
-}
+          </div>
+        </div>
+        <div className="w-4/5 min-h-screen">
+          <Outlet />
+        </div>
+      </div>
+    </Component>
+  );
+};
 
-export default Dashboard
+export default Dashboard;
