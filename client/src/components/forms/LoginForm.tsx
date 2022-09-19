@@ -16,6 +16,7 @@ const LoginForm = () => {
       .catch((error) => console.log(error));
   };
 
+<<<<<<< HEAD
   return (
     <Component id="Column">
       <div
