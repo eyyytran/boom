@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import PrivateRoutes from './components/PrivateRoutes'
 
 function App() {
     const app = {
@@ -39,8 +40,10 @@ function App() {
             <Routes>
                 {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
                 {/* <Route path={URL} element={<Boom />} /> */}
-                <Route path='/' element={<Dashboard />} />
-                <Route path='/boom' element={<Boom />} />
+                <Route element={<PrivateRoutes />}>
+                    <Route path='/boom' element={<Boom />} />
+                    <Route path='/' element={<Dashboard />} />
+                </Route>
                 <Route path='*' element={<NotFound />} />
                 <Route path='signup' element={<Signup />} />
                 <Route path='login' element={<Login />} />
