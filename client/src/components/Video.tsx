@@ -14,6 +14,8 @@ import { faMicrophone, faVideoCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
+  microphoneButtonRef: any;
+  cameraButtonRef: any;
   videoTrack: any;
   active: boolean;
   className?: string | null;
@@ -37,13 +39,14 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ active, className = null, videoTrack }: Props) {
+export default function Video({ microphoneButtonRef, cameraButtonRef, active, className = null, videoTrack }: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
   };
 
   styles.dynamic = className;
+
   return (
     <Component id="Video">
       <div className={`${styles.static} ${styles.dynamic}`}>
@@ -53,9 +56,9 @@ export default function Video({ active, className = null, videoTrack }: Props) {
 
         <div className="absolute inset-0 flex justify-start items-end">
           <div className={`w-full p-2 flex justify-between items-center rounded-b ${active ? styles.conditional.active : styles.conditional.inactive}`}>
-            <FontAwesomeIcon icon={faMicrophone} className="text-xs text-inherit" />
+            <FontAwesomeIcon ref={microphoneButtonRef} icon={faMicrophone} className="text-xs text-inherit" />
             <span className="text-xs text-inherit">Username</span>
-            <FontAwesomeIcon icon={faVideoCamera} className="text-xs text-inherit" />
+            <FontAwesomeIcon ref={cameraButtonRef} icon={faVideoCamera} className="text-xs text-inherit" />
           </div>
         </div>
       </div>
