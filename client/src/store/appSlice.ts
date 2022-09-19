@@ -1,24 +1,13 @@
-import { CaseReducer, CaseReducerActions, createSlice } from '@reduxjs/toolkit'
-import { User } from 'firebase/auth'
-import { auth } from '../server/firebase'
-
-interface ICurrentUser {
-    user: User | null
-    userName: string | null | undefined
-}
-
-type State = ICurrentUser
+import { createSlice } from '@reduxjs/toolkit'
 
 const appSlice = createSlice({
     name: 'app',
     initialState: {
         user: null,
-        userName: '',
     },
     reducers: {
-        setUser: (state: State, action) => {
+        setUser: (state, action) => {
             state.user = action.payload
-            state.userName = auth.currentUser?.displayName
         },
     },
 })
