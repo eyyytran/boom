@@ -71,17 +71,17 @@ const Dashboard = (props: Props) => {
           x-show="sidenav"
         >
           <div className="space-y-6 md:space-y-10 mt-10">
-            <h1 className=" md:block font-bold text-3xl md:text-3xl text-center text-violet-500">
+            <h1 className="hidden md:block font-bold text-3xl md:text-3xl text-center text-violet-500">
               Boom
             </h1>
             <div id="profile" className="space-y-3">
               <img
                 src=""
                 alt="Profile Picture"
-                className="w-10 md:w-16 rounded-full mx-auto"
+                className="hidden md:block w-10 md:w-16 rounded-full mx-auto"
               />
               <div>
-                <h2 className="font-medium text-lg md:text-lg text-center text-violet-500">
+                <h2 className="hidden md:block font-medium text-lg md:text-lg text-center text-violet-500">
                   Hello {userName}!
                 </h2>
               </div>
@@ -95,7 +95,7 @@ const Dashboard = (props: Props) => {
                   icon={faBars}
                   className="h-5 w-5 fill-current text-gray-600"
                 />
-                <span className="ml-5">Dashboard</span>
+                <span className="hidden md:inline ml-5">Dashboard</span>
               </Link>
               <Link
                 to="new"
@@ -105,7 +105,7 @@ const Dashboard = (props: Props) => {
                   icon={faTableCellsLarge}
                   className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500"
                 />
-                <span className="ml-5">Start New Game</span>
+                <span className="hidden md:inline ml-5">Start New Game</span>
               </Link>
               <Link
                 to="join"
@@ -115,7 +115,7 @@ const Dashboard = (props: Props) => {
                   icon={faUserGroup}
                   className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500"
                 />
-                <span className="ml-5">Join a Game</span>
+                <span className="hidden md:inline ml-5">Join a Game</span>
               </Link>
               <Link
                 to="collection"
@@ -125,7 +125,7 @@ const Dashboard = (props: Props) => {
                   icon={faFolder}
                   className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500"
                 />
-                <span className="ml-5">My Collection</span>
+                <span className="hidden md:inline ml-5">My Collection</span>
               </Link>
               <Link
                 to="settings"
@@ -136,7 +136,7 @@ const Dashboard = (props: Props) => {
                   className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500"
                   fill="currentColor"
                 />
-                <span className="ml-5">Settings</span>
+                <span className="hidden md:inline ml-5">Settings</span>
               </Link>
             </div>
           </div>
