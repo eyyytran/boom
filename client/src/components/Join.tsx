@@ -23,6 +23,10 @@ const Join = (props: Props) => {
             const docRef = doc(db, 'rooms', gameCode)
             await updateDoc(docRef, {
                 participants: arrayUnion(user.state.userName),
+                gameState: arrayUnion({
+                    player: user.state.userName,
+                    points: 0,
+                }),
             })
         } catch (error) {
             console.error('error adding a participant', error)
