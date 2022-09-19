@@ -5,6 +5,7 @@ const artboardSlice = createSlice({
   initialState: {
     isDrawing: false,
     currentColor: "#171717",
+    eraserWidth: 8,
     lineWidth: 8,
   },
   reducers: {
@@ -13,6 +14,9 @@ const artboardSlice = createSlice({
     },
     setCurrentColor: (state, action) => {
       state.currentColor = action.payload;
+    },
+    setEraserWidth: (state, action) => {
+      state.eraserWidth = action.payload;
     },
     setLineWidth: (state, action) => {
       state.lineWidth = action.payload;
