@@ -91,9 +91,6 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             {video.state.start && tracks && (
               <div className="contents">
                 <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
