@@ -49,10 +49,22 @@ const NewGame = (props: Props) => {
             console.error('error adding document', error)
         }
     }
-    return (
-        <div>
-            <h1>Click Here to Start a New Game</h1>
-            <button onClick={createRoom}>New Game</button>
+
+  };
+  return (
+    <Component id="NewGame">
+      <div className="flex flex-col items-center h-full w-full">
+        <div className="flex flex-col items-center m-16">
+          <h1 className="text-xl text-center font-bold text-gray-900">
+            Start a New Game
+          </h1>
+          <button
+            className="text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5 hover:scale-105"
+            onClick={createRoom}
+          >
+            New Game
+          </button>
+
         </div>
     )
 }
