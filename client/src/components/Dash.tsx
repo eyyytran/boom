@@ -1,15 +1,8 @@
 import React from "react";
-import { createRoom, updateRoom, roomId } from "../server/firebase";
 import { Outlet, Link } from "react-router-dom";
 import Component from "./Component";
 import Titlebar from "./Titlebar";
-import {
-  faGear,
-  faUserGroup,
-  faTableCellsLarge,
-  faFolder,
-  faBars,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGear, faUserGroup, faTableCellsLarge, faFolder, faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {};
