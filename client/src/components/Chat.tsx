@@ -5,6 +5,7 @@ import Container from "../layout/Container";
 import Message from "../components/Message";
 
 type Props = {
+  chatRef: any;
   className?: string | null;
 };
 
@@ -17,11 +18,11 @@ const styles = {} as Styles;
 
 styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
 
-export default function Chat({ className = null }: Props) {
+export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
   return (
     <Component id="Chat">
-      <div className={`${styles.static} ${styles.dynamic}`}>
+      <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex flex-col h-full gap-2">
             <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
