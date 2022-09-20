@@ -17,7 +17,11 @@ const userSlice = createSlice({
     reducers: {
         setUser: (state: State, action: PayloadAction<any>) => {
             state.user = action.payload
+            if (!state.user) return
             state.userName = action.payload.displayName
+        },
+        setUserName: (state: State, action) => {
+            state.userName = action.payload
         },
     },
 })
