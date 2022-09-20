@@ -11,12 +11,13 @@ import {
     faBars,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { auth } from '../server/firebase'
+import { auth, db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { useDispatch } from 'react-redux'
+import { doc, updateDoc } from 'firebase/firestore'
 
 type Props = {
     menuButtonRef: any
@@ -56,11 +57,23 @@ export default function Navbar({
 
     const startGame = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        await updateDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string),
+            {
+                'gameState.gameStarted': true,
+            }
+        )
         dispatch(game.actions.setIsInit(true))
     }
 
     const userEndGame = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        await updateDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string),
+            {
+                'gameState.gameStarted': false,
+            }
+        )
         dispatch(game.actions.setIsInit(false))
     }
 

@@ -15,6 +15,11 @@ import Artboard from '../components/Artboard'
 import Display from '../components/Display'
 import Chat from '../components/Chat'
 import Navbar from '../components/Navbar'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { RootState } from '../store'
+import gameSlice from '../store/gameSlice'
+import { db } from '../server/firebase'
+import { useSelector } from 'react-redux'
 
 type Styles = {
     static: string
@@ -36,12 +41,31 @@ export default function Boom() {
     const exitRef = useRef<HTMLDivElement>(null)
     const exitButtonRef = useRef<HTMLDivElement>(null)
 
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        actions: gameSlice.actions,
+    }
+
     useEffect(() => {
-        if (!menuButtonRef.current) return
-        menuButtonRef.current.onclick = () => {
-            alert('menuButtonRef')
+        const unsubscribe = onSnapshot(
+            doc(db, 'rooms', game.state.roomId as unknown as string),
+            doc => {
+                const data = doc.data()
+                console.log(data)
+            }
+        )
+
+        return () => {
+            unsubscribe()
         }
     }, [])
+
+    // useEffect(() => {
+    //     if (!menuButtonRef.current) return
+    //     menuButtonRef.current.onclick = () => {
+    //         alert('menuButtonRef')
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (!galleryButtonRef.current) return
