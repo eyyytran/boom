@@ -59,9 +59,9 @@ export default function Video({ active, className = null, tracks, videoTrack }: 
           <div className={`w-full p-2 flex justify-between items-center rounded-b ${active ? styles.conditional.active : styles.conditional.inactive}`}>
             <button
               className="w-8"
-              onClick={() => {
+              onClick={async () => {
                 dispatch(video.actions.toggleMicrophone());
-                tracks[0].setEnabled(video.state.microphone);
+                await tracks[0].setEnabled(video.state.microphone);
               }}
             >
               <FontAwesomeIcon icon={video.state.microphone ? faMicrophoneSlash : faMicrophone} className="text-xs text-inherit" />
@@ -69,9 +69,9 @@ export default function Video({ active, className = null, tracks, videoTrack }: 
             <span className="text-xs text-inherit">Username</span>
             <button
               className="w-8"
-              onClick={() => {
+              onClick={async () => {
                 dispatch(video.actions.toggleCamera());
-                tracks[1].setEnabled(video.state.camera);
+                await tracks[1].setEnabled(video.state.camera);
               }}
             >
               <FontAwesomeIcon icon={video.state.camera ? faVideoSlash : faVideoCamera} className="text-xs text-inherit" />
