@@ -78,12 +78,12 @@ export default function Navbar({
                             ref={menuButtonRef}
                             className={
                                 game.state.isOwner && !game.state.isInit
-                                    ? 'py-2 px-4 bg-emerald-500 rounded-md md:w-40 sm:w-40'
+                                    ? 'py-2 px-4 bg-green-700 rounded-md md:w-40 sm:w-40'
                                     : 'hidden'
                             }
                             onClick={startGame}
                         >
-                            <span>Start Game</span>
+                            <span className='text-neutral-100'>Start Game</span>
                         </button>
                         <button
                             ref={menuButtonRef}
