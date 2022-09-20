@@ -76,9 +76,9 @@ export default function Video({
           >
             <button
               className="w-8"
-              onClick={() => {
+              onClick={async () => {
                 dispatch(video.actions.toggleMicrophone());
-                tracks[0].setEnabled(video.state.microphone);
+                await tracks[0].setEnabled(video.state.microphone);
               }}
             >
               <FontAwesomeIcon
@@ -89,9 +89,9 @@ export default function Video({
             <span className="text-xs text-inherit">Username</span>
             <button
               className="w-8"
-              onClick={() => {
+              onClick={async () => {
                 dispatch(video.actions.toggleCamera());
-                tracks[1].setEnabled(video.state.camera);
+                await tracks[1].setEnabled(video.state.camera);
               }}
             >
               <FontAwesomeIcon
