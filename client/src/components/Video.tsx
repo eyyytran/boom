@@ -31,7 +31,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "relative h-full md:h-auto aspect-video border border-red-500";
+styles.static = "relative h-full aspect-video md:aspect-auto rounded overflow-clip";
 
 styles.conditional = {
   active: "bg-violet-500 text-neutral-50",
@@ -51,12 +51,12 @@ export default function Video({ active, className = null, tracks, videoTrack }: 
   return (
     <Component id="Video">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <div className="h-full w-full object-cover object-center rounded overflow-clip">
-          <AgoraVideoPlayer videoTrack={videoTrack} className="w-full h-full rounded scale-105" />
+        <div className="h-full w-full object-cover object-center">
+          <AgoraVideoPlayer videoTrack={videoTrack} className="w-full h-full scale-105" />
         </div>
 
         <div className="absolute inset-0 flex justify-start items-end">
-          <div className={`w-full p-2 flex justify-between items-center rounded-b ${active ? styles.conditional.active : styles.conditional.inactive}`}>
+          <div className={`w-full p-2 flex justify-between items-center ${active ? styles.conditional.active : styles.conditional.inactive}`}>
             <button
               className="w-8"
               onClick={async () => {
