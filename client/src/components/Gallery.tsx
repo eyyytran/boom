@@ -91,12 +91,9 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     <Component id="Gallery">
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
-          <div className="flex flex-col md:grid md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500">
+          <div className="flex flex-col md:grid md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4">
             {video.state.start && tracks && (
               <div className="contents">
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
                 <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
