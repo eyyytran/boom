@@ -8,6 +8,7 @@ const gameSlice = createSlice({
         roomId: null,
         isOwner: false,
         isTurn: false,
+        isInit: false,
     },
     reducers: {
         setRoomId: (state, action) => {
@@ -27,6 +28,9 @@ const gameSlice = createSlice({
                     state.isTurn = true
                 }
             })
+        },
+        setIsInit: (state, action) => {
+            state.isInit = action.payload
         },
     },
 })
