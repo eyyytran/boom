@@ -22,6 +22,7 @@ import {
     where,
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import './styles/artboardStyles.css'
 
 type Props = {
     artboardRef: any
