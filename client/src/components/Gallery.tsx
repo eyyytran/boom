@@ -57,6 +57,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       if (!game.state.roomId) return;
 
       client.on("user-published", async (user, mediaType) => {
+        console.log("!here", client);
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           dispatch(video.actions.addUser(user));
@@ -82,7 +83,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       });
 
       try {
-        await client.join(config.appId, game.state.roomId, null, null);
+        await client.join(config.appId, game.state.roomId, null, user.state.userName);
       } catch (error) {
         console.log("error");
       }
