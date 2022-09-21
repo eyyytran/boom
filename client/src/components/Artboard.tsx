@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import artboardSlice from '../store/artboardSlice'
 
@@ -13,7 +13,14 @@ import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
 
 import gameSlice from '../store/gameSlice'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+    collection,
+    doc,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+} from 'firebase/firestore'
 import { db } from '../server/firebase'
 
 type Props = {
@@ -59,6 +66,18 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             console.error()
         }
     }
+
+    useEffect(() => {
+        const sendPrompt = async () => {
+            await updateDoc(
+                doc(db, 'rooms', game.state.roomId as unknown as string),
+                {
+                    'gameState.currentPrompt': prompt,
+                }
+            )
+        }
+        sendPrompt()
+    }, [prompt])
 
     styles.dynamic = className
     return (

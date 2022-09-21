@@ -1,16 +1,9 @@
-import {
-    faCheck,
-    faDeleteLeft,
-    faEraser,
-    faPencil,
-    faTableList,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { ReactElement } from 'react'
 
 import Component from './Component'
-import Container from '../layout/Container'
-import Instructions from './Instructions'
+
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { useSelector } from 'react-redux'
@@ -33,10 +26,16 @@ styles.static =
 
 export default function Taskbar({ className = null }: Props) {
     styles.dynamic = className
+
     const game = {
         state: useSelector((state: RootState) => state.game),
         action: gameSlice.actions,
     }
+
+    const handleAwardPoint = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+    }
+
     return (
         <Component id='Taskbar'>
             <div
