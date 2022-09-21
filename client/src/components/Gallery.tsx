@@ -1,4 +1,4 @@
-import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef } from "react";
+import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef, useState } from "react";
 
 import videoSlice from "../store/videoSlice";
 
@@ -10,8 +10,11 @@ import Component from "./Component";
 import Video from "./Video";
 import Container from "../layout/Container";
 
-import { channelName, config, useClient, useMicrophoneAndCameraTracks } from "../server/agora";
+import { config, useClient, useMicrophoneAndCameraTracks } from "../server/agora";
 import gameSlice from "../store/gameSlice";
+import userSlice from "../store/userSlice";
+
+import { v4 as uuid } from "uuid";
 
 type Props = {
   galleryRef: any;
@@ -28,6 +31,11 @@ const styles = {} as Styles;
 styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
 
 export default function Gallery({ galleryRef, className = "" }: Props) {
+  const user = {
+    state: useSelector((state: RootState) => state.user),
+    actions: userSlice.actions,
+  };
+
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -39,19 +47,24 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
   };
 
   const client = useClient();
+
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let init = async (name: string) => {
+    const init = async () => {
+      if (!game.state.roomId) return;
+
       client.on("user-published", async (user, mediaType) => {
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
-          dispatch(video.actions.setUsers(user));
+          dispatch(video.actions.addUser(user));
+          dispatch(video.actions.setCamera(true));
         }
         if (mediaType === "audio") {
           if (user.audioTrack) user.audioTrack.play();
+          dispatch(video.actions.setMicrophone(true));
         }
       });
 
@@ -60,32 +73,33 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           if (user.audioTrack) user.audioTrack.stop();
         }
         if (mediaType === "video") {
-          dispatch(video.actions.setUsers(video.state.users.filter(User => User.uid !== user.uid)));
+          if (user.videoTrack) user.videoTrack.stop();
         }
       });
 
       client.on("user-left", user => {
-        dispatch(video.actions.setUsers(video.state.users.filter(User => User.uid !== user.uid)));
+        dispatch(video.actions.setUsers([...video.state.users.filter(User => User.uid !== user.uid)]));
       });
 
       try {
-        await client.join(config.appId, name, config.token, null);
+        await client.join(config.appId, game.state.roomId, null, null);
       } catch (error) {
         console.log("error");
       }
 
-      if (tracks) await client.publish([tracks[0], tracks[1]]);
+      if (game.state.roomId && tracks) await client.publish([tracks[0], tracks[1]]);
+
       dispatch(video.actions.setStart(true));
     };
 
-    if (ready && tracks) {
+    if (game.state.roomId) {
       try {
-        init(channelName);
+        init();
       } catch (error) {
         console.log(error);
       }
     }
-  }, [channelName, client, ready, tracks]);
+  }, []);
 
   styles.dynamic = className;
 
@@ -96,11 +110,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500">
             {video.state.start && tracks && (
               <div className="contents">
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
+                <Video tracks={tracks} active={true} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
-                      return <Video tracks={tracks} videoTrack={user.videoTrack} key={user.uid} active={false} />;
+                      return <Video tracks={[user.audioTrack, user.videoTrack]} key={user.uid} active={false} />;
                     } else return null;
                   })}
               </div>
