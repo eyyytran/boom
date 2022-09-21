@@ -50,7 +50,10 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           dispatch(video.actions.setUsers(user));
         }
         if (mediaType === "audio") {
-          if (user.audioTrack) user.audioTrack.play();
+          if (user.audioTrack) user.audioTrack.stop();
+        }
+        if (mediaType === "video") {
+          // if (user.videoTrack) user.videoTrack.stop();
         }
       });
 
