@@ -10,6 +10,9 @@ const videoSlice = createSlice({
   },
   reducers: {
     setUsers: (state, action) => {
+      state.users = action.payload;
+    },
+    addUser: (state, action) => {
       state.users = [...state.users, action.payload];
     },
     setStart: (state, action) => {
