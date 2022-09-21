@@ -173,8 +173,8 @@ function Settings({}: Props) {
   };
 
   return (
-    <div className="flex flex-col items-center h-auto w-full">
-      <div className="flex flex-col items-center m-10">
+    <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center m-16">
         <h1 className="text-2xl text-center font-bold text-gray-900">
           Settings
         </h1>
