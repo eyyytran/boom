@@ -20,6 +20,7 @@ import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { db } from '../server/firebase'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 type Styles = {
     static: string
@@ -41,6 +42,8 @@ export default function Boom() {
     const exitRef = useRef<HTMLDivElement>(null)
     const exitButtonRef = useRef<HTMLDivElement>(null)
 
+    const dispatch = useDispatch()
+
     const game = {
         state: useSelector((state: RootState) => state.game),
         actions: gameSlice.actions,
@@ -51,21 +54,23 @@ export default function Boom() {
             doc(db, 'rooms', game.state.roomId as unknown as string),
             doc => {
                 const data = doc.data()
-                console.log(data)
+                const dbGameState = data?.gameState
+                console.log({ dbGameState })
+                if (dbGameState.gameStarted !== game.state.isInit) {
+                    dispatch(game.actions.setIsInit(dbGameState.gameStarted))
+                }
+                if (dbGameState.whosTurn === game.state.playerNum) {
+                    dispatch(game.actions.setIsTurn(true))
+                }
+                if (dbGameState.whosTurn !== game.state.playerNum) {
+                    dispatch(game.actions.setIsTurn(false))
+                }
             }
         )
-
         return () => {
             unsubscribe()
         }
-    }, [])
-
-    // useEffect(() => {
-    //     if (!menuButtonRef.current) return
-    //     menuButtonRef.current.onclick = () => {
-    //         alert('menuButtonRef')
-    //     }
-    // }, [])
+    })
 
     useEffect(() => {
         if (!galleryButtonRef.current) return

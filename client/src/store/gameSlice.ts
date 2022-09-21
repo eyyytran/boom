@@ -7,6 +7,7 @@ const gameSlice = createSlice({
     initialState: {
         roomId: null,
         isOwner: false,
+        playerNum: null,
         isTurn: false,
         isInit: false,
     },
@@ -17,17 +18,11 @@ const gameSlice = createSlice({
         setIsOwner: (state, action) => {
             state.isOwner = action.payload
         },
+        setPlayerNum: (state, action) => {
+            state.playerNum = action.payload
+        },
         setIsTurn: (state, action) => {
-            // if (state.roomId === null) return
-            // const unsub = onSnapshot(doc(db, 'rooms', state.roomId), doc => {
-            //     const data = doc.data()
-            //     const primaryUser = data?.primaryUser
-            //     if (primaryUser !== auth.currentUser?.displayName) {
-            //         state.isTurn = false
-            //     } else {
-            //         state.isTurn = true
-            //     }
-            // })
+            state.isTurn = action.payload
         },
         setIsInit: (state, action) => {
             state.isInit = action.payload

@@ -5,7 +5,7 @@ import artboardSlice from '../store/artboardSlice'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { useDispatch } from 'react-redux'
-import { doc, updateDoc, onSnapshot, getDoc } from 'firebase/firestore'
+import { doc, updateDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../server/firebase'
 
 type Props = {

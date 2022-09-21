@@ -36,11 +36,12 @@ const NewGame = (props: Props) => {
                         player: userName,
                         points: 0,
                     }),
+                    gameStarted: false,
                 },
-                gameStarted: false,
             })
             dispatch(game.action.setRoomId(docRef.id))
             dispatch(game.action.setIsOwner(true))
+            dispatch(game.action.setPlayerNum(0))
             navigate(`/boom/?id=${docRef.id}`)
         } catch (error) {
             console.error('error adding document', error)

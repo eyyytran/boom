@@ -61,9 +61,9 @@ export default function Navbar({
             doc(db, 'rooms', game.state.roomId as unknown as string),
             {
                 'gameState.gameStarted': true,
+                'gameState.whosTurn': 0,
             }
         )
-        dispatch(game.actions.setIsInit(true))
     }
 
     const userEndGame = async (e: React.SyntheticEvent) => {
