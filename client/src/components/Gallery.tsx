@@ -33,6 +33,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
   };
 
   const client = useClient();
+
   const { ready, tracks } = useMicrophoneAndCameraTracks();
 
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           if (user.audioTrack) user.audioTrack.stop();
         }
         if (mediaType === "video") {
-          dispatch(video.actions.setUsers(video.state.users.filter(User => User.uid !== user.uid)));
+          if (user.videoTrack) user.videoTrack.stop();
         }
       });
 
@@ -73,7 +74,10 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       }
 
       if (tracks) await client.publish([tracks[0], tracks[1]]);
+
       dispatch(video.actions.setStart(true));
+      dispatch(video.actions.setCamera(true));
+      dispatch(video.actions.setMicrophone(true));
     };
 
     if (ready && tracks) {
@@ -94,11 +98,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           <div className="flex flex-col md:grid md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4">
             {video.state.start && tracks && (
               <div className="contents">
-                <Video tracks={tracks} videoTrack={tracks[1]} active={true} />
+                <Video tracks={tracks} active={true} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
-                      return <Video tracks={tracks} videoTrack={user.videoTrack} key={user.uid} active={false} />;
+                      return <Video tracks={[user.audioTrack, user.videoTrack]} key={user.uid} active={false} />;
                     } else return null;
                   })}
               </div>
