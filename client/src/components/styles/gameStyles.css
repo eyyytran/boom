@@ -4,6 +4,7 @@
 
 .avoid-clicks {
     position: relative;
+    opacity: 0.3;
 }
 
 .avoid-clicks::after {
@@ -17,5 +18,4 @@
     height: 100%;
     pointer-events: none;
     cursor: not-allowed;
-    background-color: rgba(51, 51, 51, 0.5);
 }
