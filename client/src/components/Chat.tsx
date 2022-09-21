@@ -86,6 +86,7 @@ export default function Chat({ chatRef, className = null }: Props) {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         e.stopPropagation()
         if (e.key === 'Enter') {
+            e.preventDefault()
             handleSubmit()
         }
     }
