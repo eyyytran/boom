@@ -11,8 +11,13 @@ import {
     faBars,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { auth } from '../server/firebase'
+import { auth, db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store'
+import gameSlice from '../store/gameSlice'
+import { useDispatch } from 'react-redux'
+import { doc, updateDoc } from 'firebase/firestore'
 
 type Props = {
     menuButtonRef: any
@@ -42,7 +47,35 @@ export default function Navbar({
 }: Props) {
     styles.dynamic = className
 
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        actions: gameSlice.actions,
+    }
+
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const startGame = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        await updateDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string),
+            {
+                'gameState.gameStarted': true,
+                'gameState.whosTurn': 0,
+            }
+        )
+    }
+
+    const userEndGame = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        await updateDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string),
+            {
+                'gameState.gameStarted': false,
+            }
+        )
+        dispatch(game.actions.setIsInit(false))
+    }
 
     const handleSignout = (e: React.SyntheticEvent) => {
         e.preventDefault()
@@ -54,8 +87,27 @@ export default function Navbar({
             <div className={`${styles.static} ${styles.dynamic}`}>
                 <Container>
                     <div className='flex justify-between items-center gap-2 h-full'>
-                        <button ref={menuButtonRef} className='py-2 px-4'>
-                            <FontAwesomeIcon icon={faBars} className='' />
+                        <button
+                            ref={menuButtonRef}
+                            className={
+                                game.state.isOwner && !game.state.isInit
+                                    ? 'py-2 px-4 bg-green-700 rounded-md md:w-40 sm:w-40'
+                                    : 'hidden'
+                            }
+                            onClick={startGame}
+                        >
+                            <span className='text-neutral-100'>Start Game</span>
+                        </button>
+                        <button
+                            ref={menuButtonRef}
+                            className={
+                                game.state.isOwner && game.state.isInit
+                                    ? 'py-2 px-4 bg-red-700 rounded-md md:w-40 sm:w-40'
+                                    : 'hidden'
+                            }
+                            onClick={userEndGame}
+                        >
+                            <span className='text-neutral-100'>End Game</span>
                         </button>
                         <div className='flex justify-center items-center gap-2 h-full'>
                             <button
