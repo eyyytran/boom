@@ -62,7 +62,7 @@ export default function Video({ active, className = null, tracks }: Props) {
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
                 if (!active) return;
-                await tracks[0].setEnabled(!video.state.microphone);
+                // await tracks[0].setEnabled(!video.state.microphone);
                 dispatch(video.actions.setMicrophone(!video.state.microphone));
               }}
             >
@@ -73,9 +73,15 @@ export default function Video({ active, className = null, tracks }: Props) {
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
                 if (!active) return;
-                console.log("&*&*&*&*&*&*&*&*&", await tracks[1]);
                 await tracks[1].setEnabled(!video.state.camera);
                 dispatch(video.actions.setCamera(!video.state.camera));
+                console.log(tracks[1]);
+                switch (video.state.camera) {
+                  case true:
+                    return await tracks[1].setEnabled(true);
+                  default:
+                    return await tracks[1].setEnabled(false);
+                }
               }}
             >
               <FontAwesomeIcon icon={video.state.camera ? faVideoCamera : faVideoSlash} className="text-xs text-inherit" />
