@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { doc, onSnapshot } from 'firebase/firestore'
-import { auth, db } from '../server/firebase'
 
 const gameSlice = createSlice({
     name: 'game',
