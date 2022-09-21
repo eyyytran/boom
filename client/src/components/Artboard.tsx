@@ -13,16 +13,8 @@ import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
 
 import gameSlice from '../store/gameSlice'
-import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    query,
-    where,
-} from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../server/firebase'
-import './styles/artboardStyles.css'
 
 type Props = {
     artboardRef: any
