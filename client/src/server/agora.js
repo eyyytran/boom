@@ -1,6 +1,9 @@
 import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 
+// Token Required
 // const appId = "871b434bcf5a497ead9d2160e52b815e";
+
+// Token NOT Required
 const appId = "79c8a935177e4746930b3f2f7ba34def";
 
 // This token is only good for four hours. Blake is looking into finding a more permanent solution.
