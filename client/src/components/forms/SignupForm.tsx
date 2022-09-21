@@ -3,7 +3,10 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { isEmail, isSecure } from "./formValidation";
 import { auth } from "../../server/firebase";
 import Component from "../Component";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store";
+import userSlice from "../../store/userSlice";
 
 const SignupForm = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,6 +19,13 @@ const SignupForm = () => {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [confirmError, setConfirmError] = useState<boolean>(false);
+
+  const user = {
+    state: useSelector((state: RootState) => state.user),
+    action: userSlice.actions,
+  };
+
+  const dispatch = useDispatch();
 
   const validateEmail = () => {
     let valid = false;
@@ -77,6 +87,7 @@ const SignupForm = () => {
       })
         .then(() => {
           navigate("/dashboard");
+          dispatch(user.action.setUserName(username));
         })
         .catch((err) => console.error(err));
     }
