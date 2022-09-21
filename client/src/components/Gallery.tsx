@@ -57,19 +57,18 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       if (!game.state.roomId) return;
 
       client.on("user-published", async (user, mediaType) => {
-        console.log("!here", client);
+        alert(`user-publish ${user.uid}`);
         await client.subscribe(user, mediaType);
         if (mediaType === "video") {
           dispatch(video.actions.addUser(user));
-          dispatch(video.actions.setCamera(true));
         }
         if (mediaType === "audio") {
           if (user.audioTrack) user.audioTrack.play();
-          dispatch(video.actions.setMicrophone(true));
         }
       });
 
       client.on("user-unpublished", (user, mediaType) => {
+        alert(`user-unpublish ${user.uid}`);
         if (mediaType === "audio") {
           if (user.audioTrack) user.audioTrack.stop();
         }
@@ -79,6 +78,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       });
 
       client.on("user-left", user => {
+        alert(`user-left ${user.uid}`);
         dispatch(video.actions.removeUser(user));
       });
 
@@ -90,7 +90,6 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
       if (tracks) {
         await client.publish([tracks[0], tracks[1]]);
-        dispatch(video.actions.setStart(true));
       }
     };
 
@@ -110,7 +109,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500">
-            {video.state.start && tracks && (
+            {tracks && (
               <div className="contents">
                 <Video tracks={tracks} active={true} username={user.state.userName} />
                 {video.state.users?.length > 0 &&
