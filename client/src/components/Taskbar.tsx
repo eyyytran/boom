@@ -15,6 +15,8 @@ import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { useSelector } from 'react-redux'
 
+import './styles/gameStyles.css'
+
 type Props = {
     className?: string | null
 }
@@ -37,7 +39,13 @@ export default function Taskbar({ className = null }: Props) {
     }
     return (
         <Component id='Taskbar'>
-            <div className={`${styles.static} ${styles.dynamic}`}>
+            <div
+                className={
+                    game.state.isTurn
+                        ? `${styles.static} ${styles.dynamic}`
+                        : `avoid-clicks ${styles.static} ${styles.dynamic}`
+                }
+            >
                 <button
                     className='w-1/2 flex justify-center items-center'
                     disabled={game.state.isTurn ? false : true}

@@ -15,6 +15,9 @@ import {
     faPalette,
     faSquare,
 } from '@fortawesome/free-solid-svg-icons'
+import gameSlice from '../store/gameSlice'
+
+import './styles/gameStyles.css'
 
 type Props = {
     className?: string | null
@@ -36,12 +39,23 @@ export default function Toolbar({ className = null }: Props) {
         actions: artboardSlice.actions,
     }
 
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        actions: gameSlice.actions,
+    }
+
     const dispatch = useDispatch()
 
     styles.dynamic = className
     return (
         <Component id='Toolbar'>
-            <div className={`${styles.static} ${styles.dynamic}`}>
+            <div
+                className={
+                    game.state.isTurn
+                        ? `${styles.static} ${styles.dynamic}`
+                        : `avoid-clicks ${styles.static} ${styles.dynamic}`
+                }
+            >
                 <div className='flex landscape:flex-col justify-start items-center gap-2 md:gap-3 lg:gap-4 w-full'>
                     <FontAwesomeIcon
                         icon={faEraser}
@@ -60,6 +74,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faEraser}
                         className={`text-sm ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.eraserWidth === 13
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -74,6 +90,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faEraser}
                         className={`text-md ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.eraserWidth === 21
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -88,6 +106,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faEraser}
                         className={`text-lg ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.eraserWidth === 34
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -102,6 +122,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faEraser}
                         className={`text-xl ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.eraserWidth === 55
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -118,6 +140,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#171717'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -131,6 +155,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#f43f5e'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -144,6 +170,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#f59e0b'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -157,6 +185,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#eab308'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -170,6 +200,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#10b981'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -183,6 +215,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#0ea5e9'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -196,6 +230,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#8b5cf6'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -209,6 +245,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#d946ef'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -222,6 +260,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#ec4899'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -235,6 +275,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faSquare}
                         className={`outline outline-2 outline-offset-2 ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.currentColor === '#ffffff'
                                 ? 'outline-neutral-900'
                                 : 'outline-transparent'
@@ -250,6 +292,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faPaintBrush}
                         className={`text-xs ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.lineWidth === 3
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -261,6 +305,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faPaintBrush}
                         className={`text-sm ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.lineWidth === 5
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -272,6 +318,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faPaintBrush}
                         className={`text-md ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.lineWidth === 8
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -283,6 +331,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faPaintBrush}
                         className={`text-lg ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.lineWidth === 13
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
@@ -294,6 +344,8 @@ export default function Toolbar({ className = null }: Props) {
                     <FontAwesomeIcon
                         icon={faPaintBrush}
                         className={`text-xl ${
+                            !game.state.isTurn ? 'pointer-events-none' : ''
+                        } ${
                             artboard.state.lineWidth === 21
                                 ? 'text-neutral-900'
                                 : 'text-neutral-400'
