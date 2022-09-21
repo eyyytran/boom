@@ -16,6 +16,7 @@ import { faMicrophone, faMicrophoneSlash, faVideoCamera, faVideoSlash } from "@f
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
+  username: string;
   tracks: any;
   active: boolean;
   className?: string | null;
@@ -39,7 +40,7 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ active, className = null, tracks }: Props) {
+export default function Video({ active, className = null, tracks, username }: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -62,20 +63,21 @@ export default function Video({ active, className = null, tracks }: Props) {
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
                 if (!active) return;
-                // await tracks[0].setEnabled(!video.state.microphone);
+                await tracks[0].setEnabled(!video.state.microphone);
+                console.log(tracks[0]);
                 dispatch(video.actions.setMicrophone(!video.state.microphone));
               }}
             >
               <FontAwesomeIcon icon={video.state.microphone ? faMicrophone : faMicrophoneSlash} className="text-xs text-inherit" />
             </button>
-            <span className="w-full text-xs text-inherit text-center">Username</span>
+            <span className="w-full text-xs text-inherit text-center">{username}</span>
             <button
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
                 if (!active) return;
                 await tracks[1].setEnabled(!video.state.camera);
-                dispatch(video.actions.setCamera(!video.state.camera));
                 console.log(tracks[1]);
+                dispatch(video.actions.setCamera(!video.state.camera));
                 switch (video.state.camera) {
                   case true:
                     return await tracks[1].setEnabled(true);
