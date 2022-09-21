@@ -83,7 +83,10 @@ export default function Artboard({ artboardRef, className = null }: Props) {
         )
         if (docSnap.exists()) {
             const data = docSnap.data()
-            const usedPromptsArray = data.usedPrompts
+            let usedPromptsArray = data.usedPrompts
+            if (!data.usedPrompts) {
+                usedPromptsArray = []
+            }
             await getPrompt(usedPromptsArray)
         }
     }
