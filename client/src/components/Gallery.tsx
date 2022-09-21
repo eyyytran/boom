@@ -87,19 +87,20 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
         console.log("error");
       }
 
-      if (game.state.roomId && tracks) await client.publish([tracks[0], tracks[1]]);
-
-      dispatch(video.actions.setStart(true));
+      if (tracks) {
+        await client.publish([tracks[0], tracks[1]]);
+        dispatch(video.actions.setStart(true));
+      }
     };
 
-    if (game.state.roomId) {
+    if (ready && tracks) {
       try {
         init();
       } catch (error) {
         console.log(error);
       }
     }
-  }, []);
+  }, [game.state.roomId, client, ready, tracks]);
 
   styles.dynamic = className;
 
@@ -110,11 +111,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500">
             {video.state.start && tracks && (
               <div className="contents">
-                <Video tracks={tracks} active={true} />
+                <Video tracks={tracks} active={true} username={user.state.userName} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
                     if (user.videoTrack) {
-                      return <Video tracks={[user.audioTrack, user.videoTrack]} key={user.uid} active={false} />;
+                      return <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} active={false} />;
                     } else return null;
                   })}
               </div>
