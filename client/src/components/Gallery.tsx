@@ -79,7 +79,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       });
 
       client.on("user-left", user => {
-        dispatch(video.actions.setUsers([...video.state.users.filter(User => User.uid !== user.uid)]));
+        dispatch(video.actions.removeUser(user));
       });
 
       try {
