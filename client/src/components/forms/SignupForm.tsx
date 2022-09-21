@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { isEmail, isSecure } from "./formValidation";
 import { auth } from "../../server/firebase";
 import Component from "../Component";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const [email, setEmail] = useState<string>("");

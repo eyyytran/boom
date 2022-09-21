@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import userSlice from "../store/userSlice";
+import { auth } from "../server/firebase";
 
 type Props = {};
 
@@ -35,12 +36,21 @@ const Dashboard = (props: Props) => {
 
   const userName = user.state.userName;
 
+  const navigate = useNavigate();
+
+  const handleSignout = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    alert("signed out");
+    auth.signOut();
+    navigate("/");
+  };
+
   return (
     <Component id="Dashboard">
       <Titlebar />
       <div
         id="view"
-        className="h-full w-screen flex flex-row"
+        className="h-auto w-full overflow-hidden flex flex-row"
         x-data="{ sidenav: true }"
       >
         <div
@@ -65,16 +75,13 @@ const Dashboard = (props: Props) => {
               </div>
             </div>
             <div id="menu" className="flex flex-col space-y-2">
-              <Link
-                to="dash"
-                className="text-sm font-medium py-2 px-2 bg-violet-500 text-white rounded-md transition duration-150 ease-in-out"
-              >
+              <div className="text-sm font-medium py-2 px-2 bg-violet-500 text-white rounded-md transition duration-150 ease-in-out">
                 <FontAwesomeIcon
                   icon={faBars}
                   className="h-5 w-5 fill-current text-gray-600"
                 />
                 <span className="hidden md:inline ml-5">Dashboard</span>
-              </Link>
+              </div>
               <Link
                 to="new"
                 className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -116,7 +123,10 @@ const Dashboard = (props: Props) => {
                 />
                 <span className="hidden md:inline ml-5">Settings</span>
               </Link>
-              <button className="text-sm text-left font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
+              <button
+                className="text-sm text-left font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+                onClick={handleSignout}
+              >
                 <FontAwesomeIcon
                   icon={faRightToBracket}
                   className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500"
@@ -126,7 +136,7 @@ const Dashboard = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="w-4/5 min-h-screen">
+        <div className="flex flex-col items-center grow min-h-screen overflow-hidden">
           <Outlet />
         </div>
       </div>
