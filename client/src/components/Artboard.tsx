@@ -14,8 +14,11 @@ import Canvas from '../components/Canvas'
 
 import gameSlice from '../store/gameSlice'
 import {
+    addDoc,
+    arrayUnion,
     collection,
     doc,
+    getDoc,
     getDocs,
     query,
     updateDoc,
@@ -49,9 +52,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
     const [prompt, setPrompt] = useState('')
 
-    const getPrompt = async (e: React.SyntheticEvent) => {
-        e.preventDefault()
+    const getPrompt: any = async (promptArray: Array<number>) => {
         const randomNum = Math.floor(Math.random() * 14) //NUMBER OF PROMPTS + 1
+        if (promptArray.includes(randomNum)) return getPrompt(promptArray)
         try {
             const querySnapshot = await getDocs(
                 query(
@@ -62,8 +65,26 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             querySnapshot.forEach(doc => {
                 setPrompt(doc.data().prompt)
             })
+            await updateDoc(
+                doc(db, 'rooms', game.state.roomId as unknown as string),
+                {
+                    'gameState.usedPrompts': arrayUnion(randomNum),
+                }
+            )
         } catch (error) {
             console.error()
+        }
+    }
+
+    const handleGetPrompt = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        const docSnap = await getDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string)
+        )
+        if (docSnap.exists()) {
+            const data = docSnap.data()
+            const usedPromptsArray = data.usedPrompts
+            await getPrompt(usedPromptsArray)
         }
     }
 
@@ -99,7 +120,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                                     ? 'p-2 bg-violet-500 text-xs font-bold text-white text-center'
                                     : 'hidden'
                             }
-                            onClick={getPrompt}
+                            onClick={handleGetPrompt}
                         >
                             {!prompt ? 'Generate Prompt' : prompt}
                         </button>
