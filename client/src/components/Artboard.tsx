@@ -14,7 +14,6 @@ import Canvas from '../components/Canvas'
 
 import gameSlice from '../store/gameSlice'
 import {
-    addDoc,
     arrayUnion,
     collection,
     doc,
@@ -50,10 +49,11 @@ export default function Artboard({ artboardRef, className = null }: Props) {
         action: gameSlice.actions,
     }
 
-    const [prompt, setPrompt] = useState('')
+    const [prompt, setPrompt] = useState<string>('')
+    const [showModal, setShowModal] = useState<boolean>(false)
 
     const getPrompt: any = async (promptArray: Array<number>) => {
-        const randomNum = Math.floor(Math.random() * 15) //NUMBER OF PROMPTS + 1
+        const randomNum = Math.floor(Math.random() * 24) //NUMBER OF PROMPTS + 1
         if (promptArray.includes(randomNum)) return getPrompt(promptArray)
         try {
             const querySnapshot = await getDocs(
@@ -127,7 +127,10 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                         >
                             {!prompt ? 'Generate Prompt' : prompt}
                         </button>
-                        <Taskbar />
+                        <Taskbar
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                        />
                     </div>
                 </Container>
             </div>
