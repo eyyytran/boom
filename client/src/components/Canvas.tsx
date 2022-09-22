@@ -7,6 +7,7 @@ import { RootState } from '../store'
 import { useDispatch } from 'react-redux'
 import { doc, updateDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import gameSlice from '../store/gameSlice'
 
 type Props = {
     className?: string | null
@@ -28,6 +29,11 @@ const Canvas = ({ className }: Props) => {
     const artboard = {
         state: useSelector((state: RootState) => state.artboard),
         actions: artboardSlice.actions,
+    }
+
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        actions: gameSlice.actions,
     }
 
     const canvas = useRef<HTMLCanvasElement | null>(null)
@@ -152,6 +158,7 @@ const Canvas = ({ className }: Props) => {
             ref={canvas}
             className={`${styles.static} ${styles.dynamic}`}
             onMouseDown={e => {
+                if (!game.state.isTurn) return
                 start(e)
             }}
             onMouseUp={e => {

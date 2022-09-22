@@ -86,6 +86,7 @@ export default function Chat({ chatRef, className = null }: Props) {
     const handleKeyDown = (e: React.KeyboardEvent) => {
         e.stopPropagation()
         if (e.key === 'Enter') {
+            e.preventDefault()
             handleSubmit()
         }
     }
@@ -123,9 +124,6 @@ export default function Chat({ chatRef, className = null }: Props) {
                                 onKeyDown={handleKeyDown}
                                 onChange={handleMessage}
                             ></textarea>
-                            {/* <button type="submit" className="w-full p-2 md:p-3 lg:p-4 bg-neutral-200 hover:bg-violet-500 border border-violet-500 rounded text-violet-500 hover:text-white">
-                Send
-              </button> */}
                         </form>
                     </div>
                 </Container>
