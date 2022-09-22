@@ -13,25 +13,10 @@ const GivePointModal = () => {
         action: gameSlice.actions,
     }
 
-    const [participants, setParticipants] = useState<Array<IParticipant>>([])
-
-    const getParticipants = async () => {
-        const docSnap = await getDoc(
-            doc(db, 'rooms', game.state.roomId as unknown as string)
-        )
-        if (docSnap.exists()) {
-            const data = docSnap.data()
-            const participants = data.gameState.players
-            setParticipants(participants)
-        }
-    }
-
-    getParticipants()
-
     return (
         <div>
-            {participants.map((participant: Object) => {
-                return <PlayerButton participant={participant} />
+            {game.state.players.map((player: IParticipant) => {
+                return <PlayerButton player={player} />
             })}
         </div>
     )

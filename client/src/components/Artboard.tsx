@@ -25,6 +25,7 @@ import {
     where,
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import modalSlice from '../store/modalSlice'
 
 type Props = {
     artboardRef: any
@@ -41,17 +42,17 @@ const styles = {} as Styles
 styles.static = 'shrink-0 w-full h-full p-2 md:p-3 lg:p-4'
 
 export default function Artboard({ artboardRef, className = null }: Props) {
-    const artboard = {
-        state: useSelector((state: RootState) => state.artboard),
-        action: artboardSlice.actions,
-    }
     const game = {
         state: useSelector((state: RootState) => state.game),
         action: gameSlice.actions,
     }
 
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
+    }
+
     const [prompt, setPrompt] = useState<string>('')
-    const [showModal, setShowModal] = useState<boolean>(false)
 
     const getPrompt: any = async (promptArray: Array<number>) => {
         const randomNum = Math.floor(Math.random() * 24) //NUMBER OF PROMPTS + 1
@@ -111,7 +112,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                 ref={artboardRef}
                 className={`${styles.static} ${styles.dynamic}`}
             >
-                <GivePointModal />
+                {modal.state.isShowGivePointModal ? <GivePointModal /> : null}
                 <Container className='overflow-y-auto no-scrollbar'>
                     <div className='flex portrait:flex-col justify-start h-full'>
                         <Instructions />
@@ -129,10 +130,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                         >
                             {!prompt ? 'Generate Prompt' : prompt}
                         </button>
-                        <Taskbar
-                            showModal={showModal}
-                            setShowModal={setShowModal}
-                        />
+                        <Taskbar />
                     </div>
                 </Container>
             </div>

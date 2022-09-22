@@ -7,7 +7,7 @@ import Artboard from '../components/Artboard'
 import Display from '../components/Display'
 import Chat from '../components/Chat'
 import Navbar from '../components/Navbar'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { db } from '../server/firebase'
@@ -40,6 +40,16 @@ export default function Boom() {
     }
 
     useEffect(() => {
+        const getParticipants = async () => {
+            const docSnap = await getDoc(
+                doc(db, 'rooms', game.state.roomId as unknown as string)
+            )
+            if (docSnap.exists()) {
+                const data = docSnap.data()
+                const participants = data.gameState.players
+                dispatch(game.actions.setPlayers(participants))
+            }
+        }
         const unsubscribe = onSnapshot(
             doc(db, 'rooms', game.state.roomId as unknown as string),
             doc => {
@@ -55,12 +65,15 @@ export default function Boom() {
                 if (dbGameState.whosTurn !== game.state.playerNum) {
                     dispatch(game.actions.setIsTurn(false))
                 }
+                if (dbGameState.players !== game.state.players) {
+                    getParticipants()
+                }
             }
         )
         return () => {
             unsubscribe()
         }
-    })
+    }, [])
 
     useEffect(() => {
         if (!galleryButtonRef.current) return

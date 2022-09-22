@@ -1,23 +1,18 @@
-import {
-    faCheck,
-    faDeleteLeft,
-    faForward,
-} from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faForward } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 
 import Component from './Component'
 
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import './styles/gameStyles.css'
+import modalSlice from '../store/modalSlice'
 
 type Props = {
     className?: string | null
-    showModal: boolean
-    setShowModal: Dispatch<SetStateAction<boolean>>
 }
 
 type Styles = {
@@ -30,12 +25,15 @@ const styles = {} as Styles
 styles.static =
     'flex landscape:flex-col landscape:flex-col-reverse justify-center items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 border-x border-b border-neutral-400 rounded-b'
 
-export default function Taskbar({
-    className = null,
-    showModal,
-    setShowModal,
-}: Props) {
+export default function Taskbar({ className = null }: Props) {
     styles.dynamic = className
+
+    const dispatch = useDispatch()
+
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
+    }
 
     const [isEndTurn, setIsEndTurn] = useState<boolean>(false)
 
@@ -47,7 +45,11 @@ export default function Taskbar({
     const handleEndTurn = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setIsEndTurn(true)
-        setShowModal(true)
+        dispatch(
+            modal.action.setIsShowGivePointModal(
+                !modal.state.isShowGivePointModal
+            )
+        )
     }
 
     return (
