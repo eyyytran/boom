@@ -1,6 +1,10 @@
-import { faCheck, faDeleteLeft } from '@fortawesome/free-solid-svg-icons'
+import {
+    faCheck,
+    faDeleteLeft,
+    faForward,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 
 import Component from './Component'
 
@@ -27,13 +31,16 @@ styles.static =
 export default function Taskbar({ className = null }: Props) {
     styles.dynamic = className
 
+    const [isEndTurn, setIsEndTurn] = useState<boolean>(false)
+
     const game = {
         state: useSelector((state: RootState) => state.game),
         action: gameSlice.actions,
     }
 
-    const handleAwardPoint = async (e: React.SyntheticEvent) => {
+    const handleEndTurn = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        setIsEndTurn(true)
     }
 
     return (
@@ -49,10 +56,11 @@ export default function Taskbar({ className = null }: Props) {
                     className='w-1/2 flex justify-center items-center'
                     disabled={game.state.isTurn ? false : true}
                 >
-                    <FontAwesomeIcon icon={faDeleteLeft} className='text-xl' />
+                    <FontAwesomeIcon icon={faForward} className='text-xl' />
                 </button>
                 <button
                     className='w-1/2 flex justify-center items-center'
+                    onClick={handleEndTurn}
                     disabled={game.state.isTurn ? false : true}
                 >
                     <FontAwesomeIcon icon={faCheck} className='text-xl' />
