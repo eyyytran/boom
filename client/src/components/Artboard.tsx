@@ -11,6 +11,7 @@ import Instructions from '../components/Instructions'
 import Toolbar from '../components/Toolbar'
 import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
+import GivePointModal from './modals/GivePointModal'
 
 import gameSlice from '../store/gameSlice'
 import {
@@ -110,6 +111,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                 ref={artboardRef}
                 className={`${styles.static} ${styles.dynamic}`}
             >
+                <GivePointModal />
                 <Container className='overflow-y-auto no-scrollbar'>
                     <div className='flex portrait:flex-col justify-start h-full'>
                         <Instructions />
