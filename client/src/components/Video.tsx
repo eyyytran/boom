@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useRef } from "react";
 
 import videoSlice from "../store/videoSlice";
 
@@ -56,7 +56,6 @@ export default function Video({ active, className = null, tracks, username }: Pr
         <div className="h-full w-full object-cover object-center">
           <AgoraVideoPlayer videoTrack={tracks[1]} className="w-full h-full scale-105" />
         </div>
-
         <div className="absolute inset-0 flex justify-start items-end">
           <div className={`w-full p-2 flex justify-between items-center ${active ? styles.conditional.active : styles.conditional.inactive}`}>
             <button
@@ -64,7 +63,6 @@ export default function Video({ active, className = null, tracks, username }: Pr
               onClick={async () => {
                 if (!active) return;
                 await tracks[0].setEnabled(!video.state.microphone);
-                console.log(tracks[0]);
                 dispatch(video.actions.setMicrophone(!video.state.microphone));
               }}
             >
@@ -76,14 +74,7 @@ export default function Video({ active, className = null, tracks, username }: Pr
               onClick={async () => {
                 if (!active) return;
                 await tracks[1].setEnabled(!video.state.camera);
-                console.log(tracks[1]);
                 dispatch(video.actions.setCamera(!video.state.camera));
-                switch (video.state.camera) {
-                  case true:
-                    return await tracks[1].setEnabled(true);
-                  default:
-                    return await tracks[1].setEnabled(false);
-                }
               }}
             >
               <FontAwesomeIcon icon={video.state.camera ? faVideoCamera : faVideoSlash} className="text-xs text-inherit" />
