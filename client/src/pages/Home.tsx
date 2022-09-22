@@ -25,21 +25,19 @@ export default function Home({}: Props) {
           <FontAwesomeIcon icon={faBars} className="" />
         </button> */}
         <div className="flex flex-col justify-center items-center h-full">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl m-16">
             Welcome to Boom!
           </h1>
           <h3 className="text-center leading-tight tracking-tight text-gray-900 md:text-xl mt-10">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. At sunt
-            consequatur nisi consequuntur, necessitatibus a, et ratione
-            laudantium fugiat sequi dicta sapiente! Recusandae, saepe? Qui quod
-            labore quia nihil maxime?
+            Gather your friends (or your enemies) for a battle of illustrative
+            dominance!
           </h3>
           <div
-            className="flex items-center justify-flex-start px-6 py-8 mx-auto md:h-auto lg:py-0
+            className="flex flex-col items-center justify-flex-start px-6 py-8 mx-auto md:h-auto lg:py-0
             mt-10"
           >
-            <div className="flex flex-col items-center p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <div className="flex flex-col items-center w-full p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className=" w-full text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                 Create an Account
               </h1>
               <Link
@@ -53,8 +51,8 @@ export default function Home({}: Props) {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
               Or
             </label>
-            <div className="flex flex-col items-center p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+            <div className="flex flex-col items-center w-full p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="w-full text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                 Existing Account
               </h1>
               <Link
