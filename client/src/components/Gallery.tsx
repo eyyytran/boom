@@ -55,35 +55,20 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
   const urlparams = new URLSearchParams(window.location.search);
   const roomId: any = urlparams.get("id");
 
+  // const url = window.location.pathname.split("/").pop();
+
+  // useEffect(() => {
+  //   alert("URL CHANGE");
+  //   if (window.location.href !== "http://localhost:3000/boom/" + game.state.roomId) {
+  //     alert("NOT EQUAL");
+  //     client.unpublish().then(() => client.leave());
+  //     dispatch(video.actions.removeUser(user));
+  //   }
+  // }, [url]);
+
   useEffect(() => {
     const init = async () => {
       if (!roomId) return;
-
-      client.on("user-published", async (user, mediaType) => {
-        alert(`user-publish ${user.uid}`);
-        await client.subscribe(user, mediaType);
-        if (mediaType === "video") {
-          dispatch(video.actions.addUser(user));
-        }
-        if (mediaType === "audio") {
-          if (user.audioTrack) user.audioTrack.play();
-        }
-      });
-
-      client.on("user-unpublished", (user, mediaType) => {
-        alert(`user-unpublish ${user.uid}`);
-        if (mediaType === "audio") {
-          if (user.audioTrack) user.audioTrack.stop();
-        }
-        if (mediaType === "video") {
-          if (user.videoTrack) user.videoTrack.stop();
-        }
-      });
-
-      client.on("user-left", user => {
-        alert(`user-left ${user.uid}`);
-        dispatch(video.actions.removeUser(user));
-      });
 
       try {
         await client.join(config.appId, roomId, null, user.state.userName);
@@ -99,6 +84,32 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     if (ready && tracks) {
       try {
         init();
+
+        client.on("user-published", async (user, mediaType) => {
+          alert(`user-publish ${user.uid}`);
+          await client.subscribe(user, mediaType);
+          if (mediaType === "video") {
+            dispatch(video.actions.addUser(user));
+          }
+          if (mediaType === "audio") {
+            if (user.audioTrack) user.audioTrack.play();
+          }
+        });
+
+        client.on("user-unpublished", (user, mediaType) => {
+          alert(`user-unpublish ${user.uid}`);
+          if (mediaType === "audio") {
+            if (user.audioTrack) user.audioTrack.stop();
+          }
+          if (mediaType === "video") {
+            if (user.videoTrack) user.videoTrack.stop();
+          }
+        });
+
+        client.on("user-left", user => {
+          alert(`user-left ${user.uid}`);
+          dispatch(video.actions.removeUser(user));
+        });
       } catch (error) {
         console.log(error);
       }
