@@ -1,7 +1,12 @@
 import React from 'react'
+import IParticipant from '../interfaces/IParticipant'
 
-const PlayerButton = () => {
-    return <div>PlayerButton</div>
+type Props = {
+    participant: IParticipant | any
+}
+
+const PlayerButton = ({ participant }: Props) => {
+    return <button>{participant.player}</button>
 }
 
 export default PlayerButton

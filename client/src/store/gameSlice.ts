@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../server/firebase'
 
 const gameSlice = createSlice({
     name: 'game',
@@ -8,7 +6,6 @@ const gameSlice = createSlice({
         roomId: null,
         isOwner: false,
         playerNum: null,
-        participants: null,
         isTurn: false,
         isInit: false,
         isWon: false,
@@ -22,19 +19,6 @@ const gameSlice = createSlice({
         },
         setPlayerNum: (state, action) => {
             state.playerNum = action.payload
-        },
-        setParticipants: (state, action) => {
-            const getParticipants = async () => {
-                const docSnap = await getDoc(
-                    doc(db, 'rooms', state.roomId as unknown as string)
-                )
-                if (docSnap.exists()) {
-                    const data = docSnap.data()
-                    const participants = data.gameState.players
-                    state.participants = participants
-                }
-            }
-            getParticipants()
         },
         setIsTurn: (state, action) => {
             state.isTurn = action.payload

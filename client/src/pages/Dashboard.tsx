@@ -1,4 +1,3 @@
-import { faUserPen } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
@@ -12,14 +11,6 @@ import {
     faRightToBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    collection,
-    doc,
-    addDoc,
-    updateDoc,
-    arrayUnion,
-} from 'firebase/firestore'
-import { db } from '../server/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
