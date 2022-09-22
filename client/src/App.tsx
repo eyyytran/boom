@@ -40,7 +40,7 @@ function App() {
   //   }, []);
   // };
   // useAuth();
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, user => {
     if (!user) {
       dispatch(userState.actions.setUser(null));
     } else {
@@ -54,7 +54,7 @@ function App() {
         {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
         {/* <Route path={URL} element={<Boom />} /> */}
         <Route element={<PrivateRoutes />}>
-          <Route path="/boom" element={<Boom />} />
+          <Route path="boom" element={<Boom />} />
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="dash" element={<Dash />} />
             <Route path="settings" element={<Settings />} />
