@@ -52,9 +52,12 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
   const dispatch = useDispatch();
 
+  const urlparams = new URLSearchParams(window.location.search);
+  const roomId: any = urlparams.get("id");
+
   useEffect(() => {
     const init = async () => {
-      if (!game.state.roomId) return;
+      if (!roomId) return;
 
       client.on("user-published", async (user, mediaType) => {
         alert(`user-publish ${user.uid}`);
@@ -83,7 +86,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       });
 
       try {
-        await client.join(config.appId, game.state.roomId, null, user.state.userName);
+        await client.join(config.appId, roomId, null, user.state.userName);
       } catch (error) {
         console.log("error");
       }
@@ -100,7 +103,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
         console.log(error);
       }
     }
-  }, [game.state.roomId, client, ready, tracks]);
+  }, [roomId, client, ready, tracks]);
 
   styles.dynamic = className;
 
