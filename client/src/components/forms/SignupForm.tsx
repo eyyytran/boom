@@ -76,20 +76,32 @@ const SignupForm = () => {
 
   const register = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      updateProfile(userCredentials.user, {
-        displayName: username,
-      })
-        .then(() => {
-          navigate("/dashboard");
-          dispatch(user.action.setUserName(username));
+    try {
+      if (validateForm()) {
+        const userCredentials = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        updateProfile(userCredentials.user, {
+          displayName: username,
         })
-        .catch((err) => console.error(err));
+          .then(() => {
+            navigate("/dashboard");
+            dispatch(user.action.setUserName(username));
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    } catch (error) {
+      if (
+        error == "FirebaseError: Firebase: Error (auth/email-already-in-use)."
+      ) {
+        setEmailErrorMessage(
+          "There is already an account registered with that username."
+        );
+      }
     }
   };
 
@@ -123,7 +135,7 @@ const SignupForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <small>{emailErrorMessage}</small>
+                <small className="text-red-500">{emailErrorMessage}</small>
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -154,7 +166,7 @@ const SignupForm = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <small>{passwordErrorMessage}</small>
+                <small className="text-red-500">{passwordErrorMessage}</small>
               </div>
               <div>
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -170,7 +182,7 @@ const SignupForm = () => {
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
                 />
-                <small>{confirmErrorMessage}</small>
+                <small className="text-red-500">{confirmErrorMessage}</small>
               </div>
               <div className="flex items-start">
                 <div className="flex items-center h-5">

@@ -54,7 +54,7 @@ const Dashboard = (props: Props) => {
               <div id="menu" className="flex flex-col space-y-2">
                 <div className="text-sm font-medium py-2 px-2 bg-violet-500 text-white rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faBars} className="h-5 w-5 fill-current text-white" />
-                  <span className="hidden md:inline ml-5">Dashboard</span>
+                  <span className="hidden md:!inline ml-5">Dashboard</span>
                 </div>
                 <Link to="new" className="group text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faTableCellsLarge} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
@@ -77,7 +77,7 @@ const Dashboard = (props: Props) => {
                   onClick={handleSignout}
                 >
                   <FontAwesomeIcon icon={faRightToBracket} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
-                  <span className="hidden md:!inline ml-5">Log Out</span>
+                  <h1 className="hidden md:!inline ml-5">Log Out</h1>
                 </button>
               </div>
             </div>
