@@ -58,26 +58,26 @@ const Dashboard = (props: Props) => {
                 </div>
                 <Link to="new" className="group text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faTableCellsLarge} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
-                  <span className="hidden md:inline ml-5">Start New Game</span>
+                  <span className="hidden md:!inline ml-5">Start New Game</span>
                 </Link>
                 <Link to="join" className="group text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faUserGroup} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
-                  <span className="hidden md:inline ml-5">Join a Game</span>
+                  <span className="hidden md:!inline ml-5">Join a Game</span>
                 </Link>
                 <Link to="collection" className="group text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faFolder} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
-                  <span className="hidden md:inline ml-5">My Collection</span>
+                  <span className="hidden md:!inline ml-5">My Collection</span>
                 </Link>
                 <Link to="settings" className="group text-sm font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
                   <FontAwesomeIcon icon={faGear} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" fill="currentColor" />
-                  <span className="hidden md:inline ml-5">Settings</span>
+                  <span className="hidden md:!inline ml-5">Settings</span>
                 </Link>
                 <button
                   className="group text-sm text-left font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
                   onClick={handleSignout}
                 >
                   <FontAwesomeIcon icon={faRightToBracket} className="h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white" />
-                  <span className="hidden md:inline ml-5">Log Out</span>
+                  <span className="hidden md:!inline ml-5">Log Out</span>
                 </button>
               </div>
             </div>
