@@ -21,10 +21,21 @@ const LoginForm = () => {
       .then(async () => {
         return signInWithEmailAndPassword(auth, email, password)
           .then(() => {
-            alert("success");
+            setErrorMessage("");
             navigate("/dashboard");
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.error(error);
+            if (
+              error == "FirebaseError: Firebase: Error (auth/wrong-password)."
+            ) {
+              setErrorMessage("That Username/Password is incorrect.");
+            } else if (
+              error == "FirebaseError: Firebase: Error (auth/user-not-found)."
+            ) {
+              setErrorMessage("That Username/Password is incorrect.");
+            }
+          });
       })
       .catch((error) => console.log(error));
   };
@@ -78,7 +89,7 @@ const LoginForm = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <small>{errorMessage}</small>
+              <small className="text-red-500">{errorMessage}</small>
               <button
                 type="submit"
                 className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

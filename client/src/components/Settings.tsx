@@ -195,7 +195,7 @@ function Settings({}: Props) {
               value={newEmail}
               onChange={(e) => setNewEmail(e.target.value)}
             />
-            <small>{emailErrorMessage}</small>
+            <small className="text-red-500">{emailErrorMessage}</small>
             <input
               type="submit"
               value="Change"
@@ -217,7 +217,7 @@ function Settings({}: Props) {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
-            <small>{passwordErrorMessage}</small>
+            <small className="text-red-500">{passwordErrorMessage}</small>
             <input
               type="submit"
               value="Change"
