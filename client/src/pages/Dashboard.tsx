@@ -143,9 +143,9 @@ const Dashboard = (props: Props) => {
                                         icon={faRightToBracket}
                                         className='h-5 w-5 fill-current text-gray-600 group-hover:text-violet-500 group-hover:text-white'
                                     />
-                                    <span className='hidden md:!inline ml-5'>
+                                    <h1 className='hidden md:!inline ml-5'>
                                         Log Out
-                                    </span>
+                                    </h1>
                                 </button>
                             </div>
                         </div>
