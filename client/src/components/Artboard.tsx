@@ -53,7 +53,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
     const [prompt, setPrompt] = useState('')
 
     const getPrompt: any = async (promptArray: Array<number>) => {
-        const randomNum = Math.floor(Math.random() * 14) //NUMBER OF PROMPTS + 1
+        const randomNum = Math.floor(Math.random() * 15) //NUMBER OF PROMPTS + 1
         if (promptArray.includes(randomNum)) return getPrompt(promptArray)
         try {
             const querySnapshot = await getDocs(
