@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import artboardSlice from '../store/artboardSlice'
 
@@ -14,11 +14,14 @@ import Canvas from '../components/Canvas'
 
 import gameSlice from '../store/gameSlice'
 import {
+    addDoc,
+    arrayUnion,
     collection,
     doc,
     getDoc,
     getDocs,
     query,
+    updateDoc,
     where,
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
@@ -49,9 +52,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
     const [prompt, setPrompt] = useState('')
 
-    const getPrompt = async (e: React.SyntheticEvent) => {
-        e.preventDefault()
-        const randomNum = Math.floor(Math.random() * 14) //NUMBER OF PROMPTS + 1
+    const getPrompt: any = async (promptArray: Array<number>) => {
+        const randomNum = Math.floor(Math.random() * 15) //NUMBER OF PROMPTS + 1
+        if (promptArray.includes(randomNum)) return getPrompt(promptArray)
         try {
             const querySnapshot = await getDocs(
                 query(
@@ -62,10 +65,43 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             querySnapshot.forEach(doc => {
                 setPrompt(doc.data().prompt)
             })
+            await updateDoc(
+                doc(db, 'rooms', game.state.roomId as unknown as string),
+                {
+                    'gameState.usedPrompts': arrayUnion(randomNum),
+                }
+            )
         } catch (error) {
             console.error()
         }
     }
+
+    const handleGetPrompt = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        const docSnap = await getDoc(
+            doc(db, 'rooms', game.state.roomId as unknown as string)
+        )
+        if (docSnap.exists()) {
+            const data = docSnap.data()
+            let usedPromptsArray = data.usedPrompts
+            if (!data.usedPrompts) {
+                usedPromptsArray = []
+            }
+            await getPrompt(usedPromptsArray)
+        }
+    }
+
+    useEffect(() => {
+        const sendPrompt = async () => {
+            await updateDoc(
+                doc(db, 'rooms', game.state.roomId as unknown as string),
+                {
+                    'gameState.currentPrompt': prompt,
+                }
+            )
+        }
+        sendPrompt()
+    }, [prompt])
 
     styles.dynamic = className
     return (
@@ -87,7 +123,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                                     ? 'p-2 bg-violet-500 text-xs font-bold text-white text-center'
                                     : 'hidden'
                             }
-                            onClick={getPrompt}
+                            onClick={handleGetPrompt}
                         >
                             {!prompt ? 'Generate Prompt' : prompt}
                         </button>
