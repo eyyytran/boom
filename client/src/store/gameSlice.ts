@@ -1,15 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit'
+import IParticipant from '../components/interfaces/IParticipant'
+
+interface IGameSliceInitialState {
+    roomId: string
+    isOwner: boolean
+    players: IParticipant[]
+    playerNum: number | null
+    isTurn: boolean
+    isInit: boolean
+    isWon: boolean
+    winner: string
+    whosTurn: number | null
+}
+
+const initialState: IGameSliceInitialState = {
+    roomId: '',
+    isOwner: false,
+    players: [],
+    playerNum: null,
+    isTurn: false,
+    isInit: false,
+    isWon: false,
+    winner: '',
+    whosTurn: null,
+}
 
 const gameSlice = createSlice({
     name: 'game',
-    initialState: {
-        roomId: null,
-        isOwner: false,
-        playerNum: null,
-        isTurn: false,
-        isInit: false,
-        isWon: false,
-    },
+    initialState,
     reducers: {
         setRoomId: (state, action) => {
             state.roomId = action.payload
@@ -20,6 +38,9 @@ const gameSlice = createSlice({
         setPlayerNum: (state, action) => {
             state.playerNum = action.payload
         },
+        setPlayers: (state, action) => {
+            state.players = action.payload
+        },
         setIsTurn: (state, action) => {
             state.isTurn = action.payload
         },
@@ -28,6 +49,12 @@ const gameSlice = createSlice({
         },
         setIsWon: (state, action) => {
             state.isWon = action.payload
+        },
+        setWinner: (state, action) => {
+            state.winner = action.payload
+        },
+        setWhosTurn: (state, { payload }) => {
+            state.whosTurn = payload
         },
     },
 })

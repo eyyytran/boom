@@ -1,17 +1,10 @@
-import {
-    faCheck,
-    faDeleteLeft,
-    faForward,
-} from '@fortawesome/free-solid-svg-icons'
+import { useSelector, useDispatch } from 'react-redux'
+import { faCheck, faForward } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { ReactElement, useState } from 'react'
-
 import Component from './Component'
-
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
-import { useSelector } from 'react-redux'
-
+import modalSlice from '../store/modalSlice'
 import './styles/gameStyles.css'
 
 type Props = {
@@ -31,7 +24,12 @@ styles.static =
 export default function Taskbar({ className = null }: Props) {
     styles.dynamic = className
 
-    const [isEndTurn, setIsEndTurn] = useState<boolean>(false)
+    const dispatch = useDispatch()
+
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
+    }
 
     const game = {
         state: useSelector((state: RootState) => state.game),
@@ -40,7 +38,7 @@ export default function Taskbar({ className = null }: Props) {
 
     const handleEndTurn = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        setIsEndTurn(true)
+        dispatch(modal.action.setIsShowGivePointModal(!modal.state.isShowGivePointModal))
     }
 
     return (
