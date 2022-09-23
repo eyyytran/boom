@@ -1,0 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store'
+import modalSlice from '../../store/modalSlice'
+
+const IsTurnModal = () => {
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
+    }
+
+    const dispatch = useDispatch()
+
+    return (
+        <div>
+            <button onClick={() => dispatch(modal.action.setIsShowIsTurnModal(false))}>X</button>
+            <h1>It's Your Turn!</h1>
+        </div>
+    )
+}
+
+export default IsTurnModal
