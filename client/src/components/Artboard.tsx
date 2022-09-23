@@ -104,7 +104,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                 {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && (
                     <GivePointModal setPrompt={setPrompt} setWasClicked={setWasClicked} />
                 )}
-                {modal.state.isShowWinnerModal && <EndGameModal />}
+                {modal.state.isShowWinnerModal && game.state.isWon && <EndGameModal />}
                 <Container className='overflow-y-auto no-scrollbar'>
                     <div className='flex portrait:flex-col justify-start h-full'>
                         <Instructions />

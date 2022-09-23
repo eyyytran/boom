@@ -65,12 +65,16 @@ export default function Boom() {
         const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
             const data = doc.data()
             const dbGameState = data?.gameState
+
+            console.log('On Snapshot...', dbGameState)
+
             if (dbGameState.isEnded) {
                 navigate('/dashboard')
                 dispatch(game.action.resetState())
                 dispatch(modal.action.resetModals())
                 return
             }
+
             dispatch(game.action.setIsInit(dbGameState.gameStarted))
             dispatch(
                 modal.action.setIsShowIsTurnModal(
@@ -87,10 +91,13 @@ export default function Boom() {
             if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players))
                 getParticipants()
 
+            dispatch(game.action.setIsWon(dbGameState.gameWon))
+            dispatch(game.action.setWinner(dbGameState.winner ? dbGameState.winner.player : null))
+
             if (dbGameState.gameWon && dbGameState.winner) {
                 dispatch(game.action.setIsInit(false))
-                dispatch(game.action.setIsWon(true))
-                dispatch(game.action.setWinner(dbGameState.winner.player))
+                // dispatch(game.action.setIsWon(true))
+                // dispatch(game.action.setWinner(dbGameState.winner.player))
                 dispatch(modal.action.setIsShowWinnerModal(true))
             }
         })

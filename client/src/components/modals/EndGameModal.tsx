@@ -22,14 +22,17 @@ const EndGameModal = () => {
     const resetDb = async () => {
         await updateDoc(doc(db, 'rooms', game.state.roomId), {
             'gameState.players': game.state.players.map(player => ({ ...player, points: 0 })),
-            'gameState.winner': '',
+            'gameState.winner': null,
+            'gameState.gameStarted': false,
+            'gameState.gameWon': false,
+            'gameState.usedPrompts': [],
         })
     }
 
     const handleStartNewGame = (e: React.SyntheticEvent) => {
         e.preventDefault()
         resetDb()
-        dispatch(modal.action.setIsShowWinnerModal(false))
+        dispatch(modal.action.resetModals())
     }
 
     const handleEndGame = async (e: React.SyntheticEvent) => {
