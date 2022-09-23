@@ -36,17 +36,15 @@ const EndGameModal = () => {
 
     const handleEndGame = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        // await updateDoc(doc(db, 'rooms', game.state.roomId), {
-        //     'gameState.isEnd': true
-        // })
         await deleteDoc(doc(db, 'rooms', game.state.roomId))
     }
 
     return (
         <div>
             <h1>{game.state.winner} won!</h1>
-            <button onClick={handleStartNewGame}>Start A New Game</button>
-            <button onClick={handleEndGame}>Back to Dashboard</button>
+            {game.state.isOwner && (
+                    <button onClick={handleStartNewGame}>Start A New Game</button>
+                ) && <button onClick={handleEndGame}>Back to Dashboard</button>}
         </div>
     )
 }
