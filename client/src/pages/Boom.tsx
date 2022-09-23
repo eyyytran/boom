@@ -63,8 +63,6 @@ export default function Boom() {
             const data = doc.data()
             const dbGameState = data?.gameState
 
-            console.log('onSnapshot...', { data, dbGameState })
-
             dispatch(game.action.setIsInit(dbGameState.gameStarted))
             dispatch(
                 modal.action.setIsShowIsTurnModal(
