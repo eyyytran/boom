@@ -1,7 +1,6 @@
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import { db } from '../../server/firebase'
 import { RootState } from '../../store'
 import gameSlice from '../../store/gameSlice'
@@ -19,7 +18,6 @@ const EndGameModal = () => {
     }
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const resetDb = async () => {
         await updateDoc(doc(db, 'rooms', game.state.roomId), {
@@ -39,6 +37,9 @@ const EndGameModal = () => {
         await updateDoc(doc(db, 'rooms', game.state.roomId), {
             'gameState.isEnded': true,
         })
+        setTimeout(async () => {
+            await deleteDoc(doc(db, 'rooms', game.state.roomId))
+        }, 3000)
     }
 
     return (

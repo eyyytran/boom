@@ -62,7 +62,7 @@ export default function Chat({ chatRef, className = null }: Props) {
         return () => {
             unsubscribe()
         }
-    }, [])
+    }, [roomRef])
 
     const sendMessage = async (dataToSend: {}) => {
         try {
