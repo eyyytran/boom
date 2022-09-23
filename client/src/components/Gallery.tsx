@@ -57,14 +57,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
   // const url = window.location.pathname.split("/").pop();
 
-  // useEffect(() => {
-  //   alert("URL CHANGE");
-  //   if (window.location.href !== "http://localhost:3000/boom/" + game.state.roomId) {
-  //     alert("NOT EQUAL");
-  //     client.unpublish().then(() => client.leave());
-  //     dispatch(video.actions.removeUser(user));
-  //   }
-  // }, [url]);
+  // console.log(window.location.href !== "http://localhost:3000/boom/" + game.state.roomId);
 
   useEffect(() => {
     const init = async () => {
@@ -115,6 +108,22 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
       }
     }
   }, [roomId, client, ready, tracks]);
+
+  useEffect(() => {
+    const unpublish = async () => {
+      await client.unpublish();
+      await client.leave();
+      dispatch(video.actions.removeUser(user));
+      alert("Client Unpublished");
+    };
+    return () => {
+      try {
+        unpublish();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }, []);
 
   styles.dynamic = className;
 
