@@ -14,6 +14,7 @@ import Gallery from '../components/Gallery'
 import Artboard from '../components/Artboard'
 import Chat from '../components/Chat'
 import Navbar from '../components/Navbar'
+import { useNavigate } from 'react-router-dom'
 
 type Styles = {
     static: string
@@ -33,6 +34,7 @@ export default function Boom() {
     const exitButtonRef = useRef<HTMLDivElement>(null)
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const user = {
         state: useSelector((state: RootState) => state.user),
@@ -61,8 +63,11 @@ export default function Boom() {
 
         const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
             const data = doc.data()
+            if (data === undefined) {
+                navigate('/dashboard')
+                return dispatch(game.action.resetState())
+            }
             const dbGameState = data?.gameState
-
             dispatch(game.action.setIsInit(dbGameState.gameStarted))
             dispatch(
                 modal.action.setIsShowIsTurnModal(
@@ -97,6 +102,7 @@ export default function Boom() {
         game.state.roomId,
         modal.action,
         user.state.userName,
+        navigate,
     ])
 
     useEffect(() => {

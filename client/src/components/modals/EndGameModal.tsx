@@ -1,6 +1,7 @@
-import { doc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { db } from '../../server/firebase'
 import { RootState } from '../../store'
 import gameSlice from '../../store/gameSlice'
@@ -18,6 +19,7 @@ const EndGameModal = () => {
     }
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const resetDb = async () => {
         await updateDoc(doc(db, 'rooms', game.state.roomId), {
@@ -32,10 +34,19 @@ const EndGameModal = () => {
         dispatch(modal.action.setIsShowWinnerModal(false))
     }
 
+    const handleEndGame = async (e: React.SyntheticEvent) => {
+        e.preventDefault()
+        // await updateDoc(doc(db, 'rooms', game.state.roomId), {
+        //     'gameState.isEnd': true
+        // })
+        await deleteDoc(doc(db, 'rooms', game.state.roomId))
+    }
+
     return (
         <div>
             <h1>{game.state.winner} won!</h1>
             <button onClick={handleStartNewGame}>Start A New Game</button>
+            <button onClick={handleEndGame}>Back to Dashboard</button>
         </div>
     )
 }

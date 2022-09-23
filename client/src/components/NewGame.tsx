@@ -38,6 +38,7 @@ const NewGame = (props: Props) => {
                     }),
                     gameStarted: false,
                     gameWon: false,
+                    winner: '',
                 },
             })
             dispatch(game.action.setRoomId(docRef.id))
