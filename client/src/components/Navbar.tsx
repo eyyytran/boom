@@ -15,6 +15,10 @@ import { auth, db } from '../server/firebase'
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { randomIntegerInInterval } from '../util/randomIntegerInInterval'
+import { cleanupUser } from '../util/cleanupUser'
+import { useDispatch } from 'react-redux'
+import userSlice from '../store/userSlice'
+import modalSlice from '../store/modalSlice'
 
 type Props = {
     galleryButtonRef: any
@@ -44,10 +48,21 @@ const Navbar: FC<Props> = ({
 
     const game = {
         state: useSelector((state: RootState) => state.game),
-        actions: gameSlice.actions,
+        action: gameSlice.actions,
+    }
+
+    const user = {
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
+    }
+
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
     }
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const startGame = async (e: SyntheticEvent) => {
         e.preventDefault()
@@ -64,10 +79,11 @@ const Navbar: FC<Props> = ({
         })
     }
 
-    const handleSignout = (e: SyntheticEvent) => {
-        e.preventDefault()
-        auth.signOut()
-        navigate('/')
+    const handleUserCleanup = () => {
+        cleanupUser(game.state.roomId, user.state.userName, game.state.players)
+        navigate('/dashboard')
+        dispatch(game.action.resetState())
+        dispatch(modal.action.resetModals())
     }
 
     return (
@@ -75,7 +91,6 @@ const Navbar: FC<Props> = ({
             <div className={`${styles.static} ${styles.dynamic}`}>
                 <Container>
                     <div className='flex justify-between items-center gap-2 h-full'>
-                        Game started: {`${game.state.isInit}`}
                         {game.state.isOwner && (
                             <button
                                 className={
@@ -103,7 +118,11 @@ const Navbar: FC<Props> = ({
                                 <FontAwesomeIcon icon={faMessage} className='' />
                             </button>
                         </div>
-                        <button ref={exitButtonRef} className='py-2 px-4' onClick={handleSignout}>
+                        <button
+                            ref={exitButtonRef}
+                            className='py-2 px-4'
+                            onClick={handleUserCleanup}
+                        >
                             <FontAwesomeIcon icon={faRightToBracket} className='' />
                         </button>
                     </div>

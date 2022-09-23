@@ -15,6 +15,7 @@ import Artboard from '../components/Artboard'
 import Chat from '../components/Chat'
 import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom'
+import IParticipant from '../components/interfaces/IParticipant'
 
 type Styles = {
     static: string
@@ -62,11 +63,17 @@ export default function Boom() {
             }
         }
 
+        const reassignPlayerNum = (playerList: IParticipant[]) => {
+            const index = playerList.findIndex(player => player.player === user.state.userName)
+            dispatch(game.action.setPlayerNum(index))
+            if (index === 0) {
+                dispatch(game.action.setIsOwner(true))
+            }
+        }
+
         const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
             const data = doc.data()
             const dbGameState = data?.gameState
-
-            console.log('On Snapshot...', dbGameState)
 
             if (dbGameState.isEnded) {
                 navigate('/dashboard')
@@ -88,16 +95,16 @@ export default function Boom() {
             )
             dispatch(game.action.setWhosTurn(dbGameState.whosTurn))
 
-            if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players))
+            if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
                 getParticipants()
+                reassignPlayerNum(game.state.players)
+            }
 
             dispatch(game.action.setIsWon(dbGameState.gameWon))
             dispatch(game.action.setWinner(dbGameState.winner ? dbGameState.winner.player : null))
 
             if (dbGameState.gameWon && dbGameState.winner) {
                 dispatch(game.action.setIsInit(false))
-                // dispatch(game.action.setIsWon(true))
-                // dispatch(game.action.setWinner(dbGameState.winner.player))
                 dispatch(modal.action.setIsShowWinnerModal(true))
             }
         })
