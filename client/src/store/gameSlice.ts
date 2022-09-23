@@ -2,23 +2,27 @@ import { createSlice } from '@reduxjs/toolkit'
 import IParticipant from '../components/interfaces/IParticipant'
 
 interface IGameSliceInitialState {
-    roomId: string | null
+    roomId: string
     isOwner: boolean
     players: IParticipant[]
     playerNum: number | null
     isTurn: boolean
     isInit: boolean
     isWon: boolean
+    winner: string
+    whosTurn: number | null
 }
 
 const initialState: IGameSliceInitialState = {
-    roomId: null,
+    roomId: '',
     isOwner: false,
     players: [],
     playerNum: null,
     isTurn: false,
     isInit: false,
     isWon: false,
+    winner: '',
+    whosTurn: null,
 }
 
 const gameSlice = createSlice({
@@ -45,6 +49,12 @@ const gameSlice = createSlice({
         },
         setIsWon: (state, action) => {
             state.isWon = action.payload
+        },
+        setWinner: (state, action) => {
+            state.winner = action.payload
+        },
+        setWhosTurn: (state, { payload }) => {
+            state.whosTurn = payload
         },
     },
 })

@@ -1,17 +1,17 @@
-import { doc, updateDoc } from 'firebase/firestore'
-import React from 'react'
+import { FC } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../server/firebase'
 import { RootState } from '../../store'
 import gameSlice from '../../store/gameSlice'
 import modalSlice from '../../store/modalSlice'
-import IParticipant from '../interfaces/IParticipant'
 
 type Props = {
-    player: IParticipant
+    index: number
+    name: string
 }
 
-const PlayerButton = ({ player }: Props) => {
+const PlayerButton: FC<Props> = ({ index, name }) => {
     const dispatch = useDispatch()
 
     const game = {
@@ -25,30 +25,39 @@ const PlayerButton = ({ player }: Props) => {
     }
 
     const givePointToPlayer = async () => {
-        const newPlayers = [...game.state.players]
-        const foundIndex = newPlayers.findIndex(p => p.player === player.player)
+        const newPlayers = Array.from(game.state.players)
         const newPlayer = {
-            ...newPlayers[foundIndex],
-            points: newPlayers[foundIndex].points + 1,
+            ...newPlayers[index],
+            points: newPlayers[index].points + 1,
         }
-        newPlayers.splice(foundIndex, 1, newPlayer)
-        await updateDoc(doc(db, 'rooms', game.state.roomId as string), {
+        newPlayers[index] = newPlayer
+        const isGameWon = newPlayer.points >= 5
+
+        function getWhosTurn() {
+            if (isGameWon) return null
+            const whosTurn = game.state.whosTurn as number
+            return whosTurn === game.state.players.length - 1 ? 0 : whosTurn + 1
+        }
+
+        await updateDoc(doc(db, 'rooms', game.state.roomId), {
             'gameState.players': newPlayers,
+            drawings: null,
+            'gameState.whosTurn': getWhosTurn(),
+            'gameState.gameWon': isGameWon,
+            'gameState.winner': isGameWon ? newPlayer : null,
+            'gameState.gameStarted': isGameWon ? false : true,
         })
     }
 
     const handleGivePoint = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         givePointToPlayer()
+        dispatch(modal.action.setIsShowGivePointModal(false))
     }
 
     return (
-        <button
-            className='bg-purple-500'
-            // disabled={game.state.isTurn === true ? true : false}
-            onClick={handleGivePoint}
-        >
-            {player.player}
+        <button className='bg-purple-500' onClick={handleGivePoint}>
+            {name}
         </button>
     )
 }

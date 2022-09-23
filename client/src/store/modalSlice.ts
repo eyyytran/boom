@@ -4,10 +4,18 @@ const modalSlice = createSlice({
     name: 'modal',
     initialState: {
         isShowGivePointModal: false,
+        isShowIsTurnModal: false,
+        isShowWinnerModal: false,
     },
     reducers: {
-        setIsShowGivePointModal: (state, action) => {
-            state.isShowGivePointModal = action.payload
+        setIsShowGivePointModal: (state, { payload }) => {
+            state.isShowGivePointModal = payload
+        },
+        setIsShowIsTurnModal: (state, { payload }) => {
+            state.isShowIsTurnModal = payload
+        },
+        setIsShowWinnerModal: (state, { payload }) => {
+            state.isShowWinnerModal = payload
         },
     },
 })

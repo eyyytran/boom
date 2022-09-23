@@ -1,18 +1,19 @@
-import React, { ReactElement, useEffect, useRef } from 'react'
-import Component from '../components/Component'
-import Titlebar from '../components/Titlebar'
-import Timer from '../components/Timer'
-import Gallery from '../components/Gallery'
-import Artboard from '../components/Artboard'
-import Display from '../components/Display'
-import Chat from '../components/Chat'
-import Navbar from '../components/Navbar'
+import { useEffect, useRef } from 'react'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
-import { RootState } from '../store'
-import gameSlice from '../store/gameSlice'
-import { db } from '../server/firebase'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
+import { RootState } from '../store'
+import { db } from '../server/firebase'
+import userSlice from '../store/userSlice'
+import gameSlice from '../store/gameSlice'
+import modalSlice from '../store/modalSlice'
+import Component from '../components/Component'
+import Titlebar from '../components/Titlebar'
+import Timer from '../components/timer/Timer'
+import Gallery from '../components/Gallery'
+import Artboard from '../components/Artboard'
+import Chat from '../components/Chat'
+import Navbar from '../components/Navbar'
 
 type Styles = {
     static: string
@@ -23,7 +24,6 @@ const styles = {} as Styles
 styles.static = 'fixed inset-0 bg-neutral-200'
 
 export default function Boom() {
-    const menuButtonRef = useRef<HTMLDivElement>(null)
     const galleryRef = useRef<HTMLDivElement>(null)
     const galleryButtonRef = useRef<HTMLDivElement>(null)
     const artboardRef = useRef<HTMLDivElement>(null)
@@ -34,46 +34,72 @@ export default function Boom() {
 
     const dispatch = useDispatch()
 
+    const user = {
+        state: useSelector((state: RootState) => state.user),
+        action: userSlice.actions,
+    }
+
     const game = {
         state: useSelector((state: RootState) => state.game),
-        actions: gameSlice.actions,
+        action: gameSlice.actions,
+    }
+
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
     }
 
     useEffect(() => {
         const getParticipants = async () => {
-            const docSnap = await getDoc(
-                doc(db, 'rooms', game.state.roomId as unknown as string)
-            )
+            const docSnap = await getDoc(doc(db, 'rooms', game.state.roomId))
             if (docSnap.exists()) {
                 const data = docSnap.data()
                 const participants = data.gameState.players
-                dispatch(game.actions.setPlayers(participants))
+                dispatch(game.action.setPlayers(participants))
             }
         }
-        const unsubscribe = onSnapshot(
-            doc(db, 'rooms', game.state.roomId as unknown as string),
-            doc => {
-                const data = doc.data()
-                const dbGameState = data?.gameState
-                console.log({ dbGameState })
-                if (dbGameState.gameStarted !== game.state.isInit) {
-                    dispatch(game.actions.setIsInit(dbGameState.gameStarted))
-                }
-                if (dbGameState.whosTurn === game.state.playerNum) {
-                    dispatch(game.actions.setIsTurn(true))
-                }
-                if (dbGameState.whosTurn !== game.state.playerNum) {
-                    dispatch(game.actions.setIsTurn(false))
-                }
-                if (dbGameState.players !== game.state.players) {
-                    getParticipants()
-                }
+
+        const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
+            const data = doc.data()
+            const dbGameState = data?.gameState
+
+            console.log('onSnapshot...', { data, dbGameState })
+
+            dispatch(game.action.setIsInit(dbGameState.gameStarted))
+            dispatch(
+                modal.action.setIsShowIsTurnModal(
+                    dbGameState.gameStarted && dbGameState.whosTurn === game.state.playerNum
+                )
+            )
+            dispatch(
+                game.action.setIsTurn(
+                    dbGameState.gameStarted && dbGameState.whosTurn === game.state.playerNum
+                )
+            )
+            dispatch(game.action.setWhosTurn(dbGameState.whosTurn))
+
+            if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players))
+                getParticipants()
+
+            if (dbGameState.gameWon && dbGameState.winner) {
+                dispatch(game.action.setIsInit(false))
+                dispatch(game.action.setIsWon(true))
+                dispatch(game.action.setWinner(dbGameState.winner.player))
+                dispatch(modal.action.setIsShowWinnerModal(true))
             }
-        )
+        })
         return () => {
             unsubscribe()
         }
-    }, [])
+    }, [
+        dispatch,
+        game.action,
+        game.state.playerNum,
+        game.state.players,
+        game.state.roomId,
+        modal.action,
+        user.state.userName,
+    ])
 
     useEffect(() => {
         if (!galleryButtonRef.current) return
@@ -110,18 +136,11 @@ export default function Boom() {
                     <Titlebar className='shrink-0' />
                     <Timer className='shrink-0' />
                     <div className='flex h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth'>
-                        <Gallery
-                            galleryRef={galleryRef}
-                            className='snap-center'
-                        />
-                        <Artboard
-                            artboardRef={artboardRef}
-                            className='snap-center'
-                        />
+                        <Gallery galleryRef={galleryRef} className='snap-center' />
+                        <Artboard artboardRef={artboardRef} className='snap-center' />
                         <Chat chatRef={chatRef} className='snap-center' />
                     </div>
                     <Navbar
-                        menuButtonRef={menuButtonRef}
                         galleryButtonRef={galleryButtonRef}
                         artboardButtonRef={artboardButtonRef}
                         chatButtonRef={chatButtonRef}

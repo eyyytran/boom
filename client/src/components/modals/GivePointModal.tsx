@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../server/firebase'
 import { RootState } from '../../store/index'
 import gameSlice from '../../store/gameSlice'
 import PlayerButton from './PlayerButton'
 import IParticipant from '../interfaces/IParticipant'
+
+interface IParticipantWithIndex extends IParticipant {
+    index: number
+}
 
 const GivePointModal = () => {
     const game = {
@@ -13,10 +15,22 @@ const GivePointModal = () => {
         action: gameSlice.actions,
     }
 
+    const participants = useMemo(() => {
+        const participants: IParticipantWithIndex[] = []
+        game.state.players.forEach((player, index) => {
+            if (index !== game.state.whosTurn)
+                participants.push({
+                    ...player,
+                    index,
+                })
+        })
+        return participants
+    }, [game.state.players, game.state.whosTurn])
+
     return (
         <div>
-            {game.state.players.map((player: IParticipant) => {
-                return <PlayerButton player={player} />
+            {participants.map(({ index, player }: IParticipantWithIndex) => {
+                return <PlayerButton index={index} name={player} />
             })}
         </div>
     )
