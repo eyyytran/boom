@@ -1,17 +1,12 @@
-import React, { MouseEvent, useEffect, useRef, useState } from 'react'
-
-import artboardSlice from '../store/artboardSlice'
-
-import { useSelector } from 'react-redux'
-import { RootState } from '../store'
-import { useDispatch } from 'react-redux'
+import { FC, MouseEvent, useEffect, useRef, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { doc, updateDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import { RootState } from '../store'
+import artboardSlice from '../store/artboardSlice'
 import gameSlice from '../store/gameSlice'
 
-type Props = {
-    className?: string | null
-}
+type Props = {}
 
 type Styles = {
     static: string
@@ -22,7 +17,7 @@ const styles = {} as Styles
 
 styles.static = 'w-full h-full cursor-crosshair'
 
-const Canvas = ({ className }: Props) => {
+const Canvas: FC<Props> = () => {
     const urlparams = new URLSearchParams(window.location.search)
     const roomId: any = urlparams.get('id')
 
@@ -57,16 +52,8 @@ const Canvas = ({ className }: Props) => {
         image.onload = () => {
             ctx?.drawImage(image, 0, 0)
         }
-        image.src = line
-    }, [dimensions])
-
-    useEffect(() => {
-        let image = new Image()
-        image.onload = () => {
-            ctx?.drawImage(image, 0, 0)
-        }
-        image.src = line
-    }, [line])
+        if (line) image.src = line
+    }, [dimensions, ctx, line])
 
     useEffect(() => {
         const handleResize = () => {
@@ -90,7 +77,7 @@ const Canvas = ({ className }: Props) => {
         return () => {
             unsubscribe()
         }
-    }, [])
+    }, [roomId])
 
     const beginPath = () => {
         if (!ctx) return
@@ -161,12 +148,8 @@ const Canvas = ({ className }: Props) => {
                 if (!game.state.isTurn) return
                 start(e)
             }}
-            onMouseUp={e => {
-                stop()
-            }}
-            onMouseMove={e => {
-                draw(e)
-            }}
+            onMouseUp={e => stop()}
+            onMouseMove={e => draw(e)}
             onMouseEnter={e => {
                 if (!artboard.state.isDrawing) return
                 styleStroke()
@@ -175,19 +158,11 @@ const Canvas = ({ className }: Props) => {
                 lineTo(e)
                 stroke()
             }}
-            onMouseLeave={e => {
-                moveTo(e)
-            }}
-            onTouchStart={e => {
-                start(e)
-            }}
-            onTouchEnd={e => {
-                stop()
-            }}
-            onTouchMove={e => {
-                draw(e)
-            }}
-        ></canvas>
+            onMouseLeave={e => moveTo(e)}
+            onTouchStart={e => start(e)}
+            onTouchEnd={e => stop()}
+            onTouchMove={e => draw(e)}
+        />
     )
 }
 

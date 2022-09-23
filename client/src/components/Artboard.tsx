@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react'
-
-import artboardSlice from '../store/artboardSlice'
-
+import { useEffect, useState, SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
-
 import Component from '../components/Component'
 import Container from '../layout/Container'
 import Instructions from '../components/Instructions'
 import Toolbar from '../components/Toolbar'
 import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
-
+import GivePointModal from './modals/GivePointModal'
+import IsTurnModal from './modals/IsTurnModal'
 import gameSlice from '../store/gameSlice'
 import {
-    addDoc,
     arrayUnion,
     collection,
     doc,
@@ -25,6 +21,8 @@ import {
     where,
 } from 'firebase/firestore'
 import { db } from '../server/firebase'
+import modalSlice from '../store/modalSlice'
+import { randomIntegerInInterval } from '../util/randomIntegerInInterval'
 
 type Props = {
     artboardRef: any
@@ -41,46 +39,42 @@ const styles = {} as Styles
 styles.static = 'shrink-0 w-full h-full p-2 md:p-3 lg:p-4'
 
 export default function Artboard({ artboardRef, className = null }: Props) {
-    const artboard = {
-        state: useSelector((state: RootState) => state.artboard),
-        action: artboardSlice.actions,
-    }
     const game = {
         state: useSelector((state: RootState) => state.game),
         action: gameSlice.actions,
     }
 
-    const [prompt, setPrompt] = useState('')
+    const modal = {
+        state: useSelector((state: RootState) => state.modal),
+        action: modalSlice.actions,
+    }
 
-    const getPrompt: any = async (promptArray: Array<number>) => {
-        const randomNum = Math.floor(Math.random() * 15) //NUMBER OF PROMPTS + 1
-        if (promptArray.includes(randomNum)) return getPrompt(promptArray)
+    const [prompt, setPrompt] = useState<string>('')
+    const [wasClicked, setWasClicked] = useState<boolean>(false)
+
+    const getPrompt: any = async (alreadyUsedPromptIds: Array<number>) => {
+        const randomPromptId = randomIntegerInInterval(0, 24)
+        if (alreadyUsedPromptIds.includes(randomPromptId)) return getPrompt(alreadyUsedPromptIds)
         try {
             const querySnapshot = await getDocs(
-                query(
-                    collection(db, 'game-prompts'),
-                    where('id', '==', randomNum)
-                )
+                query(collection(db, 'game-prompts'), where('id', '==', randomPromptId))
             )
             querySnapshot.forEach(doc => {
                 setPrompt(doc.data().prompt)
             })
-            await updateDoc(
-                doc(db, 'rooms', game.state.roomId as unknown as string),
-                {
-                    'gameState.usedPrompts': arrayUnion(randomNum),
-                }
-            )
+            await updateDoc(doc(db, 'rooms', game.state.roomId), {
+                'gameState.usedPrompts': arrayUnion(randomPromptId),
+            })
         } catch (error) {
             console.error()
         }
     }
 
-    const handleGetPrompt = async (e: React.SyntheticEvent) => {
+    const handleGetPrompt = async (e: SyntheticEvent) => {
         e.preventDefault()
-        const docSnap = await getDoc(
-            doc(db, 'rooms', game.state.roomId as unknown as string)
-        )
+        if (wasClicked === true) return
+        setWasClicked(true)
+        const docSnap = await getDoc(doc(db, 'rooms', game.state.roomId))
         if (docSnap.exists()) {
             const data = docSnap.data()
             let usedPromptsArray = data.usedPrompts
@@ -93,23 +87,21 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
     useEffect(() => {
         const sendPrompt = async () => {
-            await updateDoc(
-                doc(db, 'rooms', game.state.roomId as unknown as string),
-                {
-                    'gameState.currentPrompt': prompt,
-                }
-            )
+            await updateDoc(doc(db, 'rooms', game.state.roomId as unknown as string), {
+                'gameState.currentPrompt': prompt,
+            })
         }
         sendPrompt()
-    }, [prompt])
+    }, [game.state.roomId, prompt])
 
     styles.dynamic = className
     return (
         <Component id='Artboard'>
-            <div
-                ref={artboardRef}
-                className={`${styles.static} ${styles.dynamic}`}
-            >
+            <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
+                {modal.state.isShowIsTurnModal && <IsTurnModal />}
+                {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && (
+                    <GivePointModal />
+                )}
                 <Container className='overflow-y-auto no-scrollbar'>
                     <div className='flex portrait:flex-col justify-start h-full'>
                         <Instructions />
