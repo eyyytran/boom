@@ -44,9 +44,8 @@ const EndGameModal = () => {
     return (
         <div>
             <h1>{game.state.winner} won!</h1>
-            {game.state.isOwner && (
-                    <button onClick={handleStartNewGame}>Start A New Game</button>
-                ) && <button onClick={handleEndGame}>Back to Dashboard</button>}
+            {game.state.isOwner && <button onClick={handleEndGame}>Back to Dashboard</button>}
+            {game.state.isOwner && <button onClick={handleStartNewGame}>Start A New Game</button>}
         </div>
     )
 }
