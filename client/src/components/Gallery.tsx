@@ -28,7 +28,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
+styles.static = "w-full lg:w-1/5 h-full p-2 md:p-3 lg:p-4";
 
 export default function Gallery({ galleryRef, className = "" }: Props) {
   const user = {
@@ -132,9 +132,12 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     <Component id="Gallery">
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
-          <div className={`flex portrait:flex-col ${video.state.users.length > 1 ? "lg:grid lg:grid-cols-2" : null} justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500`}>
+          <div className={`flex portrait:flex-col lg:flex-col justify-center items-center h-full gap-2 md:gap-3 lg:gap-4`}>
             {tracks && (
               <div className="contents">
+                <Video tracks={tracks} active={true} username={user.state.userName} />
+                <Video tracks={tracks} active={true} username={user.state.userName} />
+                <Video tracks={tracks} active={true} username={user.state.userName} />
                 <Video tracks={tracks} active={true} username={user.state.userName} />
                 {video.state.users?.length > 0 &&
                   video.state.users.map(user => {
