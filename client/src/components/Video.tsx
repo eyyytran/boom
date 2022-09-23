@@ -44,7 +44,7 @@ export default function Video({ active, className = null, tracks, username }: Pr
     actions: videoSlice.actions,
   };
 
-  styles.static = `relative portrait:h-1/4 landscape:w-1/4 aspect-video rounded overflow-clip ${video.state.users.length > 1 ? "lg:aspect-auto lg:!w-full lg:!h-full" : null}`;
+  styles.static = `relative portrait:h-1/4 landscape:w-1/4 lg:landscape:w-full aspect-video rounded overflow-clip`;
 
   const dispatch = useDispatch();
 
