@@ -33,8 +33,6 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "relative h-full aspect-video md:aspect-auto rounded overflow-clip";
-
 styles.conditional = {
   active: "bg-violet-500 text-neutral-50",
   inactive: "bg-neutral-300",
@@ -45,6 +43,8 @@ export default function Video({ active, className = null, tracks, username }: Pr
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
   };
+
+  styles.static = `relative portrait:h-1/4 landscape:w-1/4 aspect-video rounded overflow-clip ${video.state.users.length > 1 ? "lg:aspect-auto lg:!w-full lg:!h-full" : null}`;
 
   const dispatch = useDispatch();
 
