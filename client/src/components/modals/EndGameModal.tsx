@@ -19,15 +19,16 @@ const EndGameModal = () => {
 
     const dispatch = useDispatch()
 
-    const resetPoints = async () => {
+    const resetDb = async () => {
         await updateDoc(doc(db, 'rooms', game.state.roomId), {
             'gameState.players': game.state.players.map(player => ({ ...player, points: 0 })),
+            'gameState.winner': '',
         })
     }
 
     const handleStartNewGame = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        resetPoints()
+        resetDb()
         dispatch(modal.action.setIsShowWinnerModal(false))
     }
 

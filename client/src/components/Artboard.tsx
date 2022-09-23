@@ -9,6 +9,7 @@ import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
 import GivePointModal from './modals/GivePointModal'
 import IsTurnModal from './modals/IsTurnModal'
+import EndGameModal from './modals/EndGameModal'
 import gameSlice from '../store/gameSlice'
 import {
     arrayUnion,
@@ -100,8 +101,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
                 {modal.state.isShowIsTurnModal && <IsTurnModal />}
                 {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && (
-                    <GivePointModal />
+                    <GivePointModal setPrompt={setPrompt} setWasClicked={setWasClicked} />
                 )}
+                {modal.state.isShowWinnerModal && <EndGameModal />}
                 <Container className='overflow-y-auto no-scrollbar'>
                     <div className='flex portrait:flex-col justify-start h-full'>
                         <Instructions />
