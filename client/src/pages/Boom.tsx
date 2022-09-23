@@ -52,6 +52,7 @@ export default function Boom() {
     }
 
     useEffect(() => {
+        if (!game.state.roomId) return
         const getParticipants = async () => {
             const docSnap = await getDoc(doc(db, 'rooms', game.state.roomId))
             if (docSnap.exists()) {
@@ -63,11 +64,13 @@ export default function Boom() {
 
         const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
             const data = doc.data()
-            if (data === undefined) {
-                navigate('/dashboard')
-                return dispatch(game.action.resetState())
-            }
             const dbGameState = data?.gameState
+            if (dbGameState.isEnded) {
+                navigate('/dashboard')
+                dispatch(game.action.resetState())
+                dispatch(modal.action.resetModals())
+                return
+            }
             dispatch(game.action.setIsInit(dbGameState.gameStarted))
             dispatch(
                 modal.action.setIsShowIsTurnModal(

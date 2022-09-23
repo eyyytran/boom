@@ -36,7 +36,9 @@ const EndGameModal = () => {
 
     const handleEndGame = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        await deleteDoc(doc(db, 'rooms', game.state.roomId))
+        await updateDoc(doc(db, 'rooms', game.state.roomId), {
+            'gameState.isEnded': true,
+        })
     }
 
     return (

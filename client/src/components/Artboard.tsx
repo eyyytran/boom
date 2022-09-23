@@ -87,8 +87,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
     }
 
     useEffect(() => {
+        if (!game.state.roomId) return
         const sendPrompt = async () => {
-            await updateDoc(doc(db, 'rooms', game.state.roomId as unknown as string), {
+            await updateDoc(doc(db, 'rooms', game.state.roomId), {
                 'gameState.currentPrompt': prompt,
             })
         }

@@ -33,7 +33,7 @@ const PlayerButton: FC<Props> = ({ index, name, setPrompt, setWasClicked }) => {
             points: newPlayers[index].points + 1,
         }
         newPlayers[index] = newPlayer
-        const isGameWon = newPlayer.points >= 5
+        const isGameWon = newPlayer.points >= 2 //TODO change back to 5 for deployment
 
         function getWhosTurn() {
             if (isGameWon) return null
