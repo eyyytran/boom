@@ -116,8 +116,8 @@ export default function Boom() {
         <div className="flex flex-col justify-start h-full">
           <Titlebar className="shrink-0" />
           <Timer className="shrink-0" />
-          <div className="flex h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth border-4 border-blue-500">
-            <Gallery galleryRef={galleryRef} className="shrink-0 border border-red-500 snap-center" />
+          <div className="flex lg:grid lg:grid-cols-3 h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth border-4 border-blue-500">
+            <Gallery galleryRef={galleryRef} className="shrink-0 border border-red-500 snap-center lg:col-start-1 lg:col-span-full" />
             <Artboard artboardRef={artboardRef} className="shrink-0 lg:shrink border border-red-500 snap-center" />
             <Chat chatRef={chatRef} className="shrink-0 border border-red-500 snap-center" />
           </div>
