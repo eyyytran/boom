@@ -20,6 +20,7 @@ const timerSlice = createSlice({
                 seconds: 0,
             }
             state.endTime = 0
+            state.isStopTimer = false
         },
         setRemainingTime: (state, { payload }) => {
             state.remainingTime = payload

@@ -85,6 +85,7 @@ export default function Boom() {
                 navigate('/dashboard')
                 dispatch(game.action.resetState())
                 dispatch(modal.action.resetModals())
+                dispatch(timer.action.resetTime())
                 return
             }
 
