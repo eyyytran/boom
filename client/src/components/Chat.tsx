@@ -8,6 +8,7 @@ import { db } from '../server/firebase'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import userSlice from '../store/userSlice'
+import gameSlice from '../store/gameSlice'
 
 type Props = {
     chatRef: any
@@ -40,33 +41,35 @@ export default function Chat({ chatRef, className = null }: Props) {
         action: userSlice.actions,
     }
 
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        action: gameSlice.actions,
+    }
+
     const handleMessage = (e: any) => {
         const value = e.target.value
         setMessage(value)
     }
 
-    const urlparams = new URLSearchParams(window.location.search)
-    const roomId: any = urlparams.get('id')
-
-    const roomRef = doc(db, 'rooms', roomId)
+    const roomRef = game.state.roomId ? doc(db, 'rooms', game.state.roomId) : null
 
     useEffect(() => {
-        if (!roomId) return
-        const unsubscribe = onSnapshot(doc(db, 'rooms', roomId), doc => {
+        if (!roomRef) return
+        const unsubscribe = onSnapshot(roomRef, doc => {
             const result = doc.data()
             setChat(result?.messages)
         })
         return () => {
             unsubscribe()
         }
-    }, [])
+    }, [roomRef])
 
     const sendMessage = async (dataToSend: {}) => {
         try {
+            if (!roomRef) return
             await updateDoc(roomRef, {
                 messages: arrayUnion(dataToSend),
             })
-            console.log('message sent')
         } catch (error) {
             console.log(error)
         }
@@ -91,6 +94,7 @@ export default function Chat({ chatRef, className = null }: Props) {
         }
     }
 
+    if (!roomRef) return null
     return (
         <Component id='Chat'>
             <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
@@ -105,8 +109,7 @@ export default function Chat({ chatRef, className = null }: Props) {
                                         message={message.content}
                                         sender={message.sentBy}
                                         origin={
-                                            user.state.userName ===
-                                            message.sentBy
+                                            user.state.userName === message.sentBy
                                                 ? 'user'
                                                 : 'participant'
                                         }
