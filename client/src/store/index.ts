@@ -7,6 +7,7 @@ import artboardSlice from './artboardSlice'
 import userSlice from './userSlice'
 import gameSlice from './gameSlice'
 import modalSlice from './modalSlice'
+import timerSlice from './timerSlice'
 
 const rootReducer = combineReducers({
     video: videoSlice.reducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     user: userSlice.reducer,
     game: gameSlice.reducer,
     modal: modalSlice.reducer,
+    timer: timerSlice.reducer,
 })
 
 const persistConfig = {

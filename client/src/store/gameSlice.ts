@@ -11,6 +11,8 @@ interface IGameSliceInitialState {
     isWon: boolean
     winner: string
     whosTurn: number | null
+    isTurnStarted: boolean
+    currentPrompt: string
 }
 
 const initialState: IGameSliceInitialState = {
@@ -23,6 +25,8 @@ const initialState: IGameSliceInitialState = {
     isWon: false,
     winner: '',
     whosTurn: null,
+    isTurnStarted: false,
+    currentPrompt: '',
 }
 
 const gameSlice = createSlice({
@@ -56,6 +60,12 @@ const gameSlice = createSlice({
         setWhosTurn: (state, { payload }) => {
             state.whosTurn = payload
         },
+        setIsTurnStarted: (state, { payload }) => {
+            state.isTurnStarted = payload
+        },
+        setCurrentPrompt: (state, { payload }) => {
+            state.currentPrompt = payload
+        },
         resetState: state => {
             state.roomId = ''
             state.isOwner = false
@@ -66,6 +76,8 @@ const gameSlice = createSlice({
             state.isWon = false
             state.winner = ''
             state.whosTurn = null
+            state.isTurnStarted = false
+            state.currentPrompt = ''
         },
     },
 })
