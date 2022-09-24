@@ -11,19 +11,21 @@ import App from "./App";
 
 const persistor = persistStore(store);
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
-  <React.StrictMode>
-    <Provider
-      store={store}
-      children={
-        <PersistGate persistor={persistor}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </PersistGate>
-      }
-    />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider
+    store={store}
+    children={
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    }
+  />
+  // {/* </React.StrictMode>, */}
 );
