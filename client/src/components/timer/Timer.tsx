@@ -120,7 +120,9 @@ export default function Timer({ className = null }: Props) {
                                 style={{
                                     height: '100%',
                                     width: `${progress}%`,
-                                    backgroundColor: 'purple',
+                                    backgroundColor: `${
+                                        parseInt(progress) < 80 ? 'purple' : 'red'
+                                    }`,
                                     borderRadius: '5px',
                                 }}
                             ></div>
