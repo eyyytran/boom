@@ -27,7 +27,7 @@ interface FirebaseMessage {
 
 const styles = {} as Styles;
 
-styles.static = "w-full lg:w-1/5 h-full p-2 md:p-3 lg:p-4";
+styles.static = "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-green-700";
 
 export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
