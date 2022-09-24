@@ -1,9 +1,8 @@
-import { useEffect, useState, SyntheticEvent } from 'react'
+import { SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import Component from '../components/Component'
 import Container from '../layout/Container'
-import Instructions from '../components/Instructions'
 import Toolbar from '../components/Toolbar'
 import Taskbar from '../components/Taskbar'
 import Canvas from '../components/Canvas'
@@ -39,7 +38,8 @@ type Styles = {
 
 const styles = {} as Styles
 
-styles.static = 'shrink-0 w-full h-full p-2 md:p-3 lg:p-4'
+styles.static =
+    'flex justify-center items-center w-full h-full p-2 md:p-3 lg:p-4 lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 border-4 border-violet-700'
 
 export default function Artboard({ artboardRef, className = null }: Props) {
     const game = {
@@ -107,11 +107,10 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                     <GivePointModal />
                 )}
                 {modal.state.isShowWinnerModal && game.state.isWon && <EndGameModal />}
-                <Container className='overflow-y-auto no-scrollbar'>
-                    <div className='flex portrait:flex-col justify-start h-full'>
-                        <Instructions />
+                <Container className='w-full h-full overflow-y-auto no-scrollbar border border-neutral-400 rounded'>
+                    <div className='flex portrait:flex-col lg:flex-col justify-start h-full'>
                         <Toolbar />
-                        <div className='portrait:w-full landscape:h-max aspect-square bg-white border-x border-neutral-400'>
+                        <div className='portrait:w-full landscape:h-max lg:landscape:h-full aspect-auto bg-white'>
                             <Canvas />
                         </div>
                         <button
