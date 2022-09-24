@@ -8,6 +8,7 @@ import { db } from "../server/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import userSlice from "../store/userSlice";
+import gameSlice from "../store/gameSlice";
 
 type Props = {
   chatRef: any;

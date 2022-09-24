@@ -14,6 +14,8 @@ import Gallery from "../components/Gallery";
 import Artboard from "../components/Artboard";
 import Chat from "../components/Chat";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import IParticipant from "../components/interfaces/IParticipant";
 
 type Styles = {
   static: string;
@@ -33,6 +35,7 @@ export default function Boom() {
   const exitButtonRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const user = {
     state: useSelector((state: RootState) => state.user),
@@ -50,6 +53,7 @@ export default function Boom() {
   };
 
   useEffect(() => {
+    if (!game.state.roomId) return;
     const getParticipants = async () => {
       const docSnap = await getDoc(doc(db, "rooms", game.state.roomId));
       if (docSnap.exists()) {
@@ -59,28 +63,47 @@ export default function Boom() {
       }
     };
 
+    const reassignPlayerNum = (playerList: IParticipant[]) => {
+      const index = playerList.findIndex(player => player.player === user.state.userName);
+      dispatch(game.action.setPlayerNum(index));
+      if (index === 0) {
+        dispatch(game.action.setIsOwner(true));
+      }
+    };
+
     const unsubscribe = onSnapshot(doc(db, "rooms", game.state.roomId), doc => {
       const data = doc.data();
       const dbGameState = data?.gameState;
+
+      if (dbGameState.isEnded) {
+        navigate("/dashboard");
+        dispatch(game.action.resetState());
+        dispatch(modal.action.resetModals());
+        return;
+      }
 
       dispatch(game.action.setIsInit(dbGameState.gameStarted));
       dispatch(modal.action.setIsShowIsTurnModal(dbGameState.gameStarted && dbGameState.whosTurn === game.state.playerNum));
       dispatch(game.action.setIsTurn(dbGameState.gameStarted && dbGameState.whosTurn === game.state.playerNum));
       dispatch(game.action.setWhosTurn(dbGameState.whosTurn));
 
-      if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) getParticipants();
+      if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
+        getParticipants();
+        reassignPlayerNum(game.state.players);
+      }
+
+      dispatch(game.action.setIsWon(dbGameState.gameWon));
+      dispatch(game.action.setWinner(dbGameState.winner ? dbGameState.winner.player : null));
 
       if (dbGameState.gameWon && dbGameState.winner) {
         dispatch(game.action.setIsInit(false));
-        dispatch(game.action.setIsWon(true));
-        dispatch(game.action.setWinner(dbGameState.winner.player));
         dispatch(modal.action.setIsShowWinnerModal(true));
       }
     });
     return () => {
       unsubscribe();
     };
-  }, [dispatch, game.action, game.state.playerNum, game.state.players, game.state.roomId, modal.action, user.state.userName]);
+  }, [dispatch, game.action, game.state.playerNum, game.state.players, game.state.roomId, modal.action, user.state.userName, navigate]);
 
   useEffect(() => {
     if (!galleryButtonRef.current) return;

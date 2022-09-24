@@ -1,4 +1,4 @@
-import { useEffect, useState, SyntheticEvent } from "react";
+import { useEffect, useState, SyntheticEvent, SetStateAction } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import Component from "../components/Component";
@@ -9,6 +9,7 @@ import Taskbar from "../components/Taskbar";
 import Canvas from "../components/Canvas";
 import GivePointModal from "./modals/GivePointModal";
 import IsTurnModal from "./modals/IsTurnModal";
+import EndGameModal from "./modals/EndGameModal";
 import gameSlice from "../store/gameSlice";
 import { arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../server/firebase";
@@ -88,7 +89,16 @@ export default function Artboard({ artboardRef, className = null }: Props) {
     <Component id="Artboard">
       <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
         {modal.state.isShowIsTurnModal && <IsTurnModal />}
-        {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && <GivePointModal />}
+        {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && (
+          <GivePointModal
+            setPrompt={function (value: SetStateAction<string>): void {
+              throw new Error("Function not implemented.");
+            }}
+            setWasClicked={function (value: SetStateAction<boolean>): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
+        )}
         <Container className="w-full h-full overflow-y-auto no-scrollbar border border-neutral-400 rounded">
           <div className="flex portrait:flex-col lg:flex-col justify-start h-full">
             <Toolbar />

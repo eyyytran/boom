@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, Dispatch, SetStateAction } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../server/firebase'
@@ -9,9 +9,11 @@ import modalSlice from '../../store/modalSlice'
 type Props = {
     index: number
     name: string
+    setPrompt: Dispatch<SetStateAction<string>>
+    setWasClicked: Dispatch<SetStateAction<boolean>>
 }
 
-const PlayerButton: FC<Props> = ({ index, name }) => {
+const PlayerButton: FC<Props> = ({ index, name, setPrompt, setWasClicked }) => {
     const dispatch = useDispatch()
 
     const game = {
@@ -31,7 +33,7 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
             points: newPlayers[index].points + 1,
         }
         newPlayers[index] = newPlayer
-        const isGameWon = newPlayer.points >= 5
+        const isGameWon = newPlayer.points >= 2 //TODO change back to 5 for deployment
 
         function getWhosTurn() {
             if (isGameWon) return null
@@ -52,6 +54,8 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
     const handleGivePoint = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         givePointToPlayer()
+        setPrompt('')
+        setWasClicked(false)
         dispatch(modal.action.setIsShowGivePointModal(false))
     }
 

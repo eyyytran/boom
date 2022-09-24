@@ -56,6 +56,17 @@ const gameSlice = createSlice({
         setWhosTurn: (state, { payload }) => {
             state.whosTurn = payload
         },
+        resetState: state => {
+            state.roomId = ''
+            state.isOwner = false
+            state.players = []
+            state.playerNum = null
+            state.isTurn = false
+            state.isInit = false
+            state.isWon = false
+            state.winner = ''
+            state.whosTurn = null
+        },
     },
 })
 

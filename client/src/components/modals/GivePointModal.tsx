@@ -1,5 +1,6 @@
-import { useMemo } from 'react'
+import { FC, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { Dispatch, SetStateAction } from 'react'
 import { RootState } from '../../store/index'
 import gameSlice from '../../store/gameSlice'
 import PlayerButton from './PlayerButton'
@@ -9,7 +10,12 @@ interface IParticipantWithIndex extends IParticipant {
     index: number
 }
 
-const GivePointModal = () => {
+type Props = {
+    setPrompt: Dispatch<SetStateAction<string>>
+    setWasClicked: Dispatch<SetStateAction<boolean>>
+}
+
+const GivePointModal: FC<Props> = ({ setPrompt, setWasClicked }) => {
     const game = {
         state: useSelector((state: RootState) => state.game),
         action: gameSlice.actions,
@@ -30,7 +36,14 @@ const GivePointModal = () => {
     return (
         <div>
             {participants.map(({ index, player }: IParticipantWithIndex) => {
-                return <PlayerButton index={index} name={player} />
+                return (
+                    <PlayerButton
+                        index={index}
+                        name={player}
+                        setPrompt={setPrompt}
+                        setWasClicked={setWasClicked}
+                    />
+                )
             })}
         </div>
     )
