@@ -85,7 +85,12 @@ export default function Timer({ className = null }: Props) {
         }
 
         startTimer()
-        return () => clearInterval(interval)
+        return () => {
+            clearInterval(interval)
+            setDisplayMin('00')
+            setDisplaySec('00')
+            setProgress('0')
+        }
     }, [
         game.state.isTurnStarted,
         timer.state.endTime,
