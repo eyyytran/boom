@@ -126,7 +126,6 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
   useEffect(() => {
     return () => {
-      alert("LOCATION-CHANGE");
       dispatch(video.actions.setUsers([]));
       try {
         tracks && tracks.forEach(track => track.close());
