@@ -1,5 +1,7 @@
 import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef, useState } from "react";
 
+import { useLocation } from "react-router-dom";
+
 import videoSlice from "../store/videoSlice";
 
 import { useSelector } from "react-redux";
@@ -28,7 +30,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
+styles.static = "w-full lg:col-start-1 lg:col-span-full lg:row-start-2 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-yellow-700";
 
 export default function Gallery({ galleryRef, className = "" }: Props) {
   const user = {
@@ -55,75 +57,87 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
   const urlparams = new URLSearchParams(window.location.search);
   const roomId: any = urlparams.get("id");
 
-  // const url = window.location.pathname.split("/").pop();
-
-  // console.log(window.location.href !== "http://localhost:3000/boom/" + game.state.roomId);
+  const videoStateUsersRef = useRef<any>([]);
 
   useEffect(() => {
+    videoStateUsersRef.current = video.state.users;
+  }, [video.state.users]);
+
+  useEffect(() => {
+    console.log("ready", ready);
+    if (video.state.start) return;
+    if (!roomId || !ready) return;
+
     const init = async () => {
-      if (!roomId) return;
+      client.on("connection-state-change", async (curState, revState) => {
+        console.log("HERE", "CONNECTION-STATE-CHANGE");
+        if (curState === "CONNECTED") {
+          client.on("user-published", async (user, mediaType) => {
+            if (mediaType === "audio") user.audioTrack && user.audioTrack.play();
+            if (mediaType === "video") await client.subscribe(user, mediaType);
+            if (mediaType === "video")
+              try {
+                videoStateUsersRef.current.forEach((stream: any) => {
+                  if (stream.uid === user.uid) throw new Error("duplicate user");
+                });
+                dispatch(video.actions.addUser(user));
+              } catch (error) {
+                console.log("HERE", error);
+              }
+            console.log("HERE", `${user.uid} PUBLISHED`);
+          });
 
-      try {
-        await client.join(config.appId, roomId, null, user.state.userName);
-      } catch (error) {
-        console.log("error");
-      }
+          client.on("stream-unpublished", (user: any, mediaType: any) => {
+            if (mediaType === "audio") user.audioTrack && user.audioTrack.stop();
+            if (mediaType === "video") user.videoTrack && user.videoTrack.stop();
+            console.log("HERE", "STREAM-PUBLISHED");
+          });
 
-      if (tracks) {
-        await client.publish([tracks[0], tracks[1]]);
-      }
+          client.on("stream-removed", (user: any, mediaType: any) => {
+            if (mediaType === "audio") user.audioTrack && user.audioTrack.stop();
+            if (mediaType === "video") user.videoTrack && user.videoTrack.stop();
+            console.log("HERE", "STREAM-REMOVED");
+          });
+
+          client.on("user-unpublished", (user, mediaType) => {
+            if (mediaType === "audio") user.audioTrack && user.audioTrack.stop();
+            if (mediaType === "video") user.videoTrack && user.videoTrack.stop();
+            if (mediaType === "video") dispatch(video.actions.removeUser(user));
+            console.log("HERE", `${user.uid} UNPUBLISHED`);
+          });
+        }
+
+        if (curState === "DISCONNECTED") {
+          client.on("user-left", user => {
+            dispatch(video.actions.removeUser(user));
+            console.log("HERE", `${user.uid} LEFT`);
+          });
+        }
+      });
+
+      await client.join(config.appId, roomId, null, user.state.userName);
+      tracks && (await client.publish(tracks));
     };
 
-    if (ready && tracks) {
-      try {
-        init();
+    init();
+  }, [ready, client]);
 
-        client.on("user-published", async (user, mediaType) => {
-          alert(`user-publish ${user.uid}`);
-          await client.subscribe(user, mediaType);
-          if (mediaType === "video") {
-            dispatch(video.actions.addUser(user));
-          }
-          if (mediaType === "audio") {
-            if (user.audioTrack) user.audioTrack.play();
-          }
-        });
-
-        client.on("user-unpublished", (user, mediaType) => {
-          alert(`user-unpublish ${user.uid}`);
-          if (mediaType === "audio") {
-            if (user.audioTrack) user.audioTrack.stop();
-          }
-          if (mediaType === "video") {
-            if (user.videoTrack) user.videoTrack.stop();
-          }
-        });
-
-        client.on("user-left", user => {
-          alert(`user-left ${user.uid}`);
-          dispatch(video.actions.removeUser(user));
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [roomId, client, ready, tracks]);
+  const location = useLocation();
 
   useEffect(() => {
-    const unpublish = async () => {
-      await client.unpublish();
-      await client.leave();
-      dispatch(video.actions.removeUser(user));
-      alert("Client Unpublished");
-    };
     return () => {
+      dispatch(video.actions.setUsers([]));
       try {
-        unpublish();
+        tracks && tracks.forEach(track => track.close());
+        client.leave().then(() => {
+          client.removeAllListeners();
+        });
+        window.location.reload();
       } catch (error) {
         console.log(error);
       }
     };
-  }, []);
+  }, [location]);
 
   styles.dynamic = className;
 
@@ -131,7 +145,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     <Component id="Gallery">
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center h-full gap-2 md:gap-3 lg:gap-4 border border-red-500">
+          <div className={`flex portrait:flex-col lg:portrait:flex-row justify-center items-center w-full h-full gap-2 md:gap-3 lg:gap-4 border-4 border-black`}>
             {tracks && (
               <div className="contents">
                 <Video tracks={tracks} active={true} username={user.state.userName} />
