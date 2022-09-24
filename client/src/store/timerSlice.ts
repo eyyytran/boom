@@ -9,13 +9,26 @@ const timerSlice = createSlice({
             minutes: 0,
             seconds: 0,
         },
+        endTime: 0,
+        isStopTimer: false,
     },
     reducers: {
         resetTime: state => {
-            state.turnTime = 1
+            state.remainingTime = {
+                total: 0,
+                minutes: 0,
+                seconds: 0,
+            }
+            state.endTime = 0
         },
         setRemainingTime: (state, { payload }) => {
             state.remainingTime = payload
+        },
+        setEndTime: (state, { payload }) => {
+            state.endTime = payload
+        },
+        setIsStopTimer: (state, { payload }) => {
+            state.isStopTimer = payload
         },
     },
 })

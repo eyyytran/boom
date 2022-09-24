@@ -4,7 +4,10 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import timerSlice from '../../store/timerSlice'
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import gameSlice from '../../store/gameSlice'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../../server/firebase'
 
 type Props = {
     className?: string | null
@@ -22,6 +25,11 @@ styles.static = 'p-2 md:p-3 lg:p-4 bg-neutral-300'
 export default function Timer({ className = null }: Props) {
     styles.dynamic = className
 
+    const game = {
+        state: useSelector((state: RootState) => state.game),
+        action: gameSlice.actions,
+    }
+
     const timer = {
         state: useSelector((state: RootState) => state.timer),
         action: timerSlice.actions,
@@ -33,39 +41,63 @@ export default function Timer({ className = null }: Props) {
 
     const dispatch = useDispatch()
 
-    let interval: any
-
-    const startTimer = () => {
-        const currentTime = new Date().getTime()
-        const convertedTurnTime = timer.state.turnTime * 60 * 1000
-        const endTime = currentTime + convertedTurnTime
-        console.log({ endTime, currentTime, convertedTurnTime })
-
-        interval = setInterval(() => {
-            const now = new Date().getTime()
-            const difference = endTime - now
-            const minutes = Math.floor((difference % (60 * 60 * 1000)) / (1000 * 60))
-            const seconds = Math.floor((difference % (60 * 1000)) / 1000)
-
-            if (difference < 0) {
-                clearInterval(interval)
-            } else {
-                setDisplayMin(`${minutes}`.padStart(2, '0'))
-                setDisplaySec(`${seconds}`.padStart(2, '0'))
+    useEffect(() => {
+        if (!game.state.isTurnStarted) return
+        const stopTurn = async () => {
+            function getWhosTurn() {
+                const whosTurn = game.state.whosTurn as number
+                return whosTurn === game.state.players.length - 1 ? 0 : whosTurn + 1
             }
+            await updateDoc(doc(db, 'rooms', game.state.roomId), {
+                drawings: null,
+                'gameState.isTurnStart': false,
+                'gameState.whosTurn': getWhosTurn(),
+            })
+            dispatch(game.action.setCurrentPrompt(''))
+        }
+        let interval: any
+        const startTimer = () => {
+            const convertedTurnTime = timer.state.turnTime * 60 * 1000
+            const endTime = timer.state.endTime
 
-            let percent = Math.ceil(((convertedTurnTime - difference) / convertedTurnTime) * 100)
-            setProgress(percent.toString())
-        }, 1000)
-    }
+            if (timer.state.isStopTimer) return
 
-    const handleTimerClick = () => {
+            interval = setInterval(() => {
+                const now = new Date().getTime()
+                const difference = endTime - now
+                const minutes = Math.floor((difference % (60 * 60 * 1000)) / (1000 * 60))
+                const seconds = Math.floor((difference % (60 * 1000)) / 1000)
+
+                if (difference < 0) {
+                    clearInterval(interval)
+                    if (!game.state.isTurn) return
+                    stopTurn()
+                } else {
+                    setDisplayMin(`${minutes}`.padStart(2, '0'))
+                    setDisplaySec(`${seconds}`.padStart(2, '0'))
+                }
+
+                let percent = Math.ceil(
+                    ((convertedTurnTime - difference) / convertedTurnTime) * 100
+                )
+                setProgress(percent.toString())
+            }, 1000)
+        }
+
         startTimer()
-    }
-
-    const stopTimer = () => {
-        clearInterval(interval)
-    }
+        return () => clearInterval(interval)
+    }, [
+        game.state.isTurnStarted,
+        timer.state.endTime,
+        timer.state.turnTime,
+        timer.state.isStopTimer,
+        game.state.roomId,
+        game.state.players,
+        game.state.whosTurn,
+        game.state.isTurn,
+        game.action,
+        dispatch,
+    ])
 
     return (
         <Component id='Timer'>
@@ -89,8 +121,6 @@ export default function Timer({ className = null }: Props) {
                             ></div>
                         </div>
                     </div>
-                    <button onClick={handleTimerClick}>Get Date</button>
-                    <button>Stop Timer</button>
                 </Container>
             </div>
         </Component>

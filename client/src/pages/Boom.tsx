@@ -16,6 +16,7 @@ import Chat from '../components/Chat'
 import Navbar from '../components/Navbar'
 import { useNavigate } from 'react-router-dom'
 import IParticipant from '../components/interfaces/IParticipant'
+import timerSlice from '../store/timerSlice'
 
 type Styles = {
     static: string
@@ -50,6 +51,11 @@ export default function Boom() {
     const modal = {
         state: useSelector((state: RootState) => state.modal),
         action: modalSlice.actions,
+    }
+
+    const timer = {
+        state: useSelector((state: RootState) => state.timer),
+        action: timerSlice.actions,
     }
 
     useEffect(() => {
@@ -100,6 +106,13 @@ export default function Boom() {
                 reassignPlayerNum(game.state.players)
             }
 
+            dispatch(game.action.setIsTurnStarted(dbGameState.isTurnStart))
+            if (dbGameState.isTurnStart) {
+                dispatch(timer.action.setEndTime(dbGameState.turnEndTime))
+            }
+
+            dispatch(timer.action.setIsStopTimer(dbGameState.isStopTimer))
+
             dispatch(game.action.setIsWon(dbGameState.gameWon))
             dispatch(game.action.setWinner(dbGameState.winner ? dbGameState.winner.player : null))
 
@@ -118,6 +131,7 @@ export default function Boom() {
         game.state.players,
         game.state.roomId,
         modal.action,
+        timer.action,
         user.state.userName,
         navigate,
     ])

@@ -6,6 +6,8 @@ import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import modalSlice from '../store/modalSlice'
 import './styles/gameStyles.css'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../server/firebase'
 
 type Props = {
     className?: string | null
@@ -38,6 +40,9 @@ export default function Taskbar({ className = null }: Props) {
 
     const handleEndTurn = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        await updateDoc(doc(db, 'rooms', game.state.roomId), {
+            'gameState.isStopTimer': true,
+        })
         dispatch(modal.action.setIsShowGivePointModal(!modal.state.isShowGivePointModal))
     }
 

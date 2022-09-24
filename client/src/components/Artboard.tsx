@@ -24,6 +24,8 @@ import {
 import { db } from '../server/firebase'
 import modalSlice from '../store/modalSlice'
 import { randomIntegerInInterval } from '../util/randomIntegerInInterval'
+import timerSlice from '../store/timerSlice'
+import { useDispatch } from 'react-redux'
 
 type Props = {
     artboardRef: any
@@ -50,21 +52,32 @@ export default function Artboard({ artboardRef, className = null }: Props) {
         action: modalSlice.actions,
     }
 
-    const [prompt, setPrompt] = useState<string>('')
-    const [wasClicked, setWasClicked] = useState<boolean>(false)
+    const timer = {
+        state: useSelector((state: RootState) => state.timer),
+        action: timerSlice.actions,
+    }
 
-    const getPrompt: any = async (alreadyUsedPromptIds: Array<number>) => {
+    const dispatch = useDispatch()
+
+    const getPromptAndUpdateTimer: any = async (alreadyUsedPromptIds: Array<number>) => {
         const randomPromptId = randomIntegerInInterval(0, 24)
-        if (alreadyUsedPromptIds.includes(randomPromptId)) return getPrompt(alreadyUsedPromptIds)
+        if (alreadyUsedPromptIds.includes(randomPromptId))
+            return getPromptAndUpdateTimer(alreadyUsedPromptIds)
+        const currentTime = new Date().getTime()
+        const convertedTurnTime = timer.state.turnTime * 60 * 1000
+        const endTime = currentTime + convertedTurnTime
         try {
             const querySnapshot = await getDocs(
                 query(collection(db, 'game-prompts'), where('id', '==', randomPromptId))
             )
             querySnapshot.forEach(doc => {
-                setPrompt(doc.data().prompt)
+                dispatch(game.action.setCurrentPrompt(doc.data().prompt))
             })
             await updateDoc(doc(db, 'rooms', game.state.roomId), {
                 'gameState.usedPrompts': arrayUnion(randomPromptId),
+                'gameState.isTurnStart': true,
+                'gameState.turnEndTime': endTime,
+                'gameState.isStopTimer': false,
             })
         } catch (error) {
             console.error()
@@ -73,8 +86,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
     const handleGetPrompt = async (e: SyntheticEvent) => {
         e.preventDefault()
-        if (wasClicked === true) return
-        setWasClicked(true)
+        if (game.state.isTurnStarted === true) return
         const docSnap = await getDoc(doc(db, 'rooms', game.state.roomId))
         if (docSnap.exists()) {
             const data = docSnap.data()
@@ -82,19 +94,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             if (!data.usedPrompts) {
                 usedPromptsArray = []
             }
-            await getPrompt(usedPromptsArray)
+            await getPromptAndUpdateTimer(usedPromptsArray)
         }
     }
-
-    useEffect(() => {
-        if (!game.state.roomId) return
-        const sendPrompt = async () => {
-            await updateDoc(doc(db, 'rooms', game.state.roomId), {
-                'gameState.currentPrompt': prompt,
-            })
-        }
-        sendPrompt()
-    }, [game.state.roomId, prompt])
 
     styles.dynamic = className
     return (
@@ -102,7 +104,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
             <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
                 {modal.state.isShowIsTurnModal && <IsTurnModal />}
                 {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && (
-                    <GivePointModal setPrompt={setPrompt} setWasClicked={setWasClicked} />
+                    <GivePointModal />
                 )}
                 {modal.state.isShowWinnerModal && game.state.isWon && <EndGameModal />}
                 <Container className='overflow-y-auto no-scrollbar'>
@@ -120,7 +122,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                             }
                             onClick={handleGetPrompt}
                         >
-                            {!prompt ? 'Generate Prompt' : prompt}
+                            {!game.state.currentPrompt
+                                ? 'Generate Prompt'
+                                : game.state.currentPrompt}
                         </button>
                         <Taskbar />
                     </div>
