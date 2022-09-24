@@ -69,7 +69,8 @@ export default function Chat({ chatRef, className = null }: Props) {
       await updateDoc(roomRef, {
         messages: arrayUnion(dataToSend),
       });
-
+      //@ts-ignore
+      dummy.current.scrollIntoView({ behavior: "smooth" });
       console.log("message sent");
     } catch (error) {
       console.log(error);
@@ -85,10 +86,6 @@ export default function Chat({ chatRef, className = null }: Props) {
     console.log("data to send", dataToSend);
     sendMessage(dataToSend);
     setMessage("");
-    // if (dummy.current) {
-    //@ts-ignore
-    dummy.current.scrollIntoView({ behavior: "smooth" });
-    // }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -104,7 +101,7 @@ export default function Chat({ chatRef, className = null }: Props) {
       <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex flex-col h-full gap-2">
-            <div className="flex flex-col h-auto gap-2 overflow-y-auto no-scrollbar h-auto border-4 border-yellow">
+            <div className="flex flex-col grow gap-2 overflow-y-auto no-scrollbar h-auto border-4 border-yellow">
               {chat?.map((message) => {
                 return (
                   <Message
