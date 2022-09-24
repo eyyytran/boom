@@ -1,4 +1,4 @@
-import { FC, SyntheticEvent } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
@@ -102,12 +102,20 @@ const Navbar: FC<Props> = ({
               <button ref={artboardButtonRef} className="py-2 px-4">
                 <FontAwesomeIcon icon={faTableCellsLarge} className="" />
               </button>
-              <button ref={chatButtonRef} className="py-2 px-4">
+              <button
+                ref={chatButtonRef}
+                className="py-2 px-4"
+                // onClick={setMessageIcon(!messageIcon)}
+              >
                 <FontAwesomeIcon icon={faMessage} className="" />
               </button>
             </div>
             <Link to="/dashboard" className="py-2 px-4">
-              <FontAwesomeIcon icon={faRightToBracket} className="" />
+              <FontAwesomeIcon
+                ref={exitButtonRef}
+                icon={faRightToBracket}
+                className=""
+              />
             </Link>
           </div>
         </Container>
