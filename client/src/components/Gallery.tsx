@@ -94,6 +94,8 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
                     throw new Error("duplicate user");
                 });
                 dispatch(video.actions.addUser(user));
+                const publishSound = new Audio("/sounds/open-aim.mp3");
+                publishSound.play();
               } catch (error) {
                 console.log("HERE", error);
               }
@@ -118,15 +120,18 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             user.audioTrack && user.audioTrack.stop();
             if (mediaType === "video")
               user.videoTrack && user.videoTrack.stop();
+
             if (mediaType === "video") dispatch(video.actions.removeUser(user));
             console.log("HERE", `${user.uid} UNPUBLISHED`);
           });
         }
-
+        console.log("HERE CUR STATE ", curState);
         if (curState === "DISCONNECTED") {
           client.on("user-left", (user) => {
             dispatch(video.actions.removeUser(user));
             console.log("HERE", `${user.uid} LEFT`);
+            const unpublishSound = new Audio("/sounds/exit-aim.mp3");
+            unpublishSound.play();
           });
         }
       });
