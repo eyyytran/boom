@@ -29,7 +29,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "flex justify-center items-center w-full h-full p-2 md:p-3 lg:p-4 lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 border-4 border-violet-700";
+styles.static = "flex flex-col gap-2 justify-center items-center w-full h-full p-2 md:p-3 lg:p-4 lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 border-4 border-violet-700";
 
 export default function Artboard({ artboardRef, className = null }: Props) {
   const game = {
