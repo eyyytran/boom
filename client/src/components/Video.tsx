@@ -12,7 +12,12 @@ import Component from "../components/Component";
 
 import { AgoraVideoPlayer } from "agora-rtc-react";
 
-import { faMicrophone, faMicrophoneSlash, faVideoCamera, faVideoSlash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMicrophone,
+  faMicrophoneSlash,
+  faVideoCamera,
+  faVideoSlash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
@@ -38,7 +43,12 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ active, className = null, tracks, username }: Props) {
+export default function Video({
+  active,
+  className = null,
+  tracks,
+  username,
+}: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -54,10 +64,17 @@ export default function Video({ active, className = null, tracks, username }: Pr
     <Component id="Video">
       <div className={`${styles.static} ${styles.dynamic}`}>
         <div className="h-full w-full object-cover object-center">
-          <AgoraVideoPlayer videoTrack={tracks[1]} className="w-full h-full scale-105" />
+          <AgoraVideoPlayer
+            videoTrack={tracks[1]}
+            className="w-full h-full scale-105"
+          />
         </div>
         <div className="absolute inset-0 flex justify-start items-end">
-          <div className={`w-full p-2 flex justify-between items-center ${active ? styles.conditional.active : styles.conditional.inactive}`}>
+          <div
+            className={`w-full p-2 flex justify-between items-center ${
+              active ? styles.conditional.active : styles.conditional.inactive
+            }`}
+          >
             <button
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
@@ -66,9 +83,14 @@ export default function Video({ active, className = null, tracks, username }: Pr
                 dispatch(video.actions.setMicrophone(!video.state.microphone));
               }}
             >
-              <FontAwesomeIcon icon={video.state.microphone ? faMicrophone : faMicrophoneSlash} className="text-xs text-inherit" />
+              <FontAwesomeIcon
+                icon={video.state.microphone ? faMicrophone : faMicrophoneSlash}
+                className="text-xs text-inherit"
+              />
             </button>
-            <span className="w-full text-xs text-inherit text-center">{username}</span>
+            <span className="w-full text-xs text-inherit text-center">
+              {username}
+            </span>
             <button
               className={`${!active && "invisible"} w-8`}
               onClick={async () => {
@@ -77,7 +99,10 @@ export default function Video({ active, className = null, tracks, username }: Pr
                 dispatch(video.actions.setCamera(!video.state.camera));
               }}
             >
-              <FontAwesomeIcon icon={video.state.camera ? faVideoCamera : faVideoSlash} className="text-xs text-inherit" />
+              <FontAwesomeIcon
+                icon={video.state.camera ? faVideoCamera : faVideoSlash}
+                className="text-xs text-inherit"
+              />
             </button>
           </div>
         </div>

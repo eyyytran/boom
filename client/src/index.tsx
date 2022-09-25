@@ -11,7 +11,9 @@ import App from "./App";
 
 const persistor = persistStore(store);
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   // <React.StrictMode>
@@ -24,6 +26,6 @@ root.render(
         </BrowserRouter>
       </PersistGate>
     }
-  />,
+  />
   // </React.StrictMode>,
 );
