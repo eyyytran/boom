@@ -11,7 +11,7 @@ const IsTurnModal = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="bg-green-500 text-white text-center font-bold">
+    <div className="w-full bg-green-500 text-white text-center font-bold rounded">
       {/* <button onClick={() => dispatch(modal.action.setIsShowIsTurnModal(false))}>X</button> */}
       <h1>It's Your Turn!</h1>
     </div>
