@@ -12,11 +12,9 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
-import Dash from "./components/Dash";
 import Home from "./pages/Home";
 import Settings from "./components/Settings";
 import Join from "./components/Join";
-import Collection from "./components/Collection";
 import NewGame from "./components/NewGame";
 import "./index.css";
 
@@ -40,7 +38,7 @@ function App() {
   //   }, []);
   // };
   // useAuth();
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, (user) => {
     if (!user) {
       dispatch(userState.actions.setUser(null));
     } else {
@@ -56,11 +54,9 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="boom" element={<Boom />} />
           <Route path="dashboard" element={<Dashboard />}>
-            <Route path="dash" element={<Dash />} />
             <Route path="settings" element={<Settings />} />
             <Route path="join" element={<Join />} />
             <Route path="new" element={<NewGame />} />
-            <Route path="collection" element={<Collection />} />
           </Route>
         </Route>
         <Route path="/" element={<Home />} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Component from "../components/Component";
 import Container from "../layout/Container";
@@ -28,7 +28,8 @@ interface FirebaseMessage {
 
 const styles = {} as Styles;
 
-styles.static = "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-green-700";
+styles.static =
+  "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-green-700";
 
 export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
@@ -46,6 +47,9 @@ export default function Chat({ chatRef, className = null }: Props) {
     setMessage(value);
   };
 
+  // Change
+  const dummy = useRef<HTMLHeadingElement>(null);
+
   const urlparams = new URLSearchParams(window.location.search);
   const roomId: any = urlparams.get("id");
 
@@ -53,7 +57,7 @@ export default function Chat({ chatRef, className = null }: Props) {
 
   useEffect(() => {
     if (!roomId) return;
-    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), doc => {
+    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), (doc) => {
       const result = doc.data();
       setChat(result?.messages);
     });
@@ -67,6 +71,8 @@ export default function Chat({ chatRef, className = null }: Props) {
       await updateDoc(roomRef, {
         messages: arrayUnion(dataToSend),
       });
+      //@ts-ignore
+      dummy.current.scrollIntoView({ behavior: "smooth" });
       console.log("message sent");
     } catch (error) {
       console.log(error);
@@ -98,23 +104,33 @@ export default function Chat({ chatRef, className = null }: Props) {
         <Container>
           <div className="flex flex-col h-full gap-2">
             <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
-              {chat?.map(message => {
+              {chat?.map((message) => {
                 return (
                   <Message
                     key={message.timeStamp}
                     username={user.state.userName}
                     message={message.content}
                     sender={message.sentBy}
-                    origin={user.state.userName === message.sentBy ? "user" : "participant"}
+                    origin={
+                      user.state.userName === message.sentBy
+                        ? "user"
+                        : "participant"
+                    }
                   />
                 );
               })}
+              <div className="h-16" ref={dummy} />
             </div>
             <form
-              className="flex flex-col justify-end items-center gap-2 h-max focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded"
+              className="flex flex-col justify-end items-center gap-2 h-auto focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded"
               data-lpignore="true"
             >
-              <textarea className="w-full p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded resize-none" value={message} onKeyDown={handleKeyDown} onChange={handleMessage}></textarea>
+              <textarea
+                className="w-full h-16 p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded resize-none"
+                value={message}
+                onKeyDown={handleKeyDown}
+                onChange={handleMessage}
+              ></textarea>
             </form>
           </div>
         </Container>
