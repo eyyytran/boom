@@ -1,11 +1,4 @@
-import React, {
-  forwardRef,
-  MutableRefObject,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { forwardRef, MutableRefObject, ReactElement, useEffect, useRef, useState } from "react";
 
 import { useLocation } from "react-router-dom";
 
@@ -19,11 +12,7 @@ import Component from "./Component";
 import Video from "./Video";
 import Container from "../layout/Container";
 
-import {
-  config,
-  useClient,
-  useMicrophoneAndCameraTracks,
-} from "../server/agora";
+import { config, useClient, useMicrophoneAndCameraTracks } from "../server/agora";
 import gameSlice from "../store/gameSlice";
 import userSlice from "../store/userSlice";
 
@@ -41,8 +30,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static =
-  "w-full lg:col-start-1 lg:col-span-full lg:row-start-2 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 bg-neutral-900";
+styles.static = "w-full lg:col-start-1 lg:col-span-full lg:row-start-2 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 bg-neutral-900";
 
 export default function Gallery({ galleryRef, className = "" }: Props) {
   const user = {
@@ -90,8 +78,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             if (mediaType === "video")
               try {
                 videoStateUsersRef.current.forEach((stream: any) => {
-                  if (stream.uid === user.uid)
-                    throw new Error("duplicate user");
+                  if (stream.uid === user.uid) throw new Error("duplicate user");
                 });
                 dispatch(video.actions.addUser(user));
                 const publishSound = new Audio("/sounds/open-aim.mp3");
@@ -104,15 +91,13 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
           client.on("stream-unpublished", (user: any, mediaType: any) => {
             user.audioTrack && user.audioTrack.stop();
-            if (mediaType === "video")
-              user.videoTrack && user.videoTrack.stop();
+            if (mediaType === "video") user.videoTrack && user.videoTrack.stop();
             console.log("HERE", "STREAM-PUBLISHED");
           });
 
           client.on("stream-removed", (user: any, mediaType: any) => {
             user.audioTrack && user.audioTrack.stop();
-            if (mediaType === "video")
-              user.videoTrack && user.videoTrack.stop();
+            if (mediaType === "video") user.videoTrack && user.videoTrack.stop();
             console.log("HERE", "STREAM-REMOVED");
           });
 
@@ -128,7 +113,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           });
         }
         if (curState === "DISCONNECTED") {
-          client.on("user-left", (user) => {
+          client.on("user-left", user => {
             dispatch(video.actions.removeUser(user));
             console.log("HERE", `${user.uid} LEFT`);
           });
@@ -148,7 +133,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     return () => {
       dispatch(video.actions.setUsers([]));
       try {
-        tracks && tracks.forEach((track) => track.close());
+        tracks && tracks.forEach(track => track.close());
         client.leave().then(() => {
           client.removeAllListeners();
         });
@@ -165,25 +150,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     <Component id="Gallery">
       <div ref={galleryRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
-          <div
-            className={`flex portrait:flex-col lg:portrait:flex-row justify-center items-center w-full h-full gap-2 md:gap-3 lg:gap-4 border-4 border-black`}
-          >
+          <div className={`flex portrait:flex-col lg:portrait:flex-row justify-center items-center w-full h-full gap-2 md:gap-3 lg:gap-4`}>
             {tracks && (
               <div className="contents">
-                <Video
-                  tracks={tracks}
-                  active={true}
-                  username={user.state.userName}
-                />
-                {video.state.users &&
-                  video.state.users.map((user) => (
-                    <Video
-                      tracks={[user.audioTrack, user.videoTrack]}
-                      username={user.uid}
-                      key={user.uid}
-                      active={false}
-                    />
-                  ))}
+                <Video tracks={tracks} active={true} username={user.state.userName} />
+                {video.state.users && video.state.users.map(user => <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} active={false} />)}
               </div>
             )}
           </div>
