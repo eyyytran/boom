@@ -58,9 +58,9 @@ export default function Titlebar({ className = "" }: Props) {
           <div className="flex justify-center items-center gap-2 h-full">
             <FontAwesomeIcon
               icon={faPenToSquare}
-              className="text-xs text-neutral-50"
+              className="text-xs text-violet-500"
             />
-            <span className="text-xs text-neutral-50">
+            <span className="text-xs text-white font-bold">
               {/* <Link to="/dashboard" onClick={handleUserCleanup}>
                 Boom
               </Link> */}
