@@ -33,6 +33,7 @@ const Join = (props: Props) => {
                 participants: arrayUnion(user.state.userName),
                 'gameState.players': arrayUnion({
                     player: user.state.userName,
+                    uid: user.state.user?.uid,
                     points: 0,
                 }),
             })
@@ -42,13 +43,11 @@ const Join = (props: Props) => {
                 const playerList = docSnap.data().gameState.players
                 const playerNum =
                     playerList.findIndex(
-                        (playerObj: any) =>
-                            playerObj.player === user.state.userName
+                        (playerObj: any) => playerObj.player === user.state.userName
                     ) === -1
                         ? playerList.length + 1
                         : playerList.findIndex(
-                              (playerObj: any) =>
-                                  playerObj.player === user.state.userName
+                              (playerObj: any) => playerObj.player === user.state.userName
                           )
                 dispatch(game.actions.setPlayerNum(playerNum))
                 dispatch(game.actions.setIsOwner(false))
@@ -64,6 +63,8 @@ const Join = (props: Props) => {
     const joinGame = (e: React.SyntheticEvent) => {
         e.preventDefault()
         updateRoom()
+        // setTimeout(() => {
+        // }, 700)
         navigate(`/boom/?id=${gameCode}`)
     }
 
@@ -71,9 +72,7 @@ const Join = (props: Props) => {
         <Component id='NewGame'>
             <div className='flex flex-col items-center h-full w-full'>
                 <div className='flex flex-col items-center m-16'>
-                    <h1 className='text-xl text-center font-bold text-gray-900'>
-                        Join A Game
-                    </h1>
+                    <h1 className='text-xl text-center font-bold text-gray-900'>Join A Game</h1>
                     <form onSubmit={joinGame}>
                         <input
                             type='text'

@@ -3,17 +3,19 @@ import { User } from 'firebase/auth'
 
 interface ICurrentUser {
     user: User | null
-    userName: string | null | undefined
+    userName: string
 }
 
 type State = ICurrentUser
 
+const initialState: ICurrentUser = {
+    user: null,
+    userName: '',
+}
+
 const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        user: null,
-        userName: '',
-    },
+    initialState,
     reducers: {
         setUser: (state: State, action: PayloadAction<any>) => {
             state.user = action.payload

@@ -7,7 +7,9 @@ export const cleanupUser = async (
     currentUser: string,
     listOfPlayers: IParticipant[]
 ) => {
+    console.log({ currentUser })
     const newList = Array.from(listOfPlayers)
+    console.log({ newList })
     const index = newList.findIndex(player => player.player === currentUser)
     newList.splice(index, 1)
     if (newList.length === 0) {
