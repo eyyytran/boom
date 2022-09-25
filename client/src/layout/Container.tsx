@@ -3,7 +3,7 @@ import Component from "../components/Component";
 
 type Props = {
   className?: string;
-  children: ReactElement | ReactElement[];
+  children: ReactElement | ReactElement[] | any;
 };
 
 type Styles = {

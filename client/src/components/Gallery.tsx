@@ -42,7 +42,7 @@ type Styles = {
 const styles = {} as Styles;
 
 styles.static =
-  "w-full lg:col-start-1 lg:col-span-full lg:row-start-2 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-yellow-700";
+  "w-full lg:col-start-1 lg:col-span-full lg:row-start-2 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 bg-neutral-900";
 
 export default function Gallery({ galleryRef, className = "" }: Props) {
   const user = {
