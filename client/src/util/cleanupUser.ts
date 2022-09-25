@@ -4,11 +4,13 @@ import { db } from '../server/firebase'
 
 export const cleanupUser = async (
     roomId: string,
-    currentUser: string,
+    currentUser: string | undefined,
     listOfPlayers: IParticipant[]
 ) => {
+    console.log({ currentUser })
     const newList = Array.from(listOfPlayers)
-    const index = newList.findIndex(player => player.player === currentUser)
+    console.log({ newList })
+    const index = newList.findIndex(player => player.uid === currentUser)
     newList.splice(index, 1)
     if (newList.length === 0) {
         return await deleteDoc(doc(db, 'rooms', roomId))
