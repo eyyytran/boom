@@ -110,13 +110,13 @@ export default function Artboard({ artboardRef, className = null }: Props) {
                 <Container className='w-full h-full overflow-y-auto no-scrollbar border border-neutral-400 rounded'>
                     <div className='flex portrait:flex-col lg:flex-col justify-start h-full'>
                         <Toolbar />
-                        <div className='portrait:w-full landscape:h-max lg:landscape:h-full aspect-auto bg-white'>
+                        <div className='w-full h-full bg-white'>
                             <Canvas />
                         </div>
                         <button
                             className={
                                 game.state.isTurn
-                                    ? 'p-2 bg-violet-500 text-xs font-bold text-white text-center h-24'
+                                    ? 'p-2 bg-violet-500 text-xs font-bold text-white text-center'
                                     : 'hidden'
                             }
                             onClick={handleGetPrompt}
