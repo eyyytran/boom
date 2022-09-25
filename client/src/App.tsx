@@ -12,7 +12,6 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoutes from "./components/PrivateRoutes";
-import Dash from "./components/Dash";
 import Home from "./pages/Home";
 import Settings from "./components/Settings";
 import Join from "./components/Join";
@@ -55,7 +54,6 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="boom" element={<Boom />} />
           <Route path="dashboard" element={<Dashboard />}>
-            <Route path="dash" element={<Dash />} />
             <Route path="settings" element={<Settings />} />
             <Route path="join" element={<Join />} />
             <Route path="new" element={<NewGame />} />
