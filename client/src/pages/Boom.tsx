@@ -178,7 +178,7 @@ export default function Boom() {
       alert("exitButtonRef");
     };
   }, []);
-
+  console.log("ROOM", game.state.roomId);
   return (
     <Component id="Boom">
       <div className={`${styles.static}`}>
