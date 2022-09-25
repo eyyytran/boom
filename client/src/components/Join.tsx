@@ -33,6 +33,7 @@ const Join = (props: Props) => {
                 participants: arrayUnion(user.state.userName),
                 'gameState.players': arrayUnion({
                     player: user.state.userName,
+                    uid: user.state.user?.uid,
                     points: 0,
                 }),
             })

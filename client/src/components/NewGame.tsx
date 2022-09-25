@@ -26,6 +26,7 @@ const NewGame = (props: Props) => {
     const dispatch = useDispatch()
 
     const userName = user.state.userName
+    const User = user.state.user
 
     const createRoom = async () => {
         try {
@@ -35,6 +36,7 @@ const NewGame = (props: Props) => {
                     players: arrayUnion({
                         player: userName,
                         points: 0,
+                        uid: User?.uid,
                     }),
                     gameStarted: false,
                     gameWon: false,

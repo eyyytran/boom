@@ -70,12 +70,8 @@ export default function Boom() {
         }
 
         const reassignPlayerNum = (playerList: IParticipant[]) => {
-            const index = playerList.findIndex(player => player.player === user.state.userName)
-            // if (index === -1) {
-            //     dispatch(game.action.setPlayerNum(0))
-            // } else if (index !== -1) {
+            const index = playerList.findIndex(player => player.uid === user.state.user?.uid)
             dispatch(game.action.setPlayerNum(index))
-            // }
             if (index === 0) {
                 dispatch(game.action.setIsOwner(true))
             }
@@ -107,7 +103,6 @@ export default function Boom() {
             dispatch(game.action.setWhosTurn(dbGameState.whosTurn))
 
             if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
-                // if(dbGameState.players < game.state.players)
                 getParticipants()
                 reassignPlayerNum(dbGameState.players)
             }
