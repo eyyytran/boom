@@ -41,7 +41,7 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
 
     await updateDoc(doc(db, "rooms", game.state.roomId), {
       "gameState.players": newPlayers,
-      "drawings": null,
+      drawings: null,
       "gameState.whosTurn": getWhosTurn(),
       "gameState.gameWon": isGameWon,
       "gameState.winner": isGameWon ? newPlayer : null,
@@ -58,7 +58,10 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
   };
 
   return (
-    <button className="px-2 bg-violet-500 rounded text-white" onClick={handleGivePoint}>
+    <button
+      className="text-white py-2 px-6 font-bold bg-neutral-900 rounded"
+      onClick={handleGivePoint}
+    >
       {name}
     </button>
   );
