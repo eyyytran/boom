@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -37,6 +37,40 @@ export default function Boom() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log("REF GALLERY ", galleryRef);
+  console.log("REF ARTBOARD ", artboardRef);
+  console.log("REF CHAT ", chatRef);
+
+  // Viewport functionality
+  const isGalleryInView = useIsInViewport(galleryRef);
+
+  const isArtboardInView = useIsInViewport(artboardRef);
+
+  const isChatInView = useIsInViewport(chatRef);
+
+  function useIsInViewport(ref: any) {
+    const [isIntersecting, setIsIntersecting] = useState(false);
+
+    const observer = useMemo(
+      () =>
+        new IntersectionObserver(
+          ([entry]) => setIsIntersecting(entry.isIntersecting),
+          { threshold: 0.5 }
+        ),
+      []
+    );
+
+    useEffect(() => {
+      observer.observe(ref.current);
+
+      return () => {
+        observer.disconnect();
+      };
+    }, [ref, observer]);
+
+    return isIntersecting;
+  }
 
   const user = {
     state: useSelector((state: RootState) => state.user),
@@ -178,7 +212,7 @@ export default function Boom() {
       alert("exitButtonRef");
     };
   }, []);
-  console.log("ROOM", game.state.roomId);
+
   return (
     <Component id="Boom">
       <div className={`${styles.static}`}>
@@ -204,6 +238,9 @@ export default function Boom() {
             artboardButtonRef={artboardButtonRef}
             chatButtonRef={chatButtonRef}
             exitButtonRef={exitButtonRef}
+            isGalleryInView={isGalleryInView}
+            isArtboardInView={isArtboardInView}
+            isChatInView={isChatInView}
             className="shrink-0"
           />
         </div>

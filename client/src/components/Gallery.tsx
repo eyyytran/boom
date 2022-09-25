@@ -85,9 +85,8 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
         console.log("HERE", "CONNECTION-STATE-CHANGE");
         if (curState === "CONNECTED") {
           client.on("user-published", async (user, mediaType) => {
-            if (mediaType === "audio")
-              user.audioTrack && user.audioTrack.play();
-            if (mediaType === "video") await client.subscribe(user, mediaType);
+            await client.subscribe(user, mediaType);
+            user.audioTrack && user.audioTrack.play();
             if (mediaType === "video")
               try {
                 videoStateUsersRef.current.forEach((stream: any) => {
@@ -102,24 +101,21 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           });
 
           client.on("stream-unpublished", (user: any, mediaType: any) => {
-            if (mediaType === "audio")
-              user.audioTrack && user.audioTrack.stop();
+            user.audioTrack && user.audioTrack.stop();
             if (mediaType === "video")
               user.videoTrack && user.videoTrack.stop();
             console.log("HERE", "STREAM-PUBLISHED");
           });
 
           client.on("stream-removed", (user: any, mediaType: any) => {
-            if (mediaType === "audio")
-              user.audioTrack && user.audioTrack.stop();
+            user.audioTrack && user.audioTrack.stop();
             if (mediaType === "video")
               user.videoTrack && user.videoTrack.stop();
             console.log("HERE", "STREAM-REMOVED");
           });
 
           client.on("user-unpublished", (user, mediaType) => {
-            if (mediaType === "audio")
-              user.audioTrack && user.audioTrack.stop();
+            user.audioTrack && user.audioTrack.stop();
             if (mediaType === "video")
               user.videoTrack && user.videoTrack.stop();
             if (mediaType === "video") dispatch(video.actions.removeUser(user));
@@ -175,19 +171,15 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
                   active={true}
                   username={user.state.userName}
                 />
-                {video.state.users?.length > 0 &&
-                  video.state.users.map((user) => {
-                    if (user.videoTrack) {
-                      return (
-                        <Video
-                          tracks={[user.audioTrack, user.videoTrack]}
-                          username={user.uid}
-                          key={user.uid}
-                          active={false}
-                        />
-                      );
-                    } else return null;
-                  })}
+                {video.state.users &&
+                  video.state.users.map((user) => (
+                    <Video
+                      tracks={[user.audioTrack, user.videoTrack]}
+                      username={user.uid}
+                      key={user.uid}
+                      active={false}
+                    />
+                  ))}
               </div>
             )}
           </div>
