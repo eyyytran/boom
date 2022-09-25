@@ -26,6 +26,9 @@ type Props = {
   chatButtonRef: any;
   exitButtonRef: any;
   className?: string | null;
+  isGalleryInView: boolean;
+  isChatInView: boolean;
+  isArtboardInView: boolean;
 };
 
 type Styles = {
@@ -43,6 +46,9 @@ const Navbar: FC<Props> = ({
   chatButtonRef,
   exitButtonRef,
   className = null,
+  isGalleryInView,
+  isChatInView,
+  isArtboardInView,
 }) => {
   styles.dynamic = className;
 
@@ -112,13 +118,22 @@ const Navbar: FC<Props> = ({
             )}
             <div className="flex justify-center items-center gap-2 h-full">
               <button ref={galleryButtonRef} className="py-2 px-4">
-                <FontAwesomeIcon icon={faVideo} className="text-violet-500" />
+                <FontAwesomeIcon
+                  icon={faVideo}
+                  className={isGalleryInView ? "text-violet-500" : ""}
+                />
               </button>
               <button ref={artboardButtonRef} className="py-2 px-4">
-                <FontAwesomeIcon icon={faTableCellsLarge} className="" />
+                <FontAwesomeIcon
+                  icon={faTableCellsLarge}
+                  className={isArtboardInView ? "text-violet-500" : ""}
+                />
               </button>
               <button ref={chatButtonRef} className="py-2 px-4">
-                <FontAwesomeIcon icon={faMessage} className="" />
+                <FontAwesomeIcon
+                  icon={faMessage}
+                  className={isChatInView ? "text-violet-500" : ""}
+                />
               </button>
             </div>
             <button

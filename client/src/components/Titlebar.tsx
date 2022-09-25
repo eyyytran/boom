@@ -30,6 +30,9 @@ export default function Titlebar({ className = "" }: Props) {
 
   const dispatch = useDispatch();
 
+  const urlparams = new URLSearchParams(window.location.search);
+  const roomId: any = urlparams.get("id");
+
   const game = {
     state: useSelector((state: RootState) => state.game),
     action: gameSlice.actions,
@@ -58,13 +61,13 @@ export default function Titlebar({ className = "" }: Props) {
           <div className="flex justify-center items-center gap-2 h-full">
             <FontAwesomeIcon
               icon={faPenToSquare}
-              className="text-xs text-neutral-50"
+              className="text-xs text-violet-500"
             />
-            <span className="text-xs text-neutral-50">
+            <span className="text-xs text-white font-bold">
               {/* <Link to="/dashboard" onClick={handleUserCleanup}>
                 Boom
               </Link> */}
-              {game.state.roomId ? `Room ID: ${game.state.roomId}` : "Boom"}
+              {roomId ? `Room ID: ${roomId}` : "Boom"}
             </span>
           </div>
         </Container>
