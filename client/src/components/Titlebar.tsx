@@ -50,7 +50,7 @@ export default function Titlebar({ className = "" }: Props) {
     dispatch(game.action.resetState());
     dispatch(modal.action.resetModals());
   };
-
+  console.log("GAMETITLE", game.state.roomId);
   return (
     <Component id="Titlebar">
       <div className={`${styles.static} ${styles.dynamic}`}>
@@ -61,11 +61,11 @@ export default function Titlebar({ className = "" }: Props) {
               className="text-xs text-neutral-50"
             />
             <span className="text-xs text-neutral-50">
-              <Link to="/dashboard" onClick={handleUserCleanup}>
+              {/* <Link to="/dashboard" onClick={handleUserCleanup}>
                 Boom
-              </Link>
+              </Link> */}
+              {game.state.roomId ? `Room ID: ${game.state.roomId}` : "Boom"}
             </span>
-            <div style={{ color: "white" }}></div>
           </div>
         </Container>
       </div>
