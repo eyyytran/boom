@@ -29,7 +29,7 @@ const GivePointModal = () => {
   }, [game.state.players, game.state.whosTurn]);
 
   return (
-    <div className="">
+    <div className="flex justify-center items-center gap-2">
       {participants.map(({ index, player }: IParticipantWithIndex) => {
         return <PlayerButton index={index} name={player} />;
       })}
