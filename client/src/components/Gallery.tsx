@@ -118,20 +118,19 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
 
           client.on("user-unpublished", (user, mediaType) => {
             user.audioTrack && user.audioTrack.stop();
-            if (mediaType === "video")
+            if (mediaType === "video") {
               user.videoTrack && user.videoTrack.stop();
-
-            if (mediaType === "video") dispatch(video.actions.removeUser(user));
+              const unpublishSound = new Audio("/sounds/exit-aim.mp3");
+              unpublishSound.play();
+              dispatch(video.actions.removeUser(user));
+            }
             console.log("HERE", `${user.uid} UNPUBLISHED`);
           });
         }
-        console.log("HERE CUR STATE ", curState);
         if (curState === "DISCONNECTED") {
           client.on("user-left", (user) => {
             dispatch(video.actions.removeUser(user));
             console.log("HERE", `${user.uid} LEFT`);
-            const unpublishSound = new Audio("/sounds/exit-aim.mp3");
-            unpublishSound.play();
           });
         }
       });
