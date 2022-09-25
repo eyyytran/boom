@@ -7,6 +7,8 @@ import React, {
   useState,
 } from "react";
 
+import { useLocation } from "react-router-dom";
+
 import videoSlice from "../store/videoSlice";
 
 import { useSelector } from "react-redux";
@@ -124,6 +126,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             console.log("HERE", `${user.uid} UNPUBLISHED`);
           });
         }
+
         if (curState === "DISCONNECTED") {
           client.on("user-left", (user) => {
             dispatch(video.actions.removeUser(user));
@@ -139,22 +142,22 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     init();
   }, [ready, client]);
 
+  const location = useLocation();
+
   useEffect(() => {
     return () => {
-      window.onpopstate = async () => {
-        alert("POP-STATE");
-        try {
-          await client.leave();
+      dispatch(video.actions.setUsers([]));
+      try {
+        tracks && tracks.forEach((track) => track.close());
+        client.leave().then(() => {
           client.removeAllListeners();
-          tracks && tracks[0].close();
-          tracks && tracks[1].close();
-          dispatch(video.actions.removeUser(user));
-        } catch (error) {
-          console.log(error);
-        }
-      };
+        });
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     };
-  }, []);
+  }, [location]);
 
   styles.dynamic = className;
 

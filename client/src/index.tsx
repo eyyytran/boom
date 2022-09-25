@@ -27,5 +27,5 @@ root.render(
       </PersistGate>
     }
   />
-  // {/* </React.StrictMode>, */}
+  // </React.StrictMode>,
 );

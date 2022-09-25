@@ -31,7 +31,7 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
             points: newPlayers[index].points + 1,
         }
         newPlayers[index] = newPlayer
-        const isGameWon = newPlayer.points >= 5
+        const isGameWon = newPlayer.points >= 2 //TODO change back to 5 for deployment
 
         function getWhosTurn() {
             if (isGameWon) return null
@@ -46,12 +46,14 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
             'gameState.gameWon': isGameWon,
             'gameState.winner': isGameWon ? newPlayer : null,
             'gameState.gameStarted': isGameWon ? false : true,
+            'gameState.isTurnStart': false,
         })
     }
 
     const handleGivePoint = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         givePointToPlayer()
+        dispatch(game.action.setCurrentPrompt(''))
         dispatch(modal.action.setIsShowGivePointModal(false))
     }
 

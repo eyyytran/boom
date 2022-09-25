@@ -17,6 +17,11 @@ const modalSlice = createSlice({
     setIsShowWinnerModal: (state, { payload }) => {
       state.isShowWinnerModal = payload;
     },
+    resetModals: (state) => {
+      state.isShowGivePointModal = false;
+      state.isShowIsTurnModal = false;
+      state.isShowWinnerModal = false;
+    },
   },
 });
 

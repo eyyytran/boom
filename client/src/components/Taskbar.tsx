@@ -6,6 +6,8 @@ import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import modalSlice from '../store/modalSlice'
 import './styles/gameStyles.css'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../server/firebase'
 
 type Props = {
     className?: string | null
@@ -19,7 +21,7 @@ type Styles = {
 const styles = {} as Styles
 
 styles.static =
-    'flex landscape:flex-col landscape:flex-col-reverse justify-center items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 border-x border-b border-neutral-400 rounded-b'
+    'flex justify-center items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 border-x border-b border-neutral-400 rounded-b'
 
 export default function Taskbar({ className = null }: Props) {
     styles.dynamic = className
@@ -38,6 +40,9 @@ export default function Taskbar({ className = null }: Props) {
 
     const handleEndTurn = async (e: React.SyntheticEvent) => {
         e.preventDefault()
+        await updateDoc(doc(db, 'rooms', game.state.roomId), {
+            'gameState.isStopTimer': true,
+        })
         dispatch(modal.action.setIsShowGivePointModal(!modal.state.isShowGivePointModal))
     }
 

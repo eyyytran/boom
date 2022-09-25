@@ -8,6 +8,7 @@ import { db } from "../server/firebase";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import userSlice from "../store/userSlice";
+import gameSlice from "../store/gameSlice";
 
 type Props = {
   chatRef: any;
@@ -27,7 +28,8 @@ interface FirebaseMessage {
 
 const styles = {} as Styles;
 
-styles.static = "shrink-0 w-full h-full p-2 md:p-3 lg:p-4";
+styles.static =
+  "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-green-700";
 
 export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
@@ -101,7 +103,7 @@ export default function Chat({ chatRef, className = null }: Props) {
       <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex flex-col h-full gap-2">
-            <div className="flex flex-col grow gap-2 overflow-y-auto no-scrollbar h-auto border-4 border-yellow">
+            <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
               {chat?.map((message) => {
                 return (
                   <Message
