@@ -79,11 +79,9 @@ function Settings({}: Props) {
 
   useEffect(() => {
     const uploadFile = () => {
-      console.log("hit upload");
       //@ts-ignore
       const name = new Date().getTime() + file?.name;
       const storageRef = ref(storage, name);
-      console.log("NAME", name);
 
       if (!file) return;
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -93,8 +91,24 @@ function Settings({}: Props) {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+
+        (error) => {
+          console.log(error);
         },
         () => {
+          console.log("GET DOWNLOAD URL");
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setPicture(downloadURL);
           });
@@ -104,13 +118,12 @@ function Settings({}: Props) {
     file && uploadFile();
   }, [file]);
 
-  const changeProfilePicture = async () => {
-    console.log(picture);
+  const changeProfilePicture = () => {
     const user = auth.currentUser;
     if (user) {
-      await updateProfile(user, {
+      updateProfile(user, {
         photoURL: picture,
-      });
+      }).catch((error) => console.error(error));
     }
   };
 
@@ -155,7 +168,6 @@ function Settings({}: Props) {
   };
 
   // Function to update username
-
   const updateUsername = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = auth.currentUser;
