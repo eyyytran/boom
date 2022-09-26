@@ -142,11 +142,13 @@ export default function Boom() {
             }
 
             dispatch(game.action.setIsTurnStarted(dbGameState.isTurnStart))
-            if (dbGameState.isTurnStart) {
+            if (dbGameState.isTurnStart && dbGameState.turnEndTime !== timer.state.endTime) {
                 dispatch(timer.action.setEndTime(dbGameState.turnEndTime))
             }
 
-            dispatch(timer.action.setIsStopTimer(dbGameState.isStopTimer))
+            if (dbGameState.isStopTimer !== timer.state.isStopTimer) {
+                dispatch(timer.action.setIsStopTimer(dbGameState.isStopTimer))
+            }
 
             dispatch(game.action.setIsWon(dbGameState.gameWon))
             dispatch(game.action.setWinner(dbGameState.winner ? dbGameState.winner.player : null))
@@ -167,6 +169,8 @@ export default function Boom() {
         game.state.roomId,
         modal.action,
         timer.action,
+        timer.state.endTime,
+        timer.state.isStopTimer,
         user.state.userName,
         navigate,
         user.state.user?.uid,
