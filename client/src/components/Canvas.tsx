@@ -46,6 +46,8 @@ const Canvas: FC<Props> = () => {
     if (!canvas.current) return;
     canvas.current.style.width = "100%";
     canvas.current.style.height = "100%";
+    canvas.current.width = canvas.current.offsetWidth;
+    canvas.current.height = canvas.current.offsetHeight;
     let image = new Image();
     image.onload = () => {
       ctx?.drawImage(image, 0, 0);
