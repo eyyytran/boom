@@ -33,7 +33,7 @@ const GivePointModal = () => {
     return (
         <div className='absolute inset-0 bg-neutral-900 bg-opacity-60 opacity-100 flex flex-col items-center justify-center border border-neutral-400 rounded z-20'>
             <div className='flex flex-col w-max h-max space-y-2 p-8 opacity-100 bg-slate-50 z-30 rounded'>
-                <h1 className='text-center text-3xl text-amber-200'>
+                <h1 className='text-center text-4xl text-amber-300'>
                     <FontAwesomeIcon icon={faStar} />
                 </h1>
                 <h1 className='text-center text-base font-bold'>Who deserves the point?</h1>

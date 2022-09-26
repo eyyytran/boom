@@ -90,7 +90,7 @@ export default function Video({ active, className = null, tracks, username, poin
                         </button>
                         <span className='w-full text-xs text-inherit text-center'>
                             {`${username} - ${points} `}
-                            <FontAwesomeIcon icon={faStar} className='text-amber-200' />
+                            <FontAwesomeIcon icon={faStar} className='text-amber-300' />
                         </span>
                         <button
                             className={`${!active && 'invisible'} w-8 justify-center items-center`}
