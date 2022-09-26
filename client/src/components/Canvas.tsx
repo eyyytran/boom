@@ -15,7 +15,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "w-full h-full cursor-crosshair border border-neutral-400";
+styles.static = "w-full h-full cursor-crosshair";
 
 const Canvas: FC<Props> = () => {
   const urlparams = new URLSearchParams(window.location.search);
@@ -46,8 +46,6 @@ const Canvas: FC<Props> = () => {
     if (!canvas.current) return;
     canvas.current.style.width = "100%";
     canvas.current.style.height = "100%";
-    canvas.current.width = canvas.current.offsetWidth;
-    canvas.current.height = canvas.current.offsetHeight;
     let image = new Image();
     image.onload = () => {
       ctx?.drawImage(image, 0, 0);
