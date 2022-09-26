@@ -19,6 +19,7 @@ import { cleanupUser } from '../util/cleanupUser'
 import { useDispatch } from 'react-redux'
 import userSlice from '../store/userSlice'
 import modalSlice from '../store/modalSlice'
+import { endGame } from '../util/handleEndGame'
 
 type Props = {
     galleryButtonRef: any
@@ -78,11 +79,9 @@ const Navbar: FC<Props> = ({
         })
     }
 
-    const endGame = async (e: SyntheticEvent) => {
+    const handleEndGame = async (e: SyntheticEvent) => {
         e.preventDefault()
-        await updateDoc(doc(db, 'rooms', game.state.roomId), {
-            'gameState.gameStarted': false,
-        })
+        endGame(game.state.roomId)
     }
 
     const handleUserCleanup = () => {
@@ -105,7 +104,7 @@ const Navbar: FC<Props> = ({
                                         : 'py-2 px-4 bg-green-700 rounded-md md:w-40 sm:w-40'
                                 }
                                 onClick={(e: SyntheticEvent) =>
-                                    game.state.isInit ? endGame(e) : startGame(e)
+                                    game.state.isInit ? handleEndGame(e) : startGame(e)
                                 }
                             >
                                 <span className='text-neutral-100'>

@@ -1,10 +1,11 @@
 import { faCrown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { db } from '../../server/firebase'
 import { RootState } from '../../store'
+import { endGame } from '../../util/handleEndGame'
 import gameSlice from '../../store/gameSlice'
 import modalSlice from '../../store/modalSlice'
 
@@ -40,14 +41,9 @@ const EndGameModal = () => {
         dispatch(modal.action.resetModals())
     }
 
-    const handleEndGame = async (e: React.SyntheticEvent) => {
+    const handleEndClick = (e: React.SyntheticEvent) => {
         e.preventDefault()
-        await updateDoc(doc(db, 'rooms', game.state.roomId), {
-            'gameState.isEnded': true,
-        })
-        setTimeout(async () => {
-            await deleteDoc(doc(db, 'rooms', game.state.roomId))
-        }, 3000)
+        endGame(game.state.roomId)
     }
 
     return (
@@ -62,7 +58,7 @@ const EndGameModal = () => {
                 {game.state.isOwner && (
                     <button
                         className='text-white py-2 px-6 font-bold bg-neutral-900 rounded'
-                        onClick={handleEndGame}
+                        onClick={handleEndClick}
                     >
                         Back to Dashboard
                     </button>
