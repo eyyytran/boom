@@ -81,31 +81,35 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
   return (
     <Component id="Navbar">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <div className="grid grid-cols-2 justify-between items-center gap-2 h-full p-2 md:p-3 lg:p-4">
+        <div className="grid grid-cols-2 justify-between items-center gap-2 h-full">
           {game.state.isOwner && (
             <button
               className={
                 game.state.isInit
-                  ? "col-start-1 col-span-1 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
-                  : "col-start-1 col-span-1 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
+                  ? "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
+                  : "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
               }
               onClick={(e: SyntheticEvent) => (game.state.isInit ? endGame(e) : startGame(e))}
             >
               <span className="text-neutral-100">{game.state.isInit ? "End Game" : "Start Game"}</span>
             </button>
           )}
-          <div className="xl:hidden col-start-1 col-span-2 row-start-1 row-span-1 flex justify-center items-center gap-2 h-full">
-            <button ref={galleryButtonRef} className="py-2 px-4">
+          <div className="xl:hidden col-start-1 col-span-2 row-start-1 row-span-1 flex justify-center items-center gap-2 h-full bg-neutral-200">
+            <button ref={galleryButtonRef} className="py-2 px-4 text-xl">
               <FontAwesomeIcon icon={faVideo} className={isGalleryInView ? "text-violet-500" : ""} />
             </button>
-            <button ref={artboardButtonRef} className="py-2 px-4">
+            <button ref={artboardButtonRef} className="py-2 px-4 text-xl">
               <FontAwesomeIcon icon={faPenToSquare} className={isArtboardInView ? "text-violet-500" : ""} />
             </button>
-            <button ref={chatButtonRef} className="py-2 px-4">
+            <button ref={chatButtonRef} className="py-2 px-4 text-xl">
               <FontAwesomeIcon icon={faMessage} className={isChatInView ? "text-violet-500" : ""} />
             </button>
           </div>
-          <button ref={exitButtonRef} className="h-full bg-neutral-900 hover:bg-neutral-800 text-white col-start-2 col-span-1 row-start-2 row-span-1 rounded" onClick={handleUserCleanup}>
+          <button
+            ref={exitButtonRef}
+            className="bg-neutral-900 hover:bg-neutral-800 text-white col-start-2 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4  p-2 md:p-3 lg:p-4 rounded"
+            onClick={handleUserCleanup}
+          >
             <FontAwesomeIcon icon={faRightToBracket} className="" />
           </button>
         </div>
