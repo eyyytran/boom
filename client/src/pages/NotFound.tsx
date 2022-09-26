@@ -1,5 +1,6 @@
 import { faFaceGrimace } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Link } from 'react-router-dom'
 
 import Component from '../components/Component'
 
@@ -19,6 +20,9 @@ export default function NotFound() {
                     <FontAwesomeIcon className='text-4xl' icon={faFaceGrimace} />
                     <span className='text-center text-4xl'>404</span>
                     <span className='text-center text-4xl'>Page Not Found</span>
+                    <Link to={'/'} className='text-center text-violet-500 underline'>
+                        Head back and try to draw within the lines this time.
+                    </Link>
                 </div>
             </div>
         </Component>

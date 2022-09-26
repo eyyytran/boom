@@ -2,18 +2,8 @@ import React from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
 import { Link } from 'react-router-dom'
-import { url } from 'inspector'
-
-// import {
-//   faRightToBracket,
-//   faMessage,
-//   faPenToSquare,
-//   faTableCellsLarge,
-//   faVideo,
-//   faCog,
-//   faBars,
-// } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSquareGithub, faMedium } from '@fortawesome/free-brands-svg-icons'
 
 type Props = {}
 
@@ -29,7 +19,7 @@ export default function Home({}: Props) {
             >
                 <Titlebar className='shrink-0 w-screen' />
                 <div className='absolute inset-0 flex flex-col justify-end items-center w-100% h-100% md:justify-center'>
-                    <div className='bg-neutral-100 rounded-t-lg p-8 flex flex-col justify-center items-center h-1/2 max-w-prose md:rounded-lg'>
+                    <div className='relative bg-neutral-100 rounded-t-lg p-8 flex flex-col justify-center items-center h-1/2 max-w-prose md:rounded-lg'>
                         <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 text-center mb-4 md:text-2xl'>
                             Welcome to Boom!
                         </h1>
@@ -53,6 +43,19 @@ export default function Home({}: Props) {
                         >
                             Log In
                         </Link>
+                        <div className='absolute inset-x-0 bottom-0 text-center bg-yellow-400 flex flex-col mt-4 md:rounded-b-lg py-2'>
+                            <div>
+                                <a href='https://github.com/westmcmillen/fourSquare'>
+                                    <FontAwesomeIcon
+                                        icon={faSquareGithub}
+                                        className='text-3xl mx-2'
+                                    />
+                                </a>
+                                <a href='https://medium.com/@eyyytran/nurse-to-tech-in-16-weeks-our-capstone-project-ecf336dae079'>
+                                    <FontAwesomeIcon icon={faMedium} className='text-3xl mx-2' />
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
