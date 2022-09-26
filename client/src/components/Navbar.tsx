@@ -1,12 +1,12 @@
-import { FC, SyntheticEvent, useState } from "react";
+import { FC, SyntheticEvent } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { faRightToBracket, faMessage, faTableCellsLarge, faVideo, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Component from "./Component";
 import Container from "../layout/Container";
-import { auth, db } from "../server/firebase";
+import { db } from "../server/firebase";
 import { RootState } from "../store";
 import gameSlice from "../store/gameSlice";
 import { randomIntegerInInterval } from "../util/randomIntegerInInterval";
@@ -14,6 +14,7 @@ import { cleanupUser } from "../util/cleanupUser";
 import { useDispatch } from "react-redux";
 import userSlice from "../store/userSlice";
 import modalSlice from "../store/modalSlice";
+import { endGame } from "../util/handleEndGame";
 
 type Props = {
   galleryButtonRef: any;
@@ -64,11 +65,9 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
     });
   };
 
-  const endGame = async (e: SyntheticEvent) => {
+  const handleEndGame = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await updateDoc(doc(db, "rooms", game.state.roomId), {
-      "gameState.gameStarted": false,
-    });
+    endGame(game.state.roomId);
   };
 
   const handleUserCleanup = () => {
@@ -89,7 +88,7 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
                   ? "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
                   : "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
               }
-              onClick={(e: SyntheticEvent) => (game.state.isInit ? endGame(e) : startGame(e))}
+              onClick={(e: SyntheticEvent) => (game.state.isInit ? handleEndGame(e) : startGame(e))}
             >
               <span className="text-neutral-100">{game.state.isInit ? "End Game" : "Start Game"}</span>
             </button>
