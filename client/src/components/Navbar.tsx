@@ -2,7 +2,7 @@ import { FC, SyntheticEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
-import { faRightToBracket, faMessage, faTableCellsLarge, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { faRightToBracket, faMessage, faTableCellsLarge, faVideo, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Component from "./Component";
 import Container from "../layout/Container";
@@ -99,7 +99,7 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
               <FontAwesomeIcon icon={faVideo} className={isGalleryInView ? "text-violet-500" : ""} />
             </button>
             <button ref={artboardButtonRef} className="py-2 px-4">
-              <FontAwesomeIcon icon={faTableCellsLarge} className={isArtboardInView ? "text-violet-500" : ""} />
+              <FontAwesomeIcon icon={faPenToSquare} className={isArtboardInView ? "text-violet-500" : ""} />
             </button>
             <button ref={chatButtonRef} className="py-2 px-4">
               <FontAwesomeIcon icon={faMessage} className={isChatInView ? "text-violet-500" : ""} />
