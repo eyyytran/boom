@@ -55,6 +55,9 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
     givePointToPlayer();
     dispatch(game.action.setCurrentPrompt(""));
     dispatch(modal.action.setIsShowGivePointModal(false));
+    const winnerSound = new Audio("/sounds/winner.mp3");
+    winnerSound.volume = 0.1;
+    winnerSound.play();
   };
 
   return (
