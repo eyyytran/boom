@@ -50,13 +50,13 @@ export default function Taskbar({ handleGetPrompt, className = null }: Props) {
     <Component id="Taskbar">
       <div className={game.state.isTurn ? `${styles.static} ${styles.dynamic}` : `avoid-clicks ${styles.static} ${styles.dynamic}`}>
         <button
-          className={game.state.isTurn ? "p-2 md:p-3 lg:p-4 w-full h-full bg-violet-500 md:bg-violet-400 hover:bg-violet-500 text-xs text-white text-center rounded" : "hidden"}
+          className={game.state.isTurn ? "p-2 md:p-3 lg:p-4 w-full h-full bg-violet-500 md:bg-violet-500 hover:bg-violet-600 text-xs text-white text-center rounded" : "hidden"}
           onClick={handleGetPrompt}
         >
           {!game.state.currentPrompt ? "Generate Prompt" : game.state.currentPrompt}
         </button>
         <button
-          className="p-2 md:p-3 lg:p-4 w-full h-full flex justify-center items-center bg-emerald-500 md:bg-emerald-400 hover:bg-emerald-500 rounded text-white"
+          className="p-2 md:p-3 lg:p-4 w-full h-full flex justify-center items-center bg-emerald-500 md:bg-emerald-500 hover:bg-emerald-400 rounded text-white"
           onClick={handleEndTurn}
           disabled={game.state.isTurn ? false : true}
         >
