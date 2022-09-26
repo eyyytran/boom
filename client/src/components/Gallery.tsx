@@ -154,9 +154,6 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             {tracks && (
               <div className="contents">
                 <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
-                <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
-                <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
-                <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
                 {video.state.users && video.state.users.map(user => <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} points={user.uid} active={false} />)}
               </div>
             )}
