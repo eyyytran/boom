@@ -81,7 +81,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
                   if (stream.uid === user.uid) throw new Error("duplicate user");
                 });
                 dispatch(video.actions.addUser(user));
-                const publishSound = new Audio("/sounds/publish.mp3");
+                const publishSound = new Audio("/sounds/chat.mp3");
                 publishSound.play();
               } catch (error) {
                 console.log("HERE", error);
