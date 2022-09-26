@@ -82,7 +82,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
                 });
                 dispatch(video.actions.addUser(user));
                 const publishSound = new Audio("/sounds/chat.mp3");
-                publishSound.volume = 0.25;
+                publishSound.volume = 0.15;
                 publishSound.play();
               } catch (error) {
                 console.log("HERE", error);
@@ -107,7 +107,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             if (mediaType === "video") {
               user.videoTrack && user.videoTrack.stop();
               const unpublishSound = new Audio("/sounds/unpublish.mp3");
-              unpublishSound.volume = 0.25;
+              unpublishSound.volume = 0.15;
               unpublishSound.play();
               dispatch(video.actions.removeUser(user));
             }
