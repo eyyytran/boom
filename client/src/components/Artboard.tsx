@@ -10,16 +10,7 @@ import GivePointModal from "./modals/GivePointModal";
 import IsTurnModal from "./modals/IsTurnModal";
 import EndGameModal from "./modals/EndGameModal";
 import gameSlice from "../store/gameSlice";
-import {
-  arrayUnion,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { arrayUnion, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../server/firebase";
 import modalSlice from "../store/modalSlice";
 import { randomIntegerInInterval } from "../util/randomIntegerInInterval";
@@ -38,8 +29,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static =
-  "relative flex flex-col gap-2 justify-center items-center w-full h-full p-2 md:p-3 lg:p-4 lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 border-4 border-violet-700";
+styles.static = "relative flex flex-col gap-2 justify-center items-center w-full h-full lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 bg-neutral-200 rounded";
 
 export default function Artboard({ artboardRef, className = null }: Props) {
   const game = {
@@ -59,20 +49,15 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
   const dispatch = useDispatch();
 
-  const getPromptAndUpdateTimer: any = async (
-    alreadyUsedPromptIds: Array<number>
-  ) => {
+  const getPromptAndUpdateTimer: any = async (alreadyUsedPromptIds: Array<number>) => {
     const randomPromptId = randomIntegerInInterval(0, 24);
-    if (alreadyUsedPromptIds.includes(randomPromptId))
-      return getPromptAndUpdateTimer(alreadyUsedPromptIds);
+    if (alreadyUsedPromptIds.includes(randomPromptId)) return getPromptAndUpdateTimer(alreadyUsedPromptIds);
     const currentTime = new Date().getTime();
     const convertedTurnTime = timer.state.turnTime * 60 * 1000;
     const endTime = currentTime + convertedTurnTime;
     try {
-      const querySnapshot = await getDocs(
-        query(collection(db, "game-prompts"), where("id", "==", randomPromptId))
-      );
-      querySnapshot.forEach((doc) => {
+      const querySnapshot = await getDocs(query(collection(db, "game-prompts"), where("id", "==", randomPromptId)));
+      querySnapshot.forEach(doc => {
         dispatch(game.action.setCurrentPrompt(doc.data().prompt));
       });
       await updateDoc(doc(db, "rooms", game.state.roomId), {
@@ -104,31 +89,16 @@ export default function Artboard({ artboardRef, className = null }: Props) {
   return (
     <Component id="Artboard">
       <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
-        <Container className="w-full h-full overflow-y-auto no-scrollbar border border-neutral-400 rounded">
-          <div className="flex portrait:flex-col lg:flex-col justify-start h-full">
+        <Container className="w-full h-full overflow-y-auto no-scrollbar rounded">
+          <div className="relative flex portrait:flex-col lg:flex-col justify-start h-full bg-white">
             <Toolbar />
-            {modal.state.isShowIsTurnModal && <IsTurnModal />}
-            {modal.state.isShowIsTurnModal &&
-              modal.state.isShowGivePointModal && <GivePointModal />}
-            {modal.state.isShowWinnerModal && game.state.isWon && (
-              <EndGameModal />
-            )}
+            <IsTurnModal />
+            {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && <GivePointModal />}
+            {modal.state.isShowWinnerModal && game.state.isWon && <EndGameModal />}
             <div className="w-full h-full bg-white">
               <Canvas />
             </div>
-            <button
-              className={
-                game.state.isTurn
-                  ? "p-2 bg-violet-500 text-xs font-bold text-white text-center"
-                  : "hidden"
-              }
-              onClick={handleGetPrompt}
-            >
-              {!game.state.currentPrompt
-                ? "Generate Prompt"
-                : game.state.currentPrompt}
-            </button>
-            <Taskbar />
+            <Taskbar handleGetPrompt={handleGetPrompt} />
           </div>
         </Container>
       </div>

@@ -10,6 +10,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../server/firebase";
 
 type Props = {
+  handleGetPrompt: any;
   className?: string | null;
 };
 
@@ -20,9 +21,9 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "flex justify-center items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 border-x border-b border-neutral-400 rounded-b";
+styles.static = "flex justify-center items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 rounded-b";
 
-export default function Taskbar({ className = null }: Props) {
+export default function Taskbar({ handleGetPrompt, className = null }: Props) {
   styles.dynamic = className;
 
   const dispatch = useDispatch();
@@ -48,8 +49,18 @@ export default function Taskbar({ className = null }: Props) {
   return (
     <Component id="Taskbar">
       <div className={game.state.isTurn ? `${styles.static} ${styles.dynamic}` : `avoid-clicks ${styles.static} ${styles.dynamic}`}>
-        <button className="w-1/2 flex justify-center items-center" onClick={handleEndTurn} disabled={game.state.isTurn ? false : true}>
-          <FontAwesomeIcon icon={faCheck} className="text-xl" />
+        <button
+          className={game.state.isTurn ? "p-2 md:p-3 lg:p-4 w-full h-full bg-violet-500 md:bg-violet-500 hover:bg-violet-600 text-xs text-white text-center rounded" : "hidden"}
+          onClick={handleGetPrompt}
+        >
+          {!game.state.currentPrompt ? "Generate Prompt" : game.state.currentPrompt}
+        </button>
+        <button
+          className="p-2 md:p-3 lg:p-4 w-full h-full flex justify-center items-center bg-emerald-500 md:bg-emerald-500 hover:bg-emerald-400 rounded text-white"
+          onClick={handleEndTurn}
+          disabled={game.state.isTurn ? false : true}
+        >
+          <FontAwesomeIcon icon={faCheck} className="text-sm" />
         </button>
       </div>
     </Component>
