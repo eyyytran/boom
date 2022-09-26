@@ -63,9 +63,9 @@ const Join = (props: Props) => {
     const joinGame = (e: React.SyntheticEvent) => {
         e.preventDefault()
         updateRoom()
-        // setTimeout(() => {
-        // }, 700)
-        navigate(`/boom/?id=${gameCode}`)
+        setTimeout(() => {
+            navigate(`/boom/?id=${gameCode}`)
+        }, 100)
     }
 
     return (
