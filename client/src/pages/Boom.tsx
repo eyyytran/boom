@@ -24,7 +24,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "fixed inset-0 bg-neutral-200";
+styles.static = "fixed inset-0 bg-neutral-100";
 
 export default function Boom() {
   const galleryRef = useRef<HTMLDivElement>(null);
