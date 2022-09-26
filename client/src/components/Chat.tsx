@@ -116,7 +116,11 @@ export default function Chat({ chatRef, className = null }: Props) {
               return (
                 <div className="flex items-center">
                   <img
-                    src={profilePicture ? profilePicture : ""}
+                    src={
+                      profilePicture
+                        ? profilePicture
+                        : require("../images/defaultImg.jpeg")
+                    }
                     className="w-10 h-10 object-cover rounded-full m-2"
                   />
                   <Message

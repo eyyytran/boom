@@ -58,7 +58,11 @@ const Dashboard = (props: Props) => {
               </h1>
               {/* <div id="profile" className="space-y-3"> */}
               <img
-                src={profilePicture ? profilePicture : ""}
+                src={
+                  profilePicture
+                    ? profilePicture
+                    : require("../images/defaultImg.jpeg")
+                }
                 alt="Profile Picture"
                 className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto"
               />
