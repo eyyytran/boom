@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore'
 import { db } from '../server/firebase'
 import { RootState } from '../store'
 import userSlice from '../store/userSlice'
 import gameSlice from '../store/gameSlice'
 import Component from './Component'
-import { useDispatch } from 'react-redux'
 
 type Props = {}
 
@@ -27,36 +26,30 @@ const Join = (props: Props) => {
     }
 
     const updateRoom = async () => {
-        try {
-            const docRef = doc(db, 'rooms', gameCode)
-            await updateDoc(docRef, {
-                participants: arrayUnion(user.state.userName),
-                'gameState.players': arrayUnion({
-                    player: user.state.userName,
-                    uid: user.state.user?.uid,
-                    points: 0,
-                }),
-            })
+        const docRef = doc(db, 'rooms', gameCode)
+        await updateDoc(docRef, {
+            participants: arrayUnion(user.state.userName),
+            'gameState.players': arrayUnion({
+                player: user.state.userName,
+                uid: user.state.user?.uid,
+                points: 0,
+            }),
+        })
 
-            const docSnap = await getDoc(docRef)
-            if (docSnap.exists()) {
-                const playerList = docSnap.data().gameState.players
-                const playerNum =
-                    playerList.findIndex(
-                        (playerObj: any) => playerObj.player === user.state.userName
-                    ) === -1
-                        ? playerList.length + 1
-                        : playerList.findIndex(
-                              (playerObj: any) => playerObj.player === user.state.userName
-                          )
-                dispatch(game.actions.setPlayerNum(playerNum))
-                dispatch(game.actions.setIsOwner(false))
-                dispatch(game.actions.setRoomId(gameCode))
-            } else {
-                console.log('could not find playernumber')
-            }
-        } catch (error) {
-            console.error('error adding a participant', error)
+        const docSnap = await getDoc(docRef)
+        if (docSnap.exists()) {
+            const playerList = docSnap.data().gameState.players
+            const playerNum =
+                playerList.findIndex(
+                    (playerObj: any) => playerObj.player === user.state.userName
+                ) === -1
+                    ? playerList.length + 1
+                    : playerList.findIndex(
+                          (playerObj: any) => playerObj.player === user.state.userName
+                      )
+            dispatch(game.actions.setPlayerNum(playerNum))
+            dispatch(game.actions.setIsOwner(false))
+            dispatch(game.actions.setRoomId(gameCode))
         }
     }
 
