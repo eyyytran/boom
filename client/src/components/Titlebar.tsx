@@ -59,10 +59,7 @@ export default function Titlebar({ className = "" }: Props) {
       <div className={`${styles.static} ${styles.dynamic}`}>
         <Container>
           <div className="flex justify-center items-center gap-2 h-full">
-            <FontAwesomeIcon
-              icon={faPenToSquare}
-              className="text-xs text-violet-500"
-            />
+            {/* <FontAwesomeIcon icon={faPenToSquare} className="text-xs text-violet-400" /> */}
             <span className="text-xs text-white font-bold">
               {/* <Link to="/dashboard" onClick={handleUserCleanup}>
                 Boom
