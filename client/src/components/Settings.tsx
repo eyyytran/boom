@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { isEmail, isSecure } from "./forms/formValidation";
 import { RootState } from "../store";
-import { auth } from "../server/firebase";
+import { auth, storage } from "../server/firebase";
 import {
   deleteUser,
   updateEmail,
@@ -13,6 +13,9 @@ import {
 import userSlice from "../store/userSlice";
 import { current } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+
+// Image upload
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 type Props = {};
 
@@ -27,6 +30,8 @@ function Settings({}: Props) {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [passwordError, setPasswordError] = useState<boolean>(false);
   const [confirmError, setConfirmError] = useState<boolean>(false);
+  const [file, setFile] = useState();
+  const [picture, setPicture] = useState<string>("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,6 +45,7 @@ function Settings({}: Props) {
   const userName = userState.state.userName;
   const currentEmail = auth.currentUser?.email;
 
+  // Validation Functions
   const validateEmail = () => {
     let valid = false;
     if (!isEmail(newEmail)) {
@@ -71,15 +77,62 @@ function Settings({}: Props) {
     return valid;
   };
 
-  // const validateForm = () => {
-  //   let validPassword = validatePassword();
-  //   let validEmail = validateEmail();
-  //   let valid = false;
-  //   if (validPassword && validEmail) {
-  //     return (valid = true);
-  //   }
-  //   return valid;
-  // };
+  // Functions to Change Profile Picture
+
+  useEffect(() => {
+    const uploadFile = () => {
+      //@ts-ignore
+      const name = new Date().getTime() + file?.name;
+      console.log(name);
+      const storageRef = ref(storage, name);
+
+      if (!file) return;
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          console.log(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setPicture(downloadURL);
+          });
+        }
+      );
+    };
+    file && uploadFile();
+  }, [file]);
+
+  const changeProfilePicture = () => {
+    const user = auth.currentUser;
+    if (user) {
+      updateProfile(user, {
+        photoURL: picture,
+      })
+        .then(() => {
+          alert("Profile Picture successfully updated!");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
 
   // Function to Update user email address
   const updateEmailAddress = (e: React.SyntheticEvent) => {
@@ -171,6 +224,9 @@ function Settings({}: Props) {
         });
     }
   };
+  console.log("FILE", file);
+
+  const profilePicture = auth.currentUser?.photoURL;
 
   return (
     <div className="flex flex-col items-center">
@@ -179,6 +235,28 @@ function Settings({}: Props) {
           Settings
         </h1>
         <div className="flex flex-col items-center mt-5">
+          <div className="m-5 w-full">
+            <img
+              src={profilePicture ? profilePicture : picture ? picture : ""}
+              alt="Profile Picture"
+              className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto"
+            />
+            <input
+              type="file"
+              name="profile-picture"
+              className=" text-xs w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-5"
+              onChange={(e: any) => {
+                if (!e.target.files) return;
+                setFile(e.target.files[0]);
+              }}
+            />
+            <button
+              onClick={changeProfilePicture}
+              className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5 hover:scale-105"
+            >
+              Change
+            </button>
+          </div>
           <form
             className="flex flex-col items-center m-5 w-full"
             onSubmit={updateEmailAddress}
@@ -202,6 +280,7 @@ function Settings({}: Props) {
               className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5 hover:scale-105"
             />
           </form>
+
           <form
             className="flex flex-col items-center m-5 w-full"
             onSubmit={updateUserPassword}
