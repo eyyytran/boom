@@ -33,7 +33,6 @@ const Dashboard = (props: Props) => {
         navigate('/')
     }
 
-    const profilePicture = auth.currentUser?.photoURL
     return (
         <Component id='Dashboard'>
             <div className='w-full h-full flex flex-col fixed inset-0'>
@@ -52,14 +51,10 @@ const Dashboard = (props: Props) => {
                             <h1 className='font-bold text-3xl md:text-3xl text-center text-violet-500'>
                                 Boom
                             </h1>
-
+                            {/* <div id="profile" className="space-y-3"> */}
                             <img
-                                src={
-                                    profilePicture
-                                        ? profilePicture
-                                        : require('../images/defaultImg.jpeg')
-                                }
-                                alt='current user'
+                                src={user.state.image || require('../images/defaultImg.jpeg')}
+                                alt='gray circle'
                                 className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                             />
                             <div>
@@ -67,6 +62,7 @@ const Dashboard = (props: Props) => {
                                     Hello {userName}!
                                 </h2>
                             </div>
+                            {/* </div> */}
 
                             <div
                                 id='menu'
