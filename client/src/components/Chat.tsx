@@ -29,8 +29,7 @@ interface FirebaseMessage {
 
 const styles = {} as Styles;
 
-styles.static =
-  "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full bg-neutral-200 rounded";
+styles.static = "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full bg-neutral-200 rounded";
 
 export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
@@ -58,7 +57,7 @@ export default function Chat({ chatRef, className = null }: Props) {
 
   useEffect(() => {
     if (!roomId) return;
-    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), (doc) => {
+    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), doc => {
       const result = doc.data();
       setChat(result?.messages);
       const messageSound = new Audio("/sounds/message.mp3");
@@ -108,41 +107,25 @@ export default function Chat({ chatRef, className = null }: Props) {
     <Component id="Chat">
       <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
         <div className="flex flex-col h-full">
-          <div className="w-full bg-neutral-300 text-center text-sm rounded-t p-2 md:p-3 lg:p-4 font-bold">
-            Group Chat
-          </div>
+          <div className="w-full bg-neutral-300 text-center text-sm rounded-t p-2 md:p-3 lg:p-4 font-bold">Group Chat</div>
           <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar p-2 md:p-3 lg:p-4">
-            {chat?.map((message) => {
+            {chat?.map(message => {
               return (
-                <div className="flex items-center">
-                  <img
-                    src={
-                      profilePicture
-                        ? profilePicture
-                        : require("../images/defaultImg.jpeg")
-                    }
-                    className="w-10 h-10 object-cover rounded-full m-2"
-                  />
+                <div className={`flex items-center justify-start ${user.state.userName === message.sentBy ? null : "flex-row-reverse"}`}>
+                  <img src={profilePicture ? profilePicture : require("../images/defaultImg.jpeg")} className="w-10 h-10 object-cover rounded-full m-2" />
                   <Message
                     key={message.timeStamp}
                     username={user.state.userName}
                     message={message.content}
                     sender={message.sentBy}
-                    origin={
-                      user.state.userName === message.sentBy
-                        ? "user"
-                        : "participant"
-                    }
+                    origin={user.state.userName === message.sentBy ? "user" : "participant"}
                   />
                 </div>
               );
             })}
             <div className="h-16" ref={dummy} />
           </div>
-          <form
-            className="bg-neutral-300 p-2 md:p-3 lg:p-4 rounded-b"
-            data-lpignore="true"
-          >
+          <form className="bg-neutral-300 p-2 md:p-3 lg:p-4 rounded-b" data-lpignore="true">
             <input
               className="flex flex-wrap justify-center items-center w-full p-1 md:p-2 lg:p-3 focus:outline-none focus:border focus:border-violet-500 bg-neutral-50 resize-none rounded h-max"
               value={message}
