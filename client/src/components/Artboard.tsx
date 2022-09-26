@@ -29,7 +29,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "relative flex flex-col gap-2 justify-center items-center w-full h-full p-2 md:p-3 lg:p-4 lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 bg-neutral-200";
+styles.static = "relative flex flex-col gap-2 justify-center items-center w-full h-full lg:col-start-1 lg:col-span-2 lg:row-start-1 lg:row-span-1 bg-neutral-200 rounded";
 
 export default function Artboard({ artboardRef, className = null }: Props) {
   const game = {
@@ -89,7 +89,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
   return (
     <Component id="Artboard">
       <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
-        <Container className="w-full h-full overflow-y-auto no-scrollbar border border-neutral-400 rounded">
+        <Container className="w-full h-full overflow-y-auto no-scrollbar rounded">
           <div className="flex portrait:flex-col lg:flex-col justify-start h-full">
             <Toolbar />
             {modal.state.isShowIsTurnModal && <IsTurnModal />}
