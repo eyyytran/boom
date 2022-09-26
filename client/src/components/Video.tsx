@@ -36,7 +36,7 @@ const styles = {} as Styles;
 
 styles.conditional = {
   active: "bg-violet-500 text-neutral-50",
-  inactive: "bg-neutral-300",
+  inactive: "bg-neutral-200",
 };
 
 export default function Video({ active, className = null, tracks, username, points }: Props) {
