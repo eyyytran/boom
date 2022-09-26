@@ -1,6 +1,6 @@
-import { FC, SyntheticEvent, useState } from 'react'
+import { FC, SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { doc, updateDoc } from 'firebase/firestore'
 import {
     faRightToBracket,
@@ -11,7 +11,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Component from './Component'
 import Container from '../layout/Container'
-import { auth, db } from '../server/firebase'
+import { db } from '../server/firebase'
 import { RootState } from '../store'
 import gameSlice from '../store/gameSlice'
 import { randomIntegerInInterval } from '../util/randomIntegerInInterval'
