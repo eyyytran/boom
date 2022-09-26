@@ -45,7 +45,7 @@ export default function Video({ active, className = null, tracks, username, poin
     actions: videoSlice.actions,
   };
 
-  styles.static = `relative w-max xl:w-full h-full aspect-video xl:aspect-auto rounded overflow-clip`;
+  styles.static = `relative w-max xl:w-1/4 6xl:w-full h-1/4 xl:h-full 6xl:h-1/4 aspect-video xl:aspect-auto rounded overflow-clip`;
 
   const dispatch = useDispatch();
 
