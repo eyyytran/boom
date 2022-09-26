@@ -25,8 +25,6 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "flex jusitify-between items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300 border-x border-neutral-400";
-
 export default function Toolbar({ className = null }: Props) {
   const artboard = {
     state: useSelector((state: RootState) => state.artboard),
@@ -40,11 +38,13 @@ export default function Toolbar({ className = null }: Props) {
 
   const dispatch = useDispatch();
 
+  styles.static = "grid grid-cols-2 grid-rows-2 md:grid-cols-[max-content_1fr_max-content] md:grid-rows-1 jusitify-between items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300";
   styles.dynamic = className;
+
   return (
     <Component id="Toolbar">
       <div className={game.state.isTurn ? `${styles.static} ${styles.dynamic}` : `avoid-clicks ${styles.static} ${styles.dynamic}`}>
-        <div className="flex landscape:flex-col lg:landscape:flex-row justify-start items-center gap-2 md:gap-3 lg:gap-4 w-full">
+        <div className="flex justify-start items-center gap-2 md:gap-3 lg:gap-4 w-full overflow-x-scroll col-start-1 col-span-1 row-start-1 row-span-1 md:col-start-1 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faEraser}
             className={`text-xs ${artboard.state.eraserWidth === 8 ? "text-neutral-900" : "text-neutral-400"}`}
@@ -86,79 +86,99 @@ export default function Toolbar({ className = null }: Props) {
             }}
           />
         </div>
-        <div className="flex flex-wrap landscape:flex-col lg:landscape:flex-row justify-center items-center gap-2 md:gap-3 lg:gap-4 w-full">
+        <div className="flex justify-between md:justify-center items-center gap-2 md:gap-3 lg:gap-4 overflow-x-scroll col-start-1 col-span-2 row-start-2 row-span-1 md:col-start-2 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#171717" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-neutral-900`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#171717"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#171717" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-neutral-900`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#171717"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#f43f5e" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-rose-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#f43f5e"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#f43f5e" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-rose-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#f43f5e"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#f59e0b" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-amber-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#f59e0b"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#f59e0b" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-amber-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#f59e0b"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#eab308" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-yellow-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#eab308"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#eab308" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-yellow-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#eab308"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#10b981" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-emerald-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#10b981"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#10b981" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-emerald-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#10b981"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#0ea5e9" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-sky-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#0ea5e9"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#0ea5e9" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-sky-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#0ea5e9"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#8b5cf6" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-violet-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#8b5cf6"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#8b5cf6" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-violet-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#8b5cf6"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#d946ef" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-fuchsia-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#d946ef"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#d946ef" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-fuchsia-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#d946ef"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#ec4899" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-pink-500`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#ec4899"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#ec4899" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-pink-500`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#ec4899"));
+            }}
           />
           <FontAwesomeIcon
             icon={faSquare}
-            className={`outline outline-2 outline-offset-2 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
-              artboard.state.currentColor === "#ffffff" ? "outline-neutral-900" : "outline-transparent"
-            } rounded text-white`}
-            onClick={e => dispatch(artboard.actions.setCurrentColor("#ffffff"))}
+            className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
+              artboard.state.currentColor === "#ffffff" ? "border-neutral-900 opacity-100" : "border-transparent opacity-25"
+            } text-white`}
+            onClick={e => {
+              dispatch(artboard.actions.setCurrentColor("#ffffff"));
+            }}
           />
         </div>
-        <div className="flex landscape:flex-col lg:landscape:flex-row justify-end items-center gap-2 md:gap-3 lg:gap-4 w-full">
+        <div className="flex justify-end items-center gap-2 md:gap-3 lg:gap-4 w-full overflow-x-scroll col-start-2 col-span-1 row-start-1 row-span-1 md:col-start-3 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faPaintBrush}
             className={`text-xs ${!game.state.isTurn ? "pointer-events-none" : ""} ${artboard.state.lineWidth === 3 ? "text-neutral-900" : "text-neutral-400"}`}
