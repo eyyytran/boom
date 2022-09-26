@@ -60,6 +60,7 @@ export default function Chat({ chatRef, className = null }: Props) {
       const result = doc.data();
       setChat(result?.messages);
       const messageSound = new Audio("/sounds/message.mp3");
+      messageSound.volume = 0.25;
       result && messageSound.play();
     });
     return () => {
