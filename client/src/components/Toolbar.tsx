@@ -38,13 +38,13 @@ export default function Toolbar({ className = null }: Props) {
 
   const dispatch = useDispatch();
 
-  styles.static = "grid grid-cols-2 grid-rows-2 md:grid-cols-[max-content_1fr_max-content] md:grid-rows-1 jusitify-between items-center gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300";
+  styles.static = "grid grid-cols-2 grid-rows-2 md:grid-cols-[max-content_1fr_max-content] md:grid-rows-1 gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 bg-neutral-300";
   styles.dynamic = className;
 
   return (
     <Component id="Toolbar">
       <div className={game.state.isTurn ? `${styles.static} ${styles.dynamic}` : `avoid-clicks ${styles.static} ${styles.dynamic}`}>
-        <div className="flex justify-start items-center gap-2 md:gap-3 lg:gap-4 w-full overflow-x-scroll col-start-1 col-span-1 row-start-1 row-span-1 md:col-start-1 md:col-span-1 md:row-start-1 md:row-span-1">
+        <div className="flex justify-start items-center gap-2 md:gap-3 lg:gap-4 w-full col-start-1 col-span-1 row-start-1 row-span-1 md:col-start-1 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faEraser}
             className={`text-xs ${artboard.state.eraserWidth === 8 ? "text-neutral-900" : "text-neutral-400"}`}
@@ -86,7 +86,7 @@ export default function Toolbar({ className = null }: Props) {
             }}
           />
         </div>
-        <div className="flex justify-between md:justify-center items-center gap-2 md:gap-3 lg:gap-4 overflow-x-scroll col-start-1 col-span-2 row-start-2 row-span-1 md:col-start-2 md:col-span-1 md:row-start-1 md:row-span-1">
+        <div className="flex justify-between md:justify-center items-center gap-2 md:gap-3 lg:gap-4 col-start-1 col-span-2 row-start-2 row-span-1 md:col-start-2 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faSquare}
             className={`border-b-4 ${!game.state.isTurn ? "pointer-events-none" : ""} ${
@@ -178,7 +178,7 @@ export default function Toolbar({ className = null }: Props) {
             }}
           />
         </div>
-        <div className="flex justify-end items-center gap-2 md:gap-3 lg:gap-4 w-full overflow-x-scroll col-start-2 col-span-1 row-start-1 row-span-1 md:col-start-3 md:col-span-1 md:row-start-1 md:row-span-1">
+        <div className="flex justify-end items-center gap-2 md:gap-3 lg:gap-4 w-full col-start-2 col-span-1 row-start-1 row-span-1 md:col-start-3 md:col-span-1 md:row-start-1 md:row-span-1">
           <FontAwesomeIcon
             icon={faPaintBrush}
             className={`text-xs ${!game.state.isTurn ? "pointer-events-none" : ""} ${artboard.state.lineWidth === 3 ? "text-neutral-900" : "text-neutral-400"}`}
