@@ -81,32 +81,34 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
   return (
     <Component id="Navbar">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <Container>
-          <div className="flex justify-between items-center gap-2 h-full">
-            {game.state.isOwner && (
-              <button
-                className={game.state.isInit ? "py-2 px-4 bg-red-700 rounded-md md:w-40 sm:w-40" : "py-2 px-4 bg-green-700 rounded-md md:w-40 sm:w-40"}
-                onClick={(e: SyntheticEvent) => (game.state.isInit ? endGame(e) : startGame(e))}
-              >
-                <span className="text-neutral-100">{game.state.isInit ? "End Game" : "Start Game"}</span>
-              </button>
-            )}
-            <div className="flex justify-center items-center gap-2 h-full">
-              <button ref={galleryButtonRef} className="py-2 px-4 lg:invisible">
-                <FontAwesomeIcon icon={faVideo} className={isGalleryInView ? "text-violet-500" : ""} />
-              </button>
-              <button ref={artboardButtonRef} className="py-2 px-4 lg:invisible">
-                <FontAwesomeIcon icon={faTableCellsLarge} className={isArtboardInView ? "text-violet-500" : ""} />
-              </button>
-              <button ref={chatButtonRef} className="py-2 px-4 lg:invisible">
-                <FontAwesomeIcon icon={faMessage} className={isChatInView ? "text-violet-500" : ""} />
-              </button>
-            </div>
-            <button ref={exitButtonRef} className="py-2 px-4" onClick={handleUserCleanup}>
-              <FontAwesomeIcon icon={faRightToBracket} className="" />
+        <div className="grid grid-cols-5 justify-between items-center gap-2 h-full">
+          {game.state.isOwner && (
+            <button
+              className={
+                game.state.isInit
+                  ? "col-start-1 col-span-1 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
+                  : "col-start-1 col-span-1 p-2 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
+              }
+              onClick={(e: SyntheticEvent) => (game.state.isInit ? endGame(e) : startGame(e))}
+            >
+              <span className="text-neutral-100">{game.state.isInit ? "End Game" : "Start Game"}</span>
+            </button>
+          )}
+          <div className="col-start-2 col-span-3 flex justify-center items-center gap-2 h-full">
+            <button ref={galleryButtonRef} className="py-2 px-4 lg:invisible">
+              <FontAwesomeIcon icon={faVideo} className={isGalleryInView ? "text-violet-500" : ""} />
+            </button>
+            <button ref={artboardButtonRef} className="py-2 px-4 lg:invisible">
+              <FontAwesomeIcon icon={faTableCellsLarge} className={isArtboardInView ? "text-violet-500" : ""} />
+            </button>
+            <button ref={chatButtonRef} className="py-2 px-4 lg:invisible">
+              <FontAwesomeIcon icon={faMessage} className={isChatInView ? "text-violet-500" : ""} />
             </button>
           </div>
-        </Container>
+          <button ref={exitButtonRef} className="h-full bg-neutral-900 text-white col-start-5 col-span-1 rounded" onClick={handleUserCleanup}>
+            <FontAwesomeIcon icon={faRightToBracket} className="" />
+          </button>
+        </div>
       </div>
     </Component>
   );
