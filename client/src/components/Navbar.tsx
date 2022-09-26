@@ -87,10 +87,13 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
             className="bg-neutral-400 hover:bg-neutral-500 text-white col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 rounded"
             onClick={() => {
               navigator.clipboard.writeText(game.state.roomId);
-              setCopyLink("Coppied!");
+              setCopyLink("Copied");
+              const coppiedSound = new Audio("/sounds/coppied.mp3");
+              coppiedSound.volume = 0.1;
+              coppiedSound.play();
               setTimeout(() => {
                 setCopyLink(<FontAwesomeIcon icon={faLink} />);
-              }, 2000);
+              }, 750);
             }}
           >
             {copyLink}
