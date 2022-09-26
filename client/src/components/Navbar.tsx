@@ -87,7 +87,7 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
               className={
                 game.state.isInit
                   ? "col-start-1 col-span-1 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
-                  : "col-start-1 col-span-1 row-start-2 row-span-1 p-2 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
+                  : "col-start-1 col-span-1 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
               }
               onClick={(e: SyntheticEvent) => (game.state.isInit ? endGame(e) : startGame(e))}
             >
