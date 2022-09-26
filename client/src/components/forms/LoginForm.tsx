@@ -24,9 +24,9 @@ const LoginForm = () => {
                     navigate('/dashboard')
                 })
                 .catch(error => {
-                    if (error == 'FirebaseError: Firebase: Error (auth/wrong-password).') {
+                    if (error === 'FirebaseError: Firebase: Error (auth/wrong-password).') {
                         setErrorMessage('That Username/Password is incorrect.')
-                    } else if (error == 'FirebaseError: Firebase: Error (auth/user-not-found).') {
+                    } else if (error === 'FirebaseError: Firebase: Error (auth/user-not-found).') {
                         setErrorMessage('That Username/Password is incorrect.')
                     }
                 })
