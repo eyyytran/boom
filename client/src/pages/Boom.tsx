@@ -110,6 +110,11 @@ export default function Boom() {
             }
         }
 
+        const assignPoints = (playerList: IParticipant[]) => {
+            const currentUser = playerList.find(player => player.uid === user.state.user?.uid)
+            dispatch(game.action.setPlayerPoints(currentUser?.points))
+        }
+
         const unsubscribe = onSnapshot(doc(db, 'rooms', game.state.roomId), doc => {
             const data = doc.data()
             const dbGameState = data?.gameState
@@ -137,7 +142,10 @@ export default function Boom() {
 
             if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
                 getParticipants()
-                reassignPlayerNum(dbGameState.players)
+                assignPoints(dbGameState.players)
+                if (game.state.players.length < dbGameState.players.length) {
+                    reassignPlayerNum(dbGameState.players)
+                }
             }
 
             dispatch(game.action.setIsTurnStarted(dbGameState.isTurnStart))
@@ -168,6 +176,7 @@ export default function Boom() {
         timer.action,
         user.state.userName,
         navigate,
+        user.state.user?.uid,
     ])
 
     useEffect(() => {

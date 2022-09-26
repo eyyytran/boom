@@ -13,6 +13,7 @@ interface IGameSliceInitialState {
     whosTurn: number | null
     isTurnStarted: boolean
     currentPrompt: string
+    playerPoints: number
 }
 
 const initialState: IGameSliceInitialState = {
@@ -27,6 +28,7 @@ const initialState: IGameSliceInitialState = {
     whosTurn: null,
     isTurnStarted: false,
     currentPrompt: '',
+    playerPoints: 0,
 }
 
 const gameSlice = createSlice({
@@ -66,6 +68,9 @@ const gameSlice = createSlice({
         setCurrentPrompt: (state, { payload }) => {
             state.currentPrompt = payload
         },
+        setPlayerPoints: (state, { payload }) => {
+            state.playerPoints = payload
+        },
         resetState: state => {
             state.roomId = ''
             state.isOwner = false
@@ -78,6 +83,7 @@ const gameSlice = createSlice({
             state.whosTurn = null
             state.isTurnStarted = false
             state.currentPrompt = ''
+            state.playerPoints = 0
         },
     },
 })
