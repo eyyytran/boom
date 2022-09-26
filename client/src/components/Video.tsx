@@ -12,7 +12,7 @@ import Component from "../components/Component";
 
 import { AgoraVideoPlayer } from "agora-rtc-react";
 
-import { faMicrophone, faMicrophoneSlash, faVideoCamera, faVideoSlash } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faMicrophoneSlash, faStar, faVideoCamera, faVideoSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
@@ -20,6 +20,7 @@ type Props = {
   tracks: any;
   active: boolean;
   className?: string | null;
+  points: number;
 };
 
 type Styles = {
@@ -38,7 +39,7 @@ styles.conditional = {
   inactive: "bg-neutral-300",
 };
 
-export default function Video({ active, className = null, tracks, username }: Props) {
+export default function Video({ active, className = null, tracks, username, points }: Props) {
   const video = {
     state: useSelector((state: RootState) => state.video),
     actions: videoSlice.actions,
@@ -68,7 +69,10 @@ export default function Video({ active, className = null, tracks, username }: Pr
             >
               <FontAwesomeIcon icon={video.state.camera && video.state.microphone ? faMicrophone : faMicrophoneSlash} className="text-xs text-inherit" />
             </button>
-            <span className="w-full text-xs text-inherit text-center">{username}</span>
+            <span className="w-full text-xs text-inherit text-center">
+              {`${username} - ${points} `}
+              <FontAwesomeIcon icon={faStar} className="text-amber-300" />
+            </span>
             <button
               className={`${!active && "invisible"} w-8 justify-center items-center`}
               onClick={async () => {

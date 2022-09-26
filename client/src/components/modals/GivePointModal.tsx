@@ -5,6 +5,8 @@ import { RootState } from "../../store/index";
 import gameSlice from "../../store/gameSlice";
 import PlayerButton from "./PlayerButton";
 import IParticipant from "../interfaces/IParticipant";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 interface IParticipantWithIndex extends IParticipant {
   index: number;

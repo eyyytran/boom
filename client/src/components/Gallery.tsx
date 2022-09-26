@@ -153,10 +153,8 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
           <div className={`flex flex-col lg:flex-row justify-center items-center w-full h-full gap-2 md:gap-3 lg:gap-4`}>
             {tracks && (
               <div className="contents">
-                <Video tracks={tracks} active={true} username={user.state.userName} />
-                <Video tracks={tracks} active={true} username={user.state.userName} />
-                <Video tracks={tracks} active={true} username={user.state.userName} />
-                {video.state.users && video.state.users.map(user => <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} active={false} />)}
+                <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
+                {video.state.users && video.state.users.map(user => <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} points={user.uid} active={false} />)}
               </div>
             )}
           </div>
