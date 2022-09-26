@@ -81,7 +81,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
                   if (stream.uid === user.uid) throw new Error("duplicate user");
                 });
                 dispatch(video.actions.addUser(user));
-                const publishSound = new Audio("/sounds/open-aim.mp3");
+                const publishSound = new Audio("/sounds/publish.mp3");
                 publishSound.play();
               } catch (error) {
                 console.log("HERE", error);
@@ -105,7 +105,7 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             user.audioTrack && user.audioTrack.stop();
             if (mediaType === "video") {
               user.videoTrack && user.videoTrack.stop();
-              const unpublishSound = new Audio("/sounds/exit-aim.mp3");
+              const unpublishSound = new Audio("/sounds/unpublish.mp3");
               unpublishSound.play();
               dispatch(video.actions.removeUser(user));
             }
