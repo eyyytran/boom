@@ -117,7 +117,7 @@ export default function Chat({ chatRef, className = null }: Props) {
           </div>
           <form className="bg-neutral-300 p-2 md:p-3 lg:p-4 rounded-b" data-lpignore="true">
             <input
-              className="flex flex-wrap justify-center items-center w-full p-1 md:p-2 lg:p-3 focus:outline-none focus:border focus:border-violet-500 bg-neutral-50 border border-neutral-400 resize-none text-sm rounded h-max"
+              className="flex flex-wrap justify-center items-center w-full p-1 md:p-2 lg:p-3 focus:outline-none focus:border focus:border-violet-500 bg-neutral-50 resize-none text-sm rounded h-max"
               value={message}
               placeholder="Type a Message"
               onKeyDown={handleKeyDown}
