@@ -110,6 +110,11 @@ export default function Boom() {
       }
     };
 
+    const assignPoints = (playerList: IParticipant[]) => {
+      const currentUser = playerList.find(player => player.uid === user.state.user?.uid);
+      dispatch(game.action.setPlayerPoints(currentUser?.points));
+    };
+
     const unsubscribe = onSnapshot(doc(db, "rooms", game.state.roomId), doc => {
       const data = doc.data();
       const dbGameState = data?.gameState;
@@ -130,6 +135,7 @@ export default function Boom() {
       if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
         getParticipants();
         reassignPlayerNum(dbGameState.players);
+        assignPoints(dbGameState.players);
       }
 
       dispatch(game.action.setIsTurnStarted(dbGameState.isTurnStart));
@@ -150,7 +156,7 @@ export default function Boom() {
     return () => {
       unsubscribe();
     };
-  }, [dispatch, game.action, game.state.playerNum, game.state.players, game.state.roomId, modal.action, timer.action, user.state.userName, navigate]);
+  }, [dispatch, game.action, game.state.playerNum, game.state.players, game.state.roomId, modal.action, timer.action, user.state.userName, navigate, user.state.user?.uid]);
 
   useEffect(() => {
     if (!galleryButtonRef.current) return;
