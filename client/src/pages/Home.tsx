@@ -21,7 +21,7 @@ export default function Home({}: Props) {
     return (
         <Component id='Home'>
             <div
-                className='relative h-screen w-screen bg-cover'
+                className='relative h-screen w-screen bg-[length:100vw_50vh] md:bg-cover'
                 style={{
                     backgroundImage:
                         'url(https://images.unsplash.com/photo-1653376813085-9ce473ec934e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8)',
