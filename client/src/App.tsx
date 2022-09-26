@@ -16,6 +16,7 @@ import Home from "./pages/Home";
 import Settings from "./components/Settings";
 import Join from "./components/Join";
 import NewGame from "./components/NewGame";
+import PhotoUpload from "./components/PhotoUpload";
 import "./index.css";
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
         <Route element={<PrivateRoutes />}>
           <Route path="boom" element={<Boom />} />
           <Route path="dashboard" element={<Dashboard />}>
+            <Route path="picture" element={<PhotoUpload />} />
             <Route path="settings" element={<Settings />} />
             <Route path="join" element={<Join />} />
             <Route path="new" element={<NewGame />} />
