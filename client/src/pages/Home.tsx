@@ -2,18 +2,8 @@ import React from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
 import { Link } from 'react-router-dom'
-import { url } from 'inspector'
-
-// import {
-//   faRightToBracket,
-//   faMessage,
-//   faPenToSquare,
-//   faTableCellsLarge,
-//   faVideo,
-//   faCog,
-//   faBars,
-// } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSquareGithub, faMedium } from '@fortawesome/free-brands-svg-icons'
 
 type Props = {}
 
@@ -53,9 +43,18 @@ export default function Home({}: Props) {
                         >
                             Log In
                         </Link>
-                        <div className='absolute inset-x-0 bottom-0 text-center py-4 bg-yellow-400 rounded-b-lg'>
-                            Made for educational purposes by Blake Lein, West McMillen, and Andrea
-                            Tran
+                        <div className='absolute inset-x-0 bottom-0 text-center bg-yellow-400 flex flex-col mt-4 md:rounded-b-lg py-2'>
+                            <div>
+                                <a href='https://github.com/westmcmillen/fourSquare'>
+                                    <FontAwesomeIcon
+                                        icon={faSquareGithub}
+                                        className='text-3xl mx-2'
+                                    />
+                                </a>
+                                <a href='https://medium.com/@eyyytran/nurse-to-tech-in-16-weeks-our-capstone-project-ecf336dae079'>
+                                    <FontAwesomeIcon icon={faMedium} className='text-3xl mx-2' />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
