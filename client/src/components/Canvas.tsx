@@ -15,7 +15,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "w-full h-full cursor-crosshair border border-neutral-400";
+styles.static = "w-full h-full cursor-crosshair";
 
 const Canvas: FC<Props> = () => {
   const urlparams = new URLSearchParams(window.location.search);

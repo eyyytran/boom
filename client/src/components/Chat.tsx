@@ -28,8 +28,7 @@ interface FirebaseMessage {
 
 const styles = {} as Styles;
 
-styles.static =
-  "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full p-2 md:p-3 lg:p-4 border-4 border-green-700";
+styles.static = "w-full lg:col-start-3 lg:col-span-1 lg:row-start-1 lg:row-span-1 h-full bg-neutral-200 rounded";
 
 export default function Chat({ chatRef, className = null }: Props) {
   styles.dynamic = className;
@@ -57,9 +56,12 @@ export default function Chat({ chatRef, className = null }: Props) {
 
   useEffect(() => {
     if (!roomId) return;
-    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), (doc) => {
+    const unsubscribe = onSnapshot(doc(db, "rooms", roomId), doc => {
       const result = doc.data();
       setChat(result?.messages);
+      const messageSound = new Audio("/sounds/message.mp3");
+      messageSound.volume = 0.15;
+      result && messageSound.play();
     });
     return () => {
       unsubscribe();
@@ -101,39 +103,32 @@ export default function Chat({ chatRef, className = null }: Props) {
   return (
     <Component id="Chat">
       <div ref={chatRef} className={`${styles.static} ${styles.dynamic}`}>
-        <Container>
-          <div className="flex flex-col h-full gap-2">
-            <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar">
-              {chat?.map((message) => {
-                return (
-                  <Message
-                    key={message.timeStamp}
-                    username={user.state.userName}
-                    message={message.content}
-                    sender={message.sentBy}
-                    origin={
-                      user.state.userName === message.sentBy
-                        ? "user"
-                        : "participant"
-                    }
-                  />
-                );
-              })}
-              <div className="h-16" ref={dummy} />
-            </div>
-            <form
-              className="flex flex-col justify-end items-center gap-2 h-auto focus:h-auto p-2 md:p-3 lg:p-4 focus:aspect-square resize-none bg-neutral-200 border border-neutral-400 rounded"
-              data-lpignore="true"
-            >
-              <textarea
-                className="w-full h-16 p-2 md:p-3 lg:p-4 bg-neutral-50 border border-neutral-400 rounded resize-none"
-                value={message}
-                onKeyDown={handleKeyDown}
-                onChange={handleMessage}
-              ></textarea>
-            </form>
+        <div className="flex flex-col h-full">
+          <div className="w-full bg-neutral-300 text-center text-sm rounded-t p-2 md:p-3 lg:p-4 font-bold">Group Chat</div>
+          <div className="flex flex-col h-full gap-2 overflow-y-auto no-scrollbar p-2 md:p-3 lg:p-4">
+            {chat?.map(message => {
+              return (
+                <Message
+                  key={message.timeStamp}
+                  username={user.state.userName}
+                  message={message.content}
+                  sender={message.sentBy}
+                  origin={user.state.userName === message.sentBy ? "user" : "participant"}
+                />
+              );
+            })}
+            <div className="h-16" ref={dummy} />
           </div>
-        </Container>
+          <form className="bg-neutral-300 p-2 md:p-3 lg:p-4 rounded-b" data-lpignore="true">
+            <input
+              className="flex flex-wrap justify-center items-center w-full p-1 md:p-2 lg:p-3 focus:outline-none focus:border focus:border-violet-500 bg-neutral-50 resize-none rounded h-max"
+              value={message}
+              placeholder="Type a Message"
+              onKeyDown={handleKeyDown}
+              onChange={handleMessage}
+            />
+          </form>
+        </div>
       </div>
     </Component>
   );
