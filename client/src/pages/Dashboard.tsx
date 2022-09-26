@@ -1,14 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
 import { Link, Outlet } from 'react-router-dom'
 import {
     faGear,
     faUserGroup,
-    faTableCellsLarge,
-    faBars,
     faRightToBracket,
-    faPenToSquare,
     faPlusSquare,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -55,14 +52,14 @@ const Dashboard = (props: Props) => {
                             <h1 className='font-bold text-3xl md:text-3xl text-center text-violet-500'>
                                 Boom
                             </h1>
-                            {/* <div id="profile" className="space-y-3"> */}
+
                             <img
                                 src={
                                     profilePicture
                                         ? profilePicture
                                         : require('../images/defaultImg.jpeg')
                                 }
-                                alt='Profile Picture'
+                                alt='current user'
                                 className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                             />
                             <div>
@@ -70,7 +67,6 @@ const Dashboard = (props: Props) => {
                                     Hello {userName}!
                                 </h2>
                             </div>
-                            {/* </div> */}
 
                             <div
                                 id='menu'
