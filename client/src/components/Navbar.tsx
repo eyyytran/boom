@@ -1,8 +1,8 @@
-import { FC, SyntheticEvent } from "react";
+import { FC, ReactElement, SyntheticEvent, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
-import { faRightToBracket, faMessage, faTableCellsLarge, faVideo, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faRightToBracket, faMessage, faTableCellsLarge, faVideo, faPenToSquare, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Component from "./Component";
 import Container from "../layout/Container";
@@ -77,23 +77,37 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
     dispatch(modal.action.resetModals());
   };
 
+  const [copyLink, setCopyLink] = useState<ReactElement | String>(<FontAwesomeIcon icon={faLink} />);
+
   return (
     <Component id="Navbar">
       <div className={`${styles.static} ${styles.dynamic}`}>
-        <div className="grid grid-cols-2 justify-between items-center gap-2 h-full">
+        <div className="grid grid-cols-5 justify-center items-center gap-2 h-full">
+          <button
+            className="bg-neutral-400 hover:bg-neutral-500 text-white col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 rounded"
+            onClick={() => {
+              navigator.clipboard.writeText(game.state.roomId);
+              setCopyLink("Coppied!");
+              setTimeout(() => {
+                setCopyLink(<FontAwesomeIcon icon={faLink} />);
+              }, 2000);
+            }}
+          >
+            {copyLink}
+          </button>
           {game.state.isOwner && (
             <button
               className={
                 game.state.isInit
-                  ? "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded w-full"
-                  : "col-start-1 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded w-full"
+                  ? "col-start-2 col-span-3 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-rose-500 hover:bg-rose-600 rounded"
+                  : "col-start-2 col-span-3 row-start-2 row-span-1 p-2 md:p-3 lg:p-4 bg-emerald-500 hover:bg-emerald-400 rounded"
               }
               onClick={(e: SyntheticEvent) => (game.state.isInit ? handleEndGame(e) : startGame(e))}
             >
               <span className="text-neutral-100">{game.state.isInit ? "End Game" : "Start Game"}</span>
             </button>
           )}
-          <div className="xl:hidden col-start-1 col-span-2 row-start-1 row-span-1 flex justify-center items-center gap-2 h-full bg-neutral-200">
+          <div className="xl:hidden col-start-1 col-span-5 row-start-1 row-span-1 flex justify-center items-center gap-2 h-full bg-neutral-200">
             <button ref={galleryButtonRef} className="py-2 px-4 text-xl">
               <FontAwesomeIcon icon={faVideo} className={isGalleryInView ? "text-violet-500" : ""} />
             </button>
@@ -106,7 +120,7 @@ const Navbar: FC<Props> = ({ galleryButtonRef, artboardButtonRef, chatButtonRef,
           </div>
           <button
             ref={exitButtonRef}
-            className="bg-neutral-900 hover:bg-neutral-800 text-white col-start-2 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4  p-2 md:p-3 lg:p-4 rounded"
+            className="bg-neutral-900 hover:bg-neutral-800 text-white col-start-5 col-span-1 row-start-2 row-span-1 m-2 md:m-3 lg:m-4  p-2 md:p-3 lg:p-4 rounded"
             onClick={handleUserCleanup}
           >
             <FontAwesomeIcon icon={faRightToBracket} className="" />
