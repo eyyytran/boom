@@ -90,9 +90,9 @@ export default function Artboard({ artboardRef, className = null }: Props) {
     <Component id="Artboard">
       <div ref={artboardRef} className={`${styles.static} ${styles.dynamic}`}>
         <Container className="w-full h-full overflow-y-auto no-scrollbar rounded">
-          <div className="flex portrait:flex-col lg:flex-col justify-start h-full">
+          <div className="relative flex portrait:flex-col lg:flex-col justify-start h-full bg-white">
             <Toolbar />
-            {modal.state.isShowIsTurnModal && <IsTurnModal />}
+            <IsTurnModal />
             {modal.state.isShowIsTurnModal && modal.state.isShowGivePointModal && <GivePointModal />}
             {modal.state.isShowWinnerModal && game.state.isWon && <EndGameModal />}
             <div className="w-full h-full bg-white">
