@@ -186,10 +186,13 @@ export default function Boom() {
         <div className="flex flex-col justify-start h-full">
           <Titlebar className="shrink-0" />
           <Timer className="shrink-0" />
-          <div className="flex lg:grid lg:grid-cols-3 lg:grid-rows-3 gap-2 md:gap-3 lg:gap-4 p-2 md:p-3 lg:p-4 h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
-            <Gallery galleryRef={galleryRef} className="shrink-0 snap-center lg:col-start-1 lg:col-span-full lg:row-start-3 lg:row-span-1" />
-            <Artboard artboardRef={artboardRef} className="shrink-0 lg:shrink snap-center lg:row-start-1 lg:row-span-2" />
-            <Chat chatRef={chatRef} className="shrink-0 snap-center lg:row-start-1 lg:row-span-2" />
+          <div className="min-h-[768px] flex xl:grid xl:grid-cols-3 6xl:grid-cols-5 xl:grid-rows-3 gap-2 md:gap-3 xl:gap-4 p-2 md:p-3 xl:p-4 h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
+            <Gallery
+              galleryRef={galleryRef}
+              className="shrink-0 snap-center xl:col-start-1 xl:col-span-full xl:row-start-3 xl:row-span-1 6xl: col-start-1 6xl:col-span-1 6xl:row-start-1 6xl:row-span-3"
+            />
+            <Artboard artboardRef={artboardRef} className="shrink-0 xl:shrink snap-center xl:row-start-1 xl:row-span-2 6xl:col-start-2 6xl:col-span-3 6xl:row-start-1 6xl:row-span-3" />
+            <Chat chatRef={chatRef} className="shrink-0 snap-center xl:row-start-1 xl:row-span-2 6xl:col-start-5 6xl:col-span-1 6xl:row-start-1 6xl:row-span-3" />
           </div>
           <Navbar
             galleryButtonRef={galleryButtonRef}
