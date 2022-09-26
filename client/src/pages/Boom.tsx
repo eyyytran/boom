@@ -142,10 +142,8 @@ export default function Boom() {
 
             if (JSON.stringify(game.state.players) !== JSON.stringify(dbGameState.players)) {
                 getParticipants()
+                reassignPlayerNum(dbGameState.players)
                 assignPoints(dbGameState.players)
-                if (game.state.players.length < dbGameState.players.length) {
-                    reassignPlayerNum(dbGameState.players)
-                }
             }
 
             dispatch(game.action.setIsTurnStarted(dbGameState.isTurnStart))

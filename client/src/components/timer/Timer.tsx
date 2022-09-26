@@ -120,13 +120,13 @@ export default function Timer({ className = null }: Props) {
                                 style={{
                                     height: '100%',
                                     width: `${progress}%`,
-                                    backgroundColor: `${
-                                        parseInt(progress) < 80
-                                            ? 'rgb(168 85 247)'
-                                            : 'rgb(190 18 60)'
-                                    }`,
                                     borderRadius: '5px',
                                 }}
+                                className={
+                                    parseInt(progress) > 80
+                                        ? 'animate-pulse bg-violet-500'
+                                        : 'bg-violet-500'
+                                }
                             ></div>
                         </div>
                     </div>
