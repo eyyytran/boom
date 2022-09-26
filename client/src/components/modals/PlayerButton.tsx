@@ -31,7 +31,7 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
       points: newPlayers[index].points + 1,
     };
     newPlayers[index] = newPlayer;
-    const isGameWon = newPlayer.points >= 2; //TODO change back to 5 for deployment
+    const isGameWon = newPlayer.points >= 5; //TODO change back to 5 for deployment
 
     function getWhosTurn() {
       if (isGameWon) return null;
@@ -41,7 +41,7 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
 
     await updateDoc(doc(db, "rooms", game.state.roomId), {
       "gameState.players": newPlayers,
-      "drawings": null,
+      drawings: null,
       "gameState.whosTurn": getWhosTurn(),
       "gameState.gameWon": isGameWon,
       "gameState.winner": isGameWon ? newPlayer : null,
@@ -61,7 +61,10 @@ const PlayerButton: FC<Props> = ({ index, name }) => {
   };
 
   return (
-    <button className="text-white py-2 px-6 font-bold bg-neutral-900 bg-opacity-100 rounded z-40" onClick={handleGivePoint}>
+    <button
+      className="text-white py-2 px-6 font-bold bg-neutral-900 bg-opacity-100 rounded z-40"
+      onClick={handleGivePoint}
+    >
       {name}
     </button>
   );

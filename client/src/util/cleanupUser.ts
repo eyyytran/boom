@@ -1,15 +1,14 @@
 import { updateDoc, doc, deleteDoc } from 'firebase/firestore'
-import IParticipant from '../components/interfaces/IParticipant'
 import { db } from '../server/firebase'
+import IParticipant from '../components/interfaces/IParticipant'
 
 export const cleanupUser = async (
     roomId: string,
     currentUser: string | undefined,
     listOfPlayers: IParticipant[]
 ) => {
-    console.log({ currentUser })
     const newList = Array.from(listOfPlayers)
-    console.log({ newList })
+
     const index = newList.findIndex(player => player.uid === currentUser)
     newList.splice(index, 1)
     if (newList.length === 0) {
