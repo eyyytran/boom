@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
 import { Link, Outlet } from 'react-router-dom'
