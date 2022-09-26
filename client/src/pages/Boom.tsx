@@ -24,7 +24,7 @@ type Styles = {
 
 const styles = {} as Styles;
 
-styles.static = "fixed inset-0 bg-neutral-100";
+styles.static = "fixed inset-0 bg-neutral-100 min-h-[667px] ";
 
 export default function Boom() {
   const galleryRef = useRef<HTMLDivElement>(null);
@@ -186,7 +186,7 @@ export default function Boom() {
         <div className="flex flex-col justify-start h-full">
           <Titlebar className="shrink-0" />
           <Timer className="shrink-0" />
-          <div className="min-h-[768px] flex xl:grid xl:grid-cols-3 6xl:grid-cols-5 xl:grid-rows-3 gap-2 md:gap-3 xl:gap-4 p-2 md:p-3 xl:p-4 h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
+          <div className="flex xl:grid xl:grid-cols-3 6xl:grid-cols-5 xl:grid-rows-3 gap-2 md:gap-3 xl:gap-4 p-2 md:p-3 xl:p-4 h-full overflow-y-clip overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth">
             <Gallery
               galleryRef={galleryRef}
               className="shrink-0 snap-center xl:col-start-1 xl:col-span-full xl:row-start-3 xl:row-span-1 6xl: col-start-1 6xl:col-span-1 6xl:row-start-1 6xl:row-span-3"
