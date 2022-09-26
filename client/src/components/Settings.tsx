@@ -219,7 +219,7 @@ function Settings({}: Props) {
                   : require("../images/defaultImg.jpeg")
               }
               alt="default"
-              className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto"
+              className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto border-4 border-violet-500"
             />
             <input
               type="file"
