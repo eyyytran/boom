@@ -29,8 +29,8 @@ const GivePointModal = () => {
   }, [game.state.players, game.state.whosTurn]);
 
   return (
-    <div className="absolute inset-0  flex flex-col items-center justify-center border border-neutral-400 rounded">
-      <div className="flex flex-col w-max h-max space-y-2 bg-neutral-200">
+    <div className="absolute inset-0  flex flex-col items-center justify-center bg-neutral-800">
+      <div className="flex flex-col w-max h-max space-y-2 bg-neutral-20 border border-neutral-400 p-16 rounded">
         {participants.map(({ index, player }: IParticipantWithIndex) => {
           return <PlayerButton index={index} name={player} />;
         })}
