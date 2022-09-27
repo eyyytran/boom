@@ -109,9 +109,8 @@ function Settings({}: Props) {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log(downloadURL);
+            setPicture(downloadURL);
             dispatch(userState.action.setUserImage(downloadURL));
-            console.log(userState.state.image);
           });
         }
       );

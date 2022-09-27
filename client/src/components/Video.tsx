@@ -20,7 +20,7 @@ type Props = {
   tracks: any;
   active: boolean;
   className?: string | null;
-  points: number;
+  points: number | any;
 };
 
 type Styles = {
