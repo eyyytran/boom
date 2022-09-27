@@ -23,8 +23,6 @@ const userSlice = createSlice({
             state.user = action.payload
             if (!state.user) return
             state.userName = action.payload.displayName
-            if (!state.user.photoURL) return
-            state.image = state.user.photoURL
         },
         setUserName: (state: State, action) => {
             state.userName = action.payload
