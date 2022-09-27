@@ -22,6 +22,7 @@ interface FirebaseMessage {
   sentBy: string;
   content: string;
   timeStamp: number;
+  profilePicture: string;
 }
 
 const styles = {} as Styles;
@@ -79,6 +80,7 @@ export default function Chat({ chatRef, className = null }: Props) {
       sentBy: user.state.userName,
       timeStamp: new Date().getTime(),
       content: message,
+      profilePicture: user.state.image ? user.state.image : null,
     };
     sendMessage(dataToSend);
     setMessage("");
@@ -103,7 +105,7 @@ export default function Chat({ chatRef, className = null }: Props) {
             {chat?.map(message => {
               return (
                 <div className={`flex items-center justify-start ${user.state.userName === message.sentBy ? null : "flex-row-reverse"}`}>
-                  <img src={profilePicture ? profilePicture : require("../images/defaultImg.jpeg")} className="w-10 h-10 object-cover rounded-full m-2" />
+                  <img src={message.profilePicture ? message.profilePicture : require("../images/defaultImg.jpeg")} className="w-10 h-10 object-cover rounded-full m-2" alt="round" />
                   <Message
                     key={message.timeStamp}
                     username={user.state.userName}

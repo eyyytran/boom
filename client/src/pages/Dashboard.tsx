@@ -2,7 +2,7 @@ import React from "react";
 import Component from "../components/Component";
 import Titlebar from "../components/Titlebar";
 import { Link, Outlet } from "react-router-dom";
-import { faGear, faUserGroup, faTableCellsLarge, faBars, faRightToBracket, faPenToSquare, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faUserGroup, faRightToBracket, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -28,7 +28,6 @@ const Dashboard = (props: Props) => {
     navigate("/");
   };
 
-  const profilePicture = auth.currentUser?.photoURL;
   return (
     <Component id="Dashboard">
       <div className="w-full h-full flex flex-col fixed inset-0">
@@ -37,12 +36,11 @@ const Dashboard = (props: Props) => {
           <div id="sidebar" className="bg-white h-full md:block shadow-xl px-3 w-max md:w-60 lg:w-60 overflow-x-hidden transition-transform duration-300 ease-in-out" x-show="sidenav">
             <div className="space-y-6 md:space-y-10 mt-10">
               <h1 className="font-bold text-3xl md:text-3xl text-center text-violet-500">Boom</h1>
-              {/* <div id="profile" className="space-y-3"> */}
-              <img src={profilePicture ? profilePicture : require("../images/defaultImg.jpeg")} alt="Profile Picture" className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto" />
+
+              <img src={user.state.image || require("../images/defaultImg.jpeg")} alt="gray circle" className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto" />
               <div>
                 <h2 className="md:block font-medium text-lg md:text-lg text-center text-violet-500">Hello {userName}!</h2>
               </div>
-              {/* </div> */}
 
               <div id="menu" className="flex flex-col items-center space-y-2 w-max md:w-full md:items-start">
                 <Link to="new" className="group text-sm w-full font-medium text-gray-700 py-2 px-2 hover:bg-violet-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out">
