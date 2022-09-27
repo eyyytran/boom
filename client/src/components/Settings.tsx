@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteUser, updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import {
+  deleteUser,
+  updateEmail,
+  updatePassword,
+  updateProfile,
+} from "firebase/auth";
 import { auth, storage } from "../server/firebase";
 import { isEmail, isSecure } from "./forms/formValidation";
 import { RootState } from "../store";
@@ -56,7 +61,9 @@ function Settings({}: Props) {
     let valid = false;
 
     if (!isSecure(newPassword)) {
-      setPasswordErrorMessage("Passwords must be between 8-50 characters, include 1 uppercase, 1 number, and 1 special character");
+      setPasswordErrorMessage(
+        "Passwords must be between 8-50 characters, include 1 uppercase, 1 number, and 1 special character"
+      );
       setPasswordError(true);
     } else {
       setConfirmErrorMessage("");
@@ -81,8 +88,9 @@ function Settings({}: Props) {
 
       uploadTask.on(
         "state_changed",
-        snapshot => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log("Upload is " + progress + "% done");
           switch (snapshot.state) {
             case "paused":
@@ -96,15 +104,15 @@ function Settings({}: Props) {
           }
         },
 
-        error => {
+        (error) => {
           console.log(error);
         },
         () => {
           console.log("GET DOWNLOAD URL");
-          getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setPicture(downloadURL);
           });
-        },
+        }
       );
     };
     file && uploadFile();
@@ -115,7 +123,7 @@ function Settings({}: Props) {
     if (user) {
       updateProfile(user, {
         photoURL: picture,
-      }).catch(error => console.error(error));
+      }).catch((error) => console.error(error));
     }
   };
 
@@ -123,15 +131,22 @@ function Settings({}: Props) {
   const updateEmailAddress = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = auth.currentUser;
-    const confirmEmailUpdate = window.confirm(`Are you sure you want to update your Email Address to ${newEmail}?`);
+    const confirmEmailUpdate = window.confirm(
+      `Are you sure you want to update your Email Address to ${newEmail}?`
+    );
     if (confirmEmailUpdate && user && validateEmail()) {
       updateEmail(user, newEmail)
         .then(() => {
           navigate("/dashboard");
         })
-        .catch(error => {
-          if (error === "FirebaseError: Firebase: Error (auth/email-already-in-use).") {
-            setEmailErrorMessage("There is already an account with that email address.");
+        .catch((error) => {
+          if (
+            error ===
+            "FirebaseError: Firebase: Error (auth/email-already-in-use)."
+          ) {
+            setEmailErrorMessage(
+              "There is already an account with that email address."
+            );
             setEmailError(true);
           }
         });
@@ -142,7 +157,9 @@ function Settings({}: Props) {
   const updateUserPassword = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = auth.currentUser;
-    const confirmPasswordChange = window.confirm("Are you sure you want to change your password?");
+    const confirmPasswordChange = window.confirm(
+      "Are you sure you want to change your password?"
+    );
     if (confirmPasswordChange && user && validatePassword()) {
       updatePassword(user, newPassword).then(() => {
         navigate("/dashboard");
@@ -151,12 +168,13 @@ function Settings({}: Props) {
   };
 
   // Function to update username
-
   const updateUsername = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const user = auth.currentUser;
     if (newUsername !== "") {
-      const confirmChange = window.confirm(`Are you sure you want to change your Username to ${newUsername}?`);
+      const confirmChange = window.confirm(
+        `Are you sure you want to change your Username to ${newUsername}?`
+      );
 
       if (confirmChange && user && newUsername !== "") {
         updateProfile(user, {
@@ -172,7 +190,9 @@ function Settings({}: Props) {
   // Function to Delete User account
   const deleteAccount = () => {
     const user = auth.currentUser;
-    const confirmDelete = window.confirm("Are you sure you want to permanently delete your Boom Account?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to permanently delete your Boom Account?"
+    );
     if (confirmDelete && user) {
       deleteUser(user).then(() => {
         navigate("/login");
@@ -185,11 +205,19 @@ function Settings({}: Props) {
   return (
     <div className="flex flex-col items-center">
       <div className="flex flex-col items-center m-16">
-        <h1 className="text-2xl text-center font-bold text-gray-900">Settings</h1>
+        <h1 className="text-2xl text-center font-bold text-gray-900">
+          Settings
+        </h1>
         <div className="flex flex-col items-center mt-5">
           <div className="m-5 w-full">
             <img
-              src={profilePicture ? profilePicture : picture ? picture : require("../images/defaultImg.jpeg")}
+              src={
+                profilePicture
+                  ? profilePicture
+                  : picture
+                  ? picture
+                  : require("../images/defaultImg.jpeg")
+              }
               alt="default"
               className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto"
             />
@@ -209,7 +237,10 @@ function Settings({}: Props) {
               Change
             </button>
           </div>
-          <form className="flex flex-col items-center m-5 w-full" onSubmit={updateEmailAddress}>
+          <form
+            className="flex flex-col items-center m-5 w-full"
+            onSubmit={updateEmailAddress}
+          >
             <span className="text-center">Change Email</span>
             <input
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-5"
@@ -220,7 +251,7 @@ function Settings({}: Props) {
               required={true}
               type="email"
               value={newEmail}
-              onChange={e => setNewEmail(e.target.value)}
+              onChange={(e) => setNewEmail(e.target.value)}
             />
             <small className="text-red-500">{emailErrorMessage}</small>
             <input
@@ -230,7 +261,10 @@ function Settings({}: Props) {
             />
           </form>
 
-          <form className="flex flex-col items-center m-5 w-full" onSubmit={updateUserPassword}>
+          <form
+            className="flex flex-col items-center m-5 w-full"
+            onSubmit={updateUserPassword}
+          >
             <span className="text-center">Change Password</span>
             <input
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-5"
@@ -240,7 +274,7 @@ function Settings({}: Props) {
               type="password"
               required={true}
               value={newPassword}
-              onChange={e => setNewPassword(e.target.value)}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
             <small className="text-red-500">{passwordErrorMessage}</small>
             <input
@@ -249,7 +283,10 @@ function Settings({}: Props) {
               className="w-full text-white bg-violet-500 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-5 hover:scale-105"
             />
           </form>
-          <form className="flex flex-col items-center m-5 w-full" onClick={updateUsername}>
+          <form
+            className="flex flex-col items-center m-5 w-full"
+            onClick={updateUsername}
+          >
             <span className="text-center">Change Username</span>
             <input
               className="w-full bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 mt-5"
@@ -259,7 +296,7 @@ function Settings({}: Props) {
               type="text"
               required={true}
               value={newUsername}
-              onChange={e => setNewUsername(e.target.value)}
+              onChange={(e) => setNewUsername(e.target.value)}
             />
             <input
               type="submit"
