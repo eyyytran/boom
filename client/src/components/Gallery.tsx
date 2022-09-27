@@ -136,6 +136,12 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
     };
   }, [location]);
 
+  const handlePoints = (uid: any) => {
+    const player = game.state.players.find(player => player.player === uid);
+    if (!player) return;
+    return player.points;
+  };
+
   styles.dynamic = className;
 
   return (
@@ -146,7 +152,11 @@ export default function Gallery({ galleryRef, className = "" }: Props) {
             {tracks && (
               <div className="contents">
                 <Video tracks={tracks} active={true} username={user.state.userName} points={game.state.playerPoints} />
-                {video.state.users && video.state.users.map(user => <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} points={user.uid} active={false} />)}
+                {video.state.users &&
+                  video.state.users.map(user => {
+                    const points = handlePoints(user.uid);
+                    return <Video tracks={[user.audioTrack, user.videoTrack]} username={user.uid} key={user.uid} points={points} active={false} />;
+                  })}
               </div>
             )}
           </div>
