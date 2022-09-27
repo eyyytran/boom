@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Component from '../components/Component'
 import Titlebar from '../components/Titlebar'
 import { Link, Outlet } from 'react-router-dom'
@@ -33,7 +33,6 @@ const Dashboard = (props: Props) => {
         navigate('/')
     }
 
-    const profilePicture = auth.currentUser?.photoURL
     return (
         <Component id='Dashboard'>
             <div className='w-full h-full flex flex-col fixed inset-0'>
@@ -54,12 +53,8 @@ const Dashboard = (props: Props) => {
                             </h1>
 
                             <img
-                                src={
-                                    profilePicture
-                                        ? profilePicture
-                                        : require('../images/defaultImg.jpeg')
-                                }
-                                alt='current user'
+                                src={user.state.image || require('../images/defaultImg.jpeg')}
+                                alt='gray circle'
                                 className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                             />
                             <div>

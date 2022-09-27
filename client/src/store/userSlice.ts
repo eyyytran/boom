@@ -4,6 +4,7 @@ import { User } from 'firebase/auth'
 interface ICurrentUser {
     user: User | null
     userName: string
+    image: string
 }
 
 type State = ICurrentUser
@@ -11,6 +12,7 @@ type State = ICurrentUser
 const initialState: ICurrentUser = {
     user: null,
     userName: '',
+    image: '',
 }
 
 const userSlice = createSlice({
@@ -21,9 +23,14 @@ const userSlice = createSlice({
             state.user = action.payload
             if (!state.user) return
             state.userName = action.payload.displayName
+            if (!state.user.photoURL) return
+            state.image = state.user.photoURL
         },
         setUserName: (state: State, action) => {
             state.userName = action.payload
+        },
+        setUserImage: (state: State, action) => {
+            state.image = action.payload
         },
     },
 })
