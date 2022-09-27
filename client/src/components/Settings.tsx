@@ -102,7 +102,6 @@ function Settings({}: Props) {
                     console.log(error)
                 },
                 () => {
-                    console.log('GET DOWNLOAD URL')
                     getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
                         setPicture(downloadURL)
                         dispatch(userState.action.setUserImage(downloadURL))
@@ -111,14 +110,19 @@ function Settings({}: Props) {
             )
         }
         file && uploadFile()
-    }, [file])
+    }, [file, dispatch, userState.action])
 
     const changeProfilePicture = () => {
+        console.log(userState.state.image)
         const user = auth.currentUser
         if (user) {
             updateProfile(user, {
-                photoURL: picture,
-            }).catch(error => console.error(error))
+                photoURL: userState.state.image,
+            })
+                .then(() => {
+                    navigate('/dashboard')
+                })
+                .catch(error => console.error(error))
         }
     }
 
@@ -191,7 +195,10 @@ function Settings({}: Props) {
         }
     }
 
-    const profilePicture = auth.currentUser?.photoURL
+    useEffect(() => {
+        if (!auth.currentUser?.photoURL) return
+        dispatch(userState.action.setUserImage(auth.currentUser?.photoURL))
+    }, [auth.currentUser?.photoURL])
 
     return (
         <div className='flex flex-col items-center'>
@@ -200,13 +207,7 @@ function Settings({}: Props) {
                 <div className='flex flex-col items-center mt-5'>
                     <div className='m-5 w-full'>
                         <img
-                            src={
-                                profilePicture
-                                    ? profilePicture
-                                    : picture
-                                    ? picture
-                                    : require('../images/defaultImg.jpeg')
-                            }
+                            src={userState.state.image || require('../images/defaultImg.jpeg')}
                             alt='default'
                             className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                         />
@@ -241,7 +242,7 @@ function Settings({}: Props) {
                             type='email'
                             value={newEmail}
                             onChange={e => setNewEmail(e.target.value)}
-                        />
+                        />{' '}
                         <small className='text-red-500'>{emailErrorMessage}</small>
                         <input
                             type='submit'
