@@ -61,7 +61,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
 
     const getPromptAndUpdateTimer: any = async (alreadyUsedPromptIds: Array<number>) => {
         const randomPromptId = randomIntegerInInterval(0, 24)
-        if (alreadyUsedPromptIds.includes(randomPromptId))
+        if (alreadyUsedPromptIds && alreadyUsedPromptIds.includes(randomPromptId))
             return getPromptAndUpdateTimer(alreadyUsedPromptIds)
         const currentTime = new Date().getTime()
         const convertedTurnTime = timer.state.turnTime * 60 * 1000
@@ -91,9 +91,7 @@ export default function Artboard({ artboardRef, className = null }: Props) {
         if (docSnap.exists()) {
             const data = docSnap.data()
             let usedPromptsArray = data.usedPrompts
-            if (!data.usedPrompts) {
-                usedPromptsArray = []
-            }
+
             await getPromptAndUpdateTimer(usedPromptsArray)
         }
     }
