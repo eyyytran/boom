@@ -11,8 +11,8 @@ Boom is a web based application that brings you multi-peer video conferencing, r
 
 Boom was developed by Andrea Tran, Blake Lein and West McMillen in September 2022. Read more about the making of this app on [Medium](https://medium.com/@eyyytran/nurse-to-tech-in-16-weeks-our-capstone-project-ecf336dae079)
 
-![server structure](./assets/Servers.pdf)
-![database strucure](./assets/database%20structure.pdf)
+![server structure](./assets/Servers.png)
+![database strucure](./assets/database%20structure.png)
 
 ## Technologies
 
