@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Component from "../components/Component";
 import Titlebar from "../components/Titlebar";
 import { Link, Outlet } from "react-router-dom";
@@ -28,6 +28,7 @@ const Dashboard = (props: Props) => {
     navigate("/");
   };
 
+  const profilePicture = auth.currentUser?.photoURL;
   return (
     <Component id="Dashboard">
       <div className="w-full h-full flex flex-col fixed inset-0">
@@ -37,7 +38,7 @@ const Dashboard = (props: Props) => {
             <div className="space-y-6 md:space-y-10 mt-10">
               <h1 className="font-bold text-3xl md:text-3xl text-center text-violet-500">Boom</h1>
               {/* <div id="profile" className="space-y-3"> */}
-              <img src={user.state.image || require("../images/defaultImg.jpeg")} alt="Profile Picture" className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto" />
+              <img src={profilePicture ? profilePicture : require("../images/defaultImg.jpeg")} alt="Profile Picture" className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto" />
               <div>
                 <h2 className="md:block font-medium text-lg md:text-lg text-center text-violet-500">Hello {userName}!</h2>
               </div>
