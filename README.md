@@ -3,6 +3,8 @@
 _Gather your friends (or your enemies) for a battle of illustrative dominance!_
 
 Boom is a web based application that brings you multi-peer video conferencing, real-time chatting, and pictionary.
+Try it [here!](https://boomcaptain.netlify.app/)
+
 ![home screen](./assets/Screen%20Shot%202022-09-26%20at%204.30.33%20PM.png)
 ![game room](./assets/Boom_Desktop_Game_Over.png)
 ![dashboard](./assets/Screen%20Shot%202022-09-26%20at%204.32.13%20PM.png)
