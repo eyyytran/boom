@@ -108,9 +108,9 @@ function Settings({}: Props) {
           console.log(error);
         },
         () => {
+          console.log("GET DOWNLOAD URL");
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("GET DOWNLOAD URL", downloadURL);
-            dispatch(userState.action.setUserImage(downloadURL));
+            setPicture(downloadURL);
           });
         }
       );
@@ -122,7 +122,7 @@ function Settings({}: Props) {
     const user = auth.currentUser;
     if (user) {
       updateProfile(user, {
-        photoURL: userState.state.image,
+        photoURL: picture,
       }).catch((error) => console.error(error));
     }
   };
@@ -200,10 +200,7 @@ function Settings({}: Props) {
     }
   };
 
-  useEffect(() => {
-    if (!auth.currentUser?.photoURL) return;
-    dispatch(userState.action.setUserImage(auth.currentUser?.photoURL));
-  }, [auth.currentUser?.photoURL]);
+  const profilePicture = auth.currentUser?.photoURL;
 
   return (
     <div className="flex flex-col items-center">
@@ -215,7 +212,11 @@ function Settings({}: Props) {
           <div className="m-5 w-full">
             <img
               src={
-                userState.state.image || require("../images/defaultImg.jpeg")
+                profilePicture
+                  ? profilePicture
+                  : picture
+                  ? picture
+                  : require("../images/defaultImg.jpeg")
               }
               alt="default"
               className="w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto"
