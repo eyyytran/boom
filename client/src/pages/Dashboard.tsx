@@ -51,7 +51,7 @@ const Dashboard = (props: Props) => {
                             <h1 className='font-bold text-3xl md:text-3xl text-center text-violet-500'>
                                 Boom
                             </h1>
-                            {/* <div id="profile" className="space-y-3"> */}
+
                             <img
                                 src={user.state.image || require('../images/defaultImg.jpeg')}
                                 alt='gray circle'
@@ -62,7 +62,6 @@ const Dashboard = (props: Props) => {
                                     Hello {userName}!
                                 </h2>
                             </div>
-                            {/* </div> */}
 
                             <div
                                 id='menu'
