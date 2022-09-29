@@ -1,12 +1,12 @@
 import React from 'react'
 import { collection, addDoc, arrayUnion } from 'firebase/firestore'
-import { db } from '../server/firebase'
+import { db } from '../../server/firebase'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
-import userSlice from '../store/userSlice'
-import gameSlice from '../store/gameSlice'
-import Component from './Component'
+import { RootState } from '../../store'
+import userSlice from '../../store/userSlice'
+import gameSlice from '../../store/gameSlice'
+import Component from '../Component'
 
 type Props = {}
 

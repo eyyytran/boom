@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteUser, updateEmail, updatePassword, updateProfile } from 'firebase/auth'
-import { auth, storage } from '../server/firebase'
-import { isEmail, isSecure } from './forms/formValidation'
-import { RootState } from '../store'
-import userSlice from '../store/userSlice'
+import { auth, storage } from '../../server/firebase'
+import { isEmail, isSecure } from '../forms/formValidation'
+import { RootState } from '../../store'
+import userSlice from '../../store/userSlice'
 
 // Image upload
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
@@ -77,9 +77,12 @@ function Settings({}: Props) {
             //@ts-ignore
             const name = new Date().getTime() + file?.name
             const storageRef = ref(storage, name)
+            const metadata = {
+                contentType: 'image/png',
+            }
 
             if (!file) return
-            const uploadTask = uploadBytesResumable(storageRef, file)
+            const uploadTask = uploadBytesResumable(storageRef, file, metadata)
 
             uploadTask.on(
                 'state_changed',
@@ -113,7 +116,6 @@ function Settings({}: Props) {
     }, [file, dispatch, userState.action])
 
     const changeProfilePicture = () => {
-        console.log(userState.state.image)
         const user = auth.currentUser
         if (user) {
             updateProfile(user, {
@@ -198,7 +200,7 @@ function Settings({}: Props) {
     useEffect(() => {
         if (!auth.currentUser?.photoURL) return
         dispatch(userState.action.setUserImage(auth.currentUser?.photoURL))
-    }, [auth.currentUser?.photoURL])
+    }, [dispatch, userState.action])
 
     return (
         <div className='flex flex-col items-center'>
@@ -207,7 +209,7 @@ function Settings({}: Props) {
                 <div className='flex flex-col items-center mt-5'>
                     <div className='m-5 w-full'>
                         <img
-                            src={userState.state.image || require('../images/defaultImg.jpeg')}
+                            src={userState.state.image || require('../../images/defaultImg.jpeg')}
                             alt='default'
                             className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                         />

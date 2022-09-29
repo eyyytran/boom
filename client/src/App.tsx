@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from './server/firebase'
-import userSlice from './store/userSlice'
 import { RootState } from './store'
+import userSlice from './store/userSlice'
 import Component from './components/Component'
 import Boom from './pages/Boom'
 import NotFound from './pages/NotFound'
@@ -13,10 +12,10 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import PrivateRoutes from './components/PrivateRoutes'
 import Home from './pages/Home'
-import Settings from './components/Settings'
-import Join from './components/Join'
-import NewGame from './components/NewGame'
-import PhotoUpload from './components/PhotoUpload'
+import Settings from './components/settings-tab/Settings'
+import Join from './components/settings-tab/Join'
+import NewGame from './components/settings-tab/NewGame'
+import PhotoUpload from './components/settings-tab/PhotoUpload'
 import './index.css'
 
 function App() {
@@ -25,34 +24,18 @@ function App() {
         actions: userSlice.actions,
     }
     const dispatch = useDispatch()
-    // const useAuth = () => {
-    //   const dispatch = useDispatch();
-    //   useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, user => {
-    //       if (!user) {
-    //         dispatch(userState.actions.setUser(null));
-    //       } else {
-    //         dispatch(userState.actions.setUser(user));
-    //       }
-    //     });
-    //     return unsubscribe;
-    //   }, []);
-    // };
-    // useAuth();
+
     onAuthStateChanged(auth, user => {
         if (!user) {
             dispatch(userState.actions.setUser(null))
         } else {
             dispatch(userState.actions.setUser(user))
-            dispatch(userState.actions.setUserImage(user.photoURL))
         }
     })
 
     return (
         <Component id='App'>
             <Routes>
-                {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
-                {/* <Route path={URL} element={<Boom />} /> */}
                 <Route element={<PrivateRoutes />}>
                     <Route path='boom' element={<Boom />} />
                     <Route path='dashboard' element={<Dashboard />}>
