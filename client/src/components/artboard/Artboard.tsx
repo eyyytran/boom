@@ -1,15 +1,15 @@
 import { SyntheticEvent } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../store'
-import Component from '../components/Component'
-import Container from '../layout/Container'
-import Toolbar from '../components/Toolbar'
-import Taskbar from '../components/Taskbar'
-import Canvas from '../components/Canvas'
-import GivePointModal from './modals/GivePointModal'
-import IsTurnModal from './modals/IsTurnModal'
-import EndGameModal from './modals/EndGameModal'
-import gameSlice from '../store/gameSlice'
+import { RootState } from '../../store'
+import Component from '../Component'
+import Container from '../../layout/Container'
+import Toolbar from '../Toolbar'
+import Taskbar from './Taskbar'
+import Canvas from './Canvas'
+import GivePointModal from '../modals/GivePointModal'
+import IsTurnModal from '../modals/IsTurnModal'
+import EndGameModal from '../modals/EndGameModal'
+import gameSlice from '../../store/gameSlice'
 import {
     arrayUnion,
     collection,
@@ -20,10 +20,10 @@ import {
     updateDoc,
     where,
 } from 'firebase/firestore'
-import { db } from '../server/firebase'
-import modalSlice from '../store/modalSlice'
-import { randomIntegerInInterval } from '../util/randomIntegerInInterval'
-import timerSlice from '../store/timerSlice'
+import { db } from '../../server/firebase'
+import modalSlice from '../../store/modalSlice'
+import { randomIntegerInInterval } from '../../util/randomIntegerInInterval'
+import timerSlice from '../../store/timerSlice'
 import { useDispatch } from 'react-redux'
 
 type Props = {
