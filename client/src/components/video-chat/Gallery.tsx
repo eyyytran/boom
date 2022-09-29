@@ -64,7 +64,6 @@ export default function Gallery({ galleryRef, className = '' }: Props) {
 
         const init = async () => {
             client.on('connection-state-change', async (curState, revState) => {
-                console.log('HERE', 'CONNECTION-STATE-CHANGE')
                 if (curState === 'CONNECTED') {
                     client.on('user-published', async (user, mediaType) => {
                         await client.subscribe(user, mediaType)
@@ -78,22 +77,17 @@ export default function Gallery({ galleryRef, className = '' }: Props) {
                                 const publishSound = new Audio('/sounds/publish.mp3')
                                 publishSound.volume = 0.1
                                 publishSound.play()
-                            } catch (error) {
-                                console.log('HERE', error)
-                            }
-                        console.log('HERE', `${user.uid} PUBLISHED`)
+                            } catch (error) {}
                     })
 
                     client.on('stream-unpublished', (user: any, mediaType: any) => {
                         user.audioTrack && user.audioTrack.stop()
                         if (mediaType === 'video') user.videoTrack && user.videoTrack.stop()
-                        console.log('HERE', 'STREAM-PUBLISHED')
                     })
 
                     client.on('stream-removed', (user: any, mediaType: any) => {
                         user.audioTrack && user.audioTrack.stop()
                         if (mediaType === 'video') user.videoTrack && user.videoTrack.stop()
-                        console.log('HERE', 'STREAM-REMOVED')
                     })
 
                     client.on('user-unpublished', (user, mediaType) => {
@@ -105,13 +99,11 @@ export default function Gallery({ galleryRef, className = '' }: Props) {
                             unpublishSound.play()
                             dispatch(video.actions.removeUser(user))
                         }
-                        console.log('HERE', `${user.uid} UNPUBLISHED`)
                     })
                 }
                 if (curState === 'DISCONNECTED') {
                     client.on('user-left', user => {
                         dispatch(video.actions.removeUser(user))
-                        console.log('HERE', `${user.uid} LEFT`)
                     })
                 }
             })

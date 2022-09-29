@@ -28,7 +28,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = configureStore({
     reducer: persistedReducer,
-    middleware: [logger],
+    // middleware: [logger],
 })
 
 export type RootState = ReturnType<typeof store.getState>
