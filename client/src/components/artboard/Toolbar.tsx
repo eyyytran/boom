@@ -6,7 +6,7 @@ import { faEraser, faPaintBrush, faSquare } from '@fortawesome/free-solid-svg-ic
 import artboardSlice from '../../store/artboardSlice'
 import gameSlice from '../../store/gameSlice'
 import Component from '../../components/Component'
-import './styles/gameStyles.css'
+import '../styles/gameStyles.css'
 
 type Props = {
     className?: string | null

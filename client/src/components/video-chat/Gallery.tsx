@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { config, useClient, useMicrophoneAndCameraTracks } from '../../server/agora'
 import { RootState } from '../../store'
-import Video from '../Video'
+import Video from './Video'
 
 import Component from '../Component'
 import Container from '../../layout/Container'

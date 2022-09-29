@@ -14,7 +14,7 @@ import Titlebar from '../components/Titlebar'
 import Timer from '../components/timer/Timer'
 import Gallery from '../components/video-chat/Gallery'
 import Artboard from '../components/artboard/Artboard'
-import Chat from '../components/Chat'
+import Chat from '../components/chat/Chat'
 import Navbar from '../components/Navbar'
 
 type Styles = {

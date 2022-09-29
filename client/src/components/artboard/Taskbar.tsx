@@ -7,7 +7,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import gameSlice from '../../store/gameSlice'
 import modalSlice from '../../store/modalSlice'
 import Component from '../Component'
-import './styles/gameStyles.css'
+import '../styles/gameStyles.css'
 
 type Props = {
     handleGetPrompt: any

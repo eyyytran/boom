@@ -209,7 +209,7 @@ function Settings({}: Props) {
                 <div className='flex flex-col items-center mt-5'>
                     <div className='m-5 w-full'>
                         <img
-                            src={userState.state.image || require('../images/defaultImg.jpeg')}
+                            src={userState.state.image || require('../../images/defaultImg.jpeg')}
                             alt='default'
                             className='w-16 h-16 md:w-36 md:h-36 object-cover rounded-full mx-auto'
                         />

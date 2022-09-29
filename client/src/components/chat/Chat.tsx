@@ -118,7 +118,7 @@ export default function Chat({ chatRef, className = null }: Props) {
                                         src={
                                             message.profilePicture
                                                 ? message.profilePicture
-                                                : require('../images/defaultImg.jpeg')
+                                                : require('../../images/defaultImg.jpeg')
                                         }
                                         className='w-10 h-10 object-cover rounded-full m-2'
                                         alt='round'
