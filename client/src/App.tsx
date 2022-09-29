@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -25,34 +24,18 @@ function App() {
         actions: userSlice.actions,
     }
     const dispatch = useDispatch()
-    // const useAuth = () => {
-    //   const dispatch = useDispatch();
-    //   useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, user => {
-    //       if (!user) {
-    //         dispatch(userState.actions.setUser(null));
-    //       } else {
-    //         dispatch(userState.actions.setUser(user));
-    //       }
-    //     });
-    //     return unsubscribe;
-    //   }, []);
-    // };
-    // useAuth();
+
     onAuthStateChanged(auth, user => {
         if (!user) {
             dispatch(userState.actions.setUser(null))
         } else {
             dispatch(userState.actions.setUser(user))
-            dispatch(userState.actions.setUserImage(user.photoURL))
         }
     })
 
     return (
         <Component id='App'>
             <Routes>
-                {/* <Route path="/" element={<Navigate replace to={`/${URL}`} />} /> */}
-                {/* <Route path={URL} element={<Boom />} /> */}
                 <Route element={<PrivateRoutes />}>
                     <Route path='boom' element={<Boom />} />
                     <Route path='dashboard' element={<Dashboard />}>

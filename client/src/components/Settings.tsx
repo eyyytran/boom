@@ -77,9 +77,12 @@ function Settings({}: Props) {
             //@ts-ignore
             const name = new Date().getTime() + file?.name
             const storageRef = ref(storage, name)
+            const metadata = {
+                contentType: 'image/png',
+            }
 
             if (!file) return
-            const uploadTask = uploadBytesResumable(storageRef, file)
+            const uploadTask = uploadBytesResumable(storageRef, file, metadata)
 
             uploadTask.on(
                 'state_changed',
@@ -113,7 +116,6 @@ function Settings({}: Props) {
     }, [file, dispatch, userState.action])
 
     const changeProfilePicture = () => {
-        console.log(userState.state.image)
         const user = auth.currentUser
         if (user) {
             updateProfile(user, {
@@ -198,7 +200,7 @@ function Settings({}: Props) {
     useEffect(() => {
         if (!auth.currentUser?.photoURL) return
         dispatch(userState.action.setUserImage(auth.currentUser?.photoURL))
-    }, [auth.currentUser?.photoURL])
+    }, [dispatch, userState.action])
 
     return (
         <div className='flex flex-col items-center'>
