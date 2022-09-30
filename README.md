@@ -9,7 +9,7 @@ Try it [here!](https://boomcaptain.netlify.app/)
 ![game room](./assets/Boom_Desktop_Game_Over.png)
 ![dashboard](./assets/Screen%20Shot%202022-09-26%20at%204.32.13%20PM.png)
 
-# Developement
+# Development
 
 Boom was developed by Andrea Tran, Blake Lein and West McMillen in September 2022. Read more about the making of this app on [Medium](https://medium.com/@eyyytran/nurse-to-tech-in-16-weeks-our-capstone-project-ecf336dae079)
 
